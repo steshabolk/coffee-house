@@ -1,0 +1,22 @@
+.ymap-wrapper {
+	padding: 1px;
+	@include main-border($gray-80);
+	filter: grayscale(100%);
+	width: 50vw;
+	height: 30vh;
+}
+
+.ymap-balloon-title {
+	font-family: $headerFont;
+}
+
+@include max-screen($tabletWidth) {
+	.ymap-wrapper {
+		width: 70vw;
+	}
+}
+@include max-screen($phoneWidth) {
+	.ymap-wrapper {
+		width: 65vw;
+	}
+}

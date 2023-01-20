@@ -1,0 +1,67 @@
+// Arrow animation
+$arrowSpeed: 2s;
+$arrowDelaySecond: -0.2s;
+$arrowDelayThird: -0.4s;
+
+.main-img {
+	background: radial-gradient(circle, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.7) 0%), var(--imgMainBanner);
+	background-size: cover;
+	background-position: center center;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	min-height: 99.9vh;
+}
+
+.arrow {
+	@include main-transition($duration: 0.5s, $ease: ease);
+	position: absolute;
+	top: 85%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	span {
+		display: block;
+		width: 30px;
+		height: 30px;
+		border-bottom: 1px solid $gray-8;
+		border-right: 1px solid $gray-8;
+		transform: rotate(45deg);
+		margin: -15px;
+		-webkit-animation: arrow-animate $arrowSpeed infinite;
+		animation: arrow-animate $arrowSpeed infinite;
+		&:nth-child(2) {
+			-webkit-animation-delay: $arrowDelaySecond;
+			animation-delay: $arrowDelaySecond;
+		}
+		&:nth-child(3) {
+			-webkit-animation-delay: $arrowDelayThird;
+			animation-delay: $arrowDelayThird;
+		}
+	}
+}
+
+@keyframes arrow-animate {
+	0% {
+		opacity: 0;
+		transform: rotate(45deg) translate(-20px, -20px);
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: rotate(45deg) translate(20px, 20px);
+	}
+}
+@-webkit-keyframes arrow-animate {
+	0% {
+		opacity: 0;
+		transform: rotate(45deg) translate(-20px, -20px);
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: rotate(45deg) translate(20px, 20px);
+	}
+}

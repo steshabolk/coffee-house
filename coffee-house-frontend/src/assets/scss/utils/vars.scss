@@ -1,0 +1,80 @@
+// Font
+$mainFont: 'MontserratRegular', Helvetica, Arial, sans-serif;
+$secondFont: 'ProximanovaRegular', Helvetica, Arial, sans-serif;
+$headerFont: 'GothamBold', Helvetica, Arial, sans-serif;
+$navbarFont: 'GothamBold', Helvetica, Arial, sans-serif;
+
+// Main Font
+$mainFontColor: #373737;
+$mainFontSize: 20px;
+$navbarFontSize: 15px;
+$mainFontWeight: 400;
+$mainLineHeight: 1.6;
+
+// Screen Size
+$lgDesktopWidth: 1400px;
+$desktopWidth: 1280px;
+$smDesktopWidth: 1024px;
+$tabletWidth: 768px;
+$smTabletWidth: 640px;
+$phoneWidth: 480px;
+$smPhoneWidth: 320px;
+
+// Gray palette
+$gray-85: #262323;
+$gray-80: #373737;
+$gray-65: #595959;
+$gray-8: #eaeaea;
+$gray-5: #f3f3f3;
+$gray-2: #fafafa;
+
+// Brown palette
+$brown-45: #8c7569;
+$brown-60: #625149;
+$brown-70: #483c36;
+
+// Highlight Color
+$highlight: #ffd300;
+$error-dark: #9e423c;
+$error-main: #f6685e;
+$error-light: #fcd9d6;
+$warning-main: #f69b00;
+$warning-light: #fdebcc;
+$success-dark: #3c9e42;
+$success-main: #36f442;
+$success-light: #d6fcd9;
+
+// Social Media Color
+$vk-color: #4c75a3;
+$instagram-color: #e1306c;
+$telegram-color: #229ed9;
+
+// Border Radius
+$mainBorderRadius: 50px;
+
+// Main Flex
+@mixin flex($flex-direction: false, $flex-wrap: false, $justify-content: false, $align-items: false, $align-content: false, $text-align: false) {
+	display: flex;
+	@if $flex-direction != false {
+		flex-direction: $flex-direction;
+	}
+	@if $flex-wrap != false {
+		flex-wrap: $flex-wrap;
+	}
+	@if $justify-content != false {
+		justify-content: $justify-content;
+	}
+	@if $align-items != false {
+		align-items: $align-items;
+	}
+	@if $align-content != false {
+		align-content: $align-content;
+	}
+	@if $text-align != false {
+		text-align: $text-align;
+	}
+}
+
+// Svg Icon
+$svgIconSize: 50px;
+$iconShadow: 0px 0px 3px;

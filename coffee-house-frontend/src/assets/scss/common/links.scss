@@ -1,0 +1,32 @@
+.menu-link-wrapper {
+	margin-left: 20px;
+	@include flex($justify-content: center, $align-items: center, $text-align: center);
+	@include max-screen($tabletWidth) {
+		margin: 0;
+	}
+}
+
+.arrow-link {
+	&:hover {
+		.arrow-link-text:after {
+			transform: translate(0.5em, 0) rotate(45deg);
+		}
+	}
+}
+
+.arrow-link-text {
+	color: $brown-60;
+	text-transform: uppercase;
+	font-family: $headerFont;
+	letter-spacing: 0.3em;
+	&:after {
+		display: inline-block;
+		content: '';
+		width: 0.7em;
+		height: 0.7em;
+		border-top: 2px solid $brown-60;
+		border-right: 2px solid $brown-60;
+		@include main-transition();
+		transform: translate(0, 0) rotate(45deg);
+	}
+}

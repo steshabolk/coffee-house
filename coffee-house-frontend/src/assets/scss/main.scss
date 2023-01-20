@@ -1,0 +1,101 @@
+@import 'utils/vars';
+@import './common/_common';
+@import 'utils/reset';
+
+html {
+	user-select: none;
+	-webkit-user-select: none;
+	scroll-behavior: smooth;
+	height: 100%;
+	font-size: $mainFontSize;
+
+	@include max-screen($smDesktopWidth) {
+		font-size: 15px;
+	}
+	@include max-screen($phoneWidth) {
+		font-size: 14px;
+	}
+}
+
+body {
+	font-family: $mainFont;
+	line-height: $mainLineHeight;
+	font-weight: $mainFontWeight;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	padding: 0;
+	background-color: $gray-2;
+	color: $mainFontColor;
+}
+
+*,
+*:before,
+*:after {
+	box-sizing: border-box;
+}
+
+input {
+	background: transparent;
+	font-size: 1rem;
+	font-family: $mainFont;
+	font-size: 1rem;
+}
+
+button {
+	cursor: pointer;
+	color: $gray-80;
+	background-color: transparent;
+}
+
+a {
+	cursor: pointer;
+	color: $mainFontColor;
+}
+
+footer,
+section {
+	position: relative;
+}
+
+.wrapper {
+	@include flex($flex-direction: column);
+	min-height: 100vh;
+	margin: 0 auto;
+}
+
+.wrapper-content {
+	@include flex($flex-direction: column);
+	min-height: 70vh;
+	margin-top: 80px; // if header is fixed do mt: headerHeight
+}
+
+.container {
+	border: 3px solid blue;
+	position: relative;
+	flex: 0 0 auto;
+	margin: 0 auto;
+	width: 100%;
+	max-width: $lgDesktopWidth;
+
+	@include max-screen($lgDesktopWidth) {
+		max-width: $desktopWidth;
+	}
+	@include max-screen($desktopWidth) {
+		max-width: $smDesktopWidth;
+	}
+	@include max-screen($smDesktopWidth) {
+		max-width: $tabletWidth;
+	}
+	@include max-screen($tabletWidth) {
+		max-width: $smTabletWidth;
+	}
+	@include max-screen($smTabletWidth) {
+		max-width: $phoneWidth;
+	}
+	@include max-screen($phoneWidth) {
+		max-width: $smPhoneWidth;
+	}
+}
+
+@import './helpers/_helpers';

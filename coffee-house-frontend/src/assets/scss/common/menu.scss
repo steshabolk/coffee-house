@@ -1,0 +1,127 @@
+@mixin menu-item-title-active() {
+	@include main-transition($duration: 0.1s);
+	background-color: rgba($highlight, 0.1);
+}
+
+.menu-wrapper {
+	@include flex($flex-direction: column, $justify-content: center, $align-items: center);
+}
+
+// MENU
+.menu-products {
+	min-height: 630px;
+	.grid {
+		margin-top: 15px;
+		margin-bottom: 15px;
+	}
+	.grid-cell {
+		@include flex();
+		margin: 10px 10px 15px 3px;
+		.vertical-line {
+			opacity: 0;
+			margin-right: 3px;
+		}
+		&:hover {
+			.vertical-line {
+				opacity: 1;
+			}
+		}
+	}
+	.menu-item-active {
+		.vertical-line {
+			opacity: 1;
+		}
+		.menu-item-title {
+			@include menu-item-title-active();
+		}
+	}
+	label {
+		cursor: pointer;
+		input {
+			display: none;
+			&:checked ~ .grid-cell {
+				.vertical-line {
+					opacity: 1;
+				}
+			}
+			&:checked ~ div {
+				.menu-item-title {
+					@include menu-item-title-active();
+				}
+			}
+		}
+	}
+}
+
+// ADDRESSES
+.menu-addresses {
+	margin-bottom: 5px;
+}
+.addresses-list {
+	@include flex($flex-wrap: wrap, $justify-content: center, $align-items: center, $text-align: center);
+}
+.address-item {
+	font-size: 0.7rem;
+	line-height: 1.3;
+	margin-right: 10px;
+	&:last-child {
+		margin-right: 0;
+	}
+	.address-item-text {
+		font-family: $mainFont;
+		color: $gray-80;
+	}
+}
+
+// CATEGORY
+.category-list {
+	margin-bottom: 10px;
+	@include flex($justify-content: center, $align-items: center, $text-align: center);
+}
+.category-item {
+	margin-right: 10px;
+	&:last-child {
+		margin-right: 0;
+	}
+	.svg-icon {
+		height: 40px;
+		width: 40px;
+		color: $brown-60;
+	}
+}
+
+// TEXT MENU
+.menu-category-title {
+	text-align: center;
+	font-family: $headerFont;
+	text-transform: uppercase;
+	@include letter-spacing(1rem);
+	color: $gray-2;
+	background-color: rgba($brown-45, 0.4);
+	@include text-shadow();
+}
+
+.menu-item {
+	width: 100%;
+	max-width: 400px;
+	min-width: 200px;
+}
+.menu-item-title {
+	@include flex($justify-content: space-between);
+	font-size: 0.84rem;
+	line-height: 1.2;
+}
+.menu-item-price {
+	margin-left: 10px;
+	font-weight: bold;
+}
+.menu-item-description {
+	margin: 5px 0 3px;
+	font-size: 0.7rem;
+	line-height: 1.2;
+	font-style: italic;
+}
+.menu-item-size {
+	font-size: 0.7rem;
+	color: rgba($brown-60, 0.6);
+}

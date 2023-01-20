@@ -1,0 +1,49 @@
+// LINE
+.loader-line {
+	@include flex($align-items: center, $text-align: center);
+	margin: 0 auto;
+	height: 5px;
+	width: 80px;
+	border-radius: $mainBorderRadius;
+	overflow: hidden;
+	transform: translate3d(0, 0, 0);
+	&::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		background-color: $gray-8;
+	}
+	&::after {
+		content: '';
+		height: 100%;
+		width: 100%;
+		border-radius: $mainBorderRadius;
+		animation: loader-line 1.4s ease-in-out infinite;
+		transform: translateX(-100%);
+		background-color: $gray-80;
+	}
+}
+@keyframes loader-line {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+.preload {
+	// width: 100%;
+	background: linear-gradient(100deg, $gray-5 40%, $gray-2 50%, $gray-5 60%);
+	background-size: 200% 100%;
+	background-position-x: 180%;
+	animation: preloadAnimation 1.2s linear infinite;
+}
+@keyframes preloadAnimation {
+	to {
+		background-position-x: -20%;
+	}
+}

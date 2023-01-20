@@ -1,0 +1,13 @@
+@mixin text-shadow($shadow: $brown-70) {
+	text-shadow: 1.5px 1.5px 1.5px $shadow;
+}
+
+@mixin highlight-text-shadow($highlight: $highlight, $shadow: $brown-70) {
+	text-shadow: 1.5px 1.5px 1.5px $shadow, 0 0 9px $highlight, 0 0 9px $highlight;
+}
+
+.main-title {
+	color: $brown-60;
+	font-family: $headerFont;
+	text-transform: uppercase;
+}

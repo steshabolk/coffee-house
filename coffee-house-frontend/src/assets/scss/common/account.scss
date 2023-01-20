@@ -1,0 +1,123 @@
+.account-wrapper {
+	.grid {
+		gap: 50px;
+	}
+	.grid-column {
+		&__acc {
+			width: 200px;
+		}
+		&__acc-menu {
+			gap: 0;
+			width: 380px;
+		}
+	}
+}
+
+// ACC COLUMN
+.account-name {
+	font-family: $headerFont;
+	font-size: 1.5rem;
+}
+.account-phone {
+	color: rgba($brown-60, 0.6);
+}
+.account-menu-list {
+	.account-menu-item {
+		cursor: pointer;
+		margin-bottom: 10px;
+		&__active {
+			font-family: $headerFont;
+		}
+	}
+}
+
+// ORDERS BLOCK
+.orders-empty {
+	text-align: center;
+	text-transform: uppercase;
+}
+.order-status-block {
+	@include flex($flex-wrap: nowrap, $justify-content: space-between, $align-items: center);
+	color: rgba($brown-60, 0.6);
+	.svg-icon {
+		height: 18px;
+		width: 18px;
+		margin: 0 4px 0 auto;
+	}
+	.order-status {
+		font-size: 0.8rem;
+	}
+	&.status {
+		&__active {
+			.svg-icon,
+			.order-status {
+				color: $warning-main;
+			}
+		}
+		&__received {
+			.svg-icon,
+			.order-status {
+				color: $success-dark;
+			}
+		}
+		&__cancelled {
+			.svg-icon,
+			.order-status {
+				color: $error-main;
+			}
+		}
+	}
+}
+.order-cost-block {
+	@include flex($flex-wrap: nowrap, $justify-content: space-between, $align-items: center);
+	font-weight: bold;
+}
+
+.accordion-order-details {
+	padding: 10px 0;
+}
+.order-address {
+	font-size: 0.8rem;
+	text-align: center;
+	color: rgba($gray-80, 0.8);
+}
+
+.order-details-block {
+	@include flex($flex-wrap: nowrap, $justify-content: space-between, $align-items: center);
+	line-height: 1.1;
+	margin-top: 10px;
+	.order-details-name {
+		width: 82%;
+		@include flex($flex-wrap: nowrap, $justify-content: space-between, $align-items: center);
+	}
+	.order-details-quantity {
+		color: rgba($brown-60, 0.6);
+		min-width: 50px;
+		margin-left: 10px;
+	}
+}
+.order-details-additives {
+	width: 80%;
+	font-size: 0.7rem;
+	font-style: italic;
+	line-height: 1.1;
+}
+
+// SETTINGS BLOCK
+.settings-block {
+	.svg-icon-stng {
+		cursor: pointer;
+		color: rgba($brown-60, 0.4);
+		transform: rotate(90deg);
+		margin: 0 0 15px 0;
+		height: 25px;
+		width: 25px;
+	}
+}
+.settings-wrapper {
+	&:last-child {
+		.horizontal-line {
+			display: none;
+		}
+	}
+}

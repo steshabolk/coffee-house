@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Properties>
+        <Property name="logPath">./logs</Property>
+        <Property name="rollingFileName">CoffeeHouseApi-logfile</Property>
+    </Properties>
+    <Appenders>
+        <!-- Appender for logging to console output  -->
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout disableAnsi="false" pattern="[%d{yyyy-MM-dd HH:mm:ss}] [%highlight{%-5level}{ERROR=red, WARN=yellow, INFO=green, DEBUG=magenta}] [%t] [%style{%c{1}:%L}{cyan}] - %m%n"/>
+        </Console>
+        <!-- Appender for logging to file  -->
+        <RollingFile name="FileAppender"
+                     fileName="${logPath}/${rollingFileName}.log"
+                     filePattern="${logPath}/${rollingFileName}-%d{yyyy-MM-dd}-%i.log"
+                     append="true">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss}] [%-5level] [%t] [%c{1}:%L] - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="ConsoleAppender"/>
+        </Root>
+        <Logger name="com.testproject.coffeehouseapi" level="DEBUG" additivity="false">
+            <AppenderRef ref="FileAppender" level="INFO"/>
+            <AppenderRef ref="ConsoleAppender"/>
+        </Logger>
+    </Loggers>
+</Configuration>

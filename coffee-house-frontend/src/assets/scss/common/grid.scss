@@ -1,0 +1,39 @@
+$gridGap: 15px;
+$gridGapH: 30px;
+
+.grid {
+	// border: 1px solid magenta;
+	@include flex($flex-direction: row, $justify-content: center);
+	gap: $gridGap;
+	margin: 50px 20px;
+}
+
+.grid-column {
+	@include flex($flex-direction: column);
+	gap: $gridGap;
+}
+.no-gap {
+	gap: 0;
+}
+
+.grid-cell {
+	// border: 1px solid magenta;
+	position: relative;
+	img {
+		width: 100%;
+		height: auto;
+		object-fit: cover;
+	}
+}
+
+@include max-screen($tabletWidth) {
+	.grid {
+		flex-direction: column;
+	}
+	.gap-h {
+		gap: $gridGapH;
+	}
+	.grid-column-hide {
+		display: none;
+	}
+}
