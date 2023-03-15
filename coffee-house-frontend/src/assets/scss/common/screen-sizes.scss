@@ -3,6 +3,11 @@
 		@content;
 	}
 }
+@mixin min-screen($width) {
+	@media screen and (min-width: $width) {
+		@content;
+	}
+}
 
 @mixin screen-between($min-width, $max-width) {
 	@media screen and (min-width: $min-width) and (max-width: $max-width) {

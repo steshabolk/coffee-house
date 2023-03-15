@@ -23,6 +23,9 @@
 		<springdoc.openapi.version>1.6.6</springdoc.openapi.version>
 		<swagger.v3.version>2.1.10</swagger.v3.version>
 		<jacoco.plugin.version>0.8.7</jacoco.plugin.version>
+		<querydsl.jpa.version>5.0.0</querydsl.jpa.version>
+		<querydsl.apt.version>5.0.0</querydsl.apt.version>
+		<apt.plugin.version>1.1.3</apt.plugin.version>
 
 		<skipTests>true</skipTests>
 		<skipUTs>${skipTests}</skipUTs>
@@ -157,6 +160,13 @@
 			<version>${swagger.v3.version}</version>
 		</dependency>
 
+		<!-- QueryDsl -->
+		<dependency>
+			<groupId>com.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
+			<version>${querydsl.jpa.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<dependencyManagement>
@@ -184,6 +194,32 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+
+			<!-- QueryDsl -->
+			<plugin>
+				<groupId>com.mysema.maven</groupId>
+				<artifactId>apt-maven-plugin</artifactId>
+				<version>${apt.plugin.version}</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/generated-sources/java</outputDirectory>
+							<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>com.querydsl</groupId>
+						<artifactId>querydsl-apt</artifactId>
+						<version>${querydsl.apt.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 
 			<!-- Surefire -->

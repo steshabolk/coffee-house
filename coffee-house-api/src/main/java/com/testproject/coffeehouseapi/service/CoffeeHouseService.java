@@ -1,10 +1,14 @@
 package com.testproject.coffeehouseapi.service;
 
-import com.testproject.coffeehouseapi.dto.AllProductsDto;
+import com.testproject.coffeehouseapi.dto.AvailableMenuDto;
+import com.testproject.coffeehouseapi.dto.UpdatedAvailabilityDto;
+import com.testproject.coffeehouseapi.dto.response.CoffeeHouseMenuResponse;
+import com.testproject.coffeehouseapi.exception.ExceptionMessage;
 import com.testproject.coffeehouseapi.exception.MessageConstant;
 import com.testproject.coffeehouseapi.exception.RequestException;
 import com.testproject.coffeehouseapi.model.CoffeeHouse;
 import com.testproject.coffeehouseapi.model.Product;
+import com.testproject.coffeehouseapi.model.User;
 import com.testproject.coffeehouseapi.repository.CoffeeHouseRepository;
 import com.testproject.coffeehouseapi.repository.ProductRepository;
 import com.testproject.coffeehouseapi.util.ResponseHelper;
@@ -14,9 +18,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -40,7 +46,7 @@ public class CoffeeHouseService {
     public CoffeeHouse findById(Long id) {
         return coffeeHouseRepository.findById(id).orElseThrow(() -> {
             log.info("Fail while finding Coffee House with id {}", id);
-            throw new RequestException(MessageConstant.COFFEE_HOUSE_NOT_FOUND, HttpStatus.BAD_REQUEST);
+            throw new RequestException(ExceptionMessage.setMessage(MessageConstant.COFFEE_HOUSE_NOT_FOUND), HttpStatus.BAD_REQUEST);
         });
     }
 
@@ -48,38 +54,51 @@ public class CoffeeHouseService {
         return coffeeHouseRepository.findAll();
     }
 
-    public List<AllProductsDto> findAllAvailableProducts() {
-        Map<Long, Product> productsMap = productService.getProductsMap(productRepository.findAll());
-        List<AllProductsDto> menu = new ArrayList<>();
-        findAll().forEach(coffeeHouse -> {
-            menu.add(responseHelper.getAllProductsDto(coffeeHouse, findCoffeeHouseAvailableProducts(coffeeHouse, productsMap)));
-        });
-        return menu;
+    public CoffeeHouse findByManagerId(User user) {
+        return coffeeHouseRepository.findByManagerId(user.getId());
     }
 
-//    public List<Product> findCoffeeHouseProducts(CoffeeHouse coffeeHouse) {
-//        return productRepository.findByProductIds(coffeeHouse.getAvailableProducts().keySet());
-//    }
+    public List<AvailableMenuDto> findAvailableMenu() {
+        Map<Long, Product> productsMap = productService.getProductsMap(productRepository.findAll());
+        return findAll().stream()
+                .map(coffeeHouse -> responseHelper.getAvailableMenuDto(coffeeHouse, filterAvailableProducts(coffeeHouse, productsMap)))
+                .collect(Collectors.toList());
+    }
 
-    public List<Product> findCoffeeHouseAvailableProducts(CoffeeHouse coffeeHouse, Map<Long, Product> productsMap) {
-        List<Long> productIds = coffeeHouse.getAvailableProducts().entrySet().stream()
-                .filter(entry -> entry.getValue().equals(true))
-                .map(Map.Entry::getKey).toList();
+    public CoffeeHouseMenuResponse findCoffeeHouseMenu(CoffeeHouse coffeeHouse) {
+        List<Product> products = productRepository.findByProductIds(coffeeHouse.getAvailableProducts().keySet());
+        return responseHelper.getCoffeeHouseMenu(coffeeHouse, products);
+    }
+
+    @Transactional
+    public void setMenuAvailability(CoffeeHouse coffeeHouse, List<UpdatedAvailabilityDto> updatedAvailability) {
+        List<Long> updatedIds = updatedAvailability.stream().map(UpdatedAvailabilityDto::getId).toList();
+        if (!coffeeHouse.getAvailableProducts().keySet().containsAll(updatedIds)) {
+            log.info("Fail while updating menu availability of the Coffee House (id = {}), products were not found {}",
+                    coffeeHouse.getId(), updatedIds);
+            throw new RequestException(ExceptionMessage.setMessage(MessageConstant.PRODUCTS_NOT_FOUND), HttpStatus.BAD_REQUEST);
+        }
+        updatedAvailability.forEach(product -> setProductAvailability(coffeeHouse, product.getId(), product.getAvailability()));
+    }
+
+    private List<Product> filterAvailableProducts(CoffeeHouse coffeeHouse, Map<Long, Product> productsMap) {
+        Set<Long> productIds = findCoffeeHouseAvailableProductsIds(coffeeHouse);
         return productIds.stream()
                 .map(productsMap::get)
                 .collect(Collectors.toList());
     }
 
-//    @Transactional
-//    public void setProductAvailability(CoffeeHouse coffeeHouse, List<Long> productIds, Boolean available) {
-//        productIds.forEach(id -> setAvailability(coffeeHouse, id, available));
-//    }
-//
-//    private void setAvailability(CoffeeHouse coffeeHouse, Long productId, Boolean available) {
-//        coffeeHouse.getAvailableProducts().entrySet().stream()
-//                .filter(entry -> entry.getKey().equals(productId))
-//                .forEach(entry -> entry.setValue(available));
-//        log.info("The availability of product (id = {}) in the Coffee House (id = {}) has been changed to {} at {}",
-//                productId, coffeeHouse.getId(), available, LocalDateTime.now().format(DateTimeFormatter.ofPattern(MessageConstant.DATE_TIME_PATTERN)));
-//    }
+    public Set<Long> findCoffeeHouseAvailableProductsIds(CoffeeHouse coffeeHouse) {
+        return coffeeHouse.getAvailableProducts().entrySet().stream()
+                .filter(entry -> entry.getValue().equals(true))
+                .map(Map.Entry::getKey).collect(Collectors.toSet());
+    }
+
+    private void setProductAvailability(CoffeeHouse coffeeHouse, Long productId, Boolean availability) {
+        coffeeHouse.getAvailableProducts().entrySet().stream()
+                .filter(entry -> entry.getKey().equals(productId))
+                .forEach(entry -> entry.setValue(availability));
+        log.info("The availability of product (id = {}) in the Coffee House (id = {}) has been changed to {} at {}",
+                productId, coffeeHouse.getId(), availability, responseHelper.currentDateTime());
+    }
 }

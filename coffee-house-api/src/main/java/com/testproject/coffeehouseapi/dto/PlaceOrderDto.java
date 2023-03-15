@@ -1,13 +1,11 @@
 package com.testproject.coffeehouseapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.testproject.coffeehouseapi.model.Status;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter

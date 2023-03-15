@@ -28,9 +28,7 @@ public class ProductService {
 
     public Map<Long, Product> getProductsMap(List<Product> products) {
         Map<Long, Product> productsMap = new HashMap<>();
-        products.forEach(product -> {
-            productsMap.put(product.getId(), product);
-        });
+        products.forEach(product -> productsMap.put(product.getId(), product));
         return productsMap;
     }
 }

@@ -1,6 +1,6 @@
 <template>
-	<div class="grid">
-		<div class="grid-column no-gap">
+	<div class="grid" style="margin-top: 2rem">
+		<div class="grid-column">
 			<div v-if="cart.length === 0" class="cart-empty">
 				<SvgIcon :viewBox="cartEmpty.viewBox" :path="cartEmpty.svgPath" />
 				<p class="main-title">{{ cartEmpty.msg }}</p>
@@ -8,7 +8,7 @@
 			<transition-group v-else name="list" tag="div" class="cart-wrapper">
 				<div key="0" v-if="unavailableCart.length > 0" style="opacity: 0.7">
 					<div class="cart-unavailable">
-						<p class="cart-unavailable-title">Not available for ordering at the selected coffee house:</p>
+						<p class="cart-unavailable-title">Temporarily unavailable for ordering at the selected coffee house:</p>
 						<SvgIcon class="close-btn" :viewBox="plusIcon.viewBox" :path="plusIcon.svgPath" @click="resetUnavailableCart()" />
 					</div>
 					<div class="cart-list" v-for="(item, index) of unavailableCart" :key="index">
@@ -19,7 +19,7 @@
 				<div class="cart-list" v-for="(item, index) of cart" :key="index">
 					<CartObj :cartObj="item" :cartType="'available'" />
 				</div>
-				<div key="0">
+				<div key="0" style="margin-bottom: 1.5rem">
 					<p class="horizontal-line" />
 					<div class="cart-total">
 						<p class="cart-total-text">
@@ -34,18 +34,18 @@
 						<TimeCarousel v-model="time.minutesIndSelected" :key="time.mKey" :arrValues="availableMinutes" />
 						<p class="main-title">Pick up an order:</p>
 						<p>{{ pickUpDate }}</p>
-						<p style="margin-bottom: 20px">{{ activeAddress }}</p>
+						<p style="margin-bottom: 1rem">{{ activeAddress }}</p>
 						<div v-if="isLogged">
-							<LoaderLine style="margin-bottom: 20px" v-if="isRequesting" />
+							<LoaderLine style="margin-bottom: 1rem" v-if="isRequesting" />
 							<button class="main-btn btn-active" :class="{ 'btn-disable': isRequesting }" @click="handleOrder()">Place order</button>
 							<p class="main-error-message" v-if="errMsg">{{ errMsg }}</p>
 						</div>
-						<div v-if="!isLogged" style="margin-top: 15px">
+						<div v-if="!isLogged">
 							<p style="text-align: center; font-weight: bold">You need to log in to place an order</p>
 							<ArrowLink :link="accountLink.link" :linkText="accountLink.linkText" />
 						</div>
 					</div>
-					<div v-else class="cart-available-msg">
+					<div v-else style="text-align: center; font-weight: bold">
 						<p>The order can be placed</p>
 						<p>from {{ openingHours.beginning }} to {{ endingHours - 1 }}:30</p>
 					</div>
@@ -58,12 +58,12 @@
 <script>
 import dateFormat from '@/mixins/dateFormat'
 import { cartIcon, removeIcon, plusIcon } from '@/services/svgIcons'
+import { orderBody, orderDetailBody, orderDetailAdditivesBody } from '@/services/requestBody'
 import TimeCarousel from '@/components/UI/TimeCarousel.vue'
 import CartObj from '@/components/UI/CartObj.vue'
 import SvgIcon from '@/components/UI/SvgIcon.vue'
 import ArrowLink from '@/components/UI/ArrowLink.vue'
 import LoaderLine from '@/components/UI/LoaderLine.vue'
-import { checkTokenExpTime } from '@/services/userService'
 import { mapGetters, mapActions } from 'vuex'
 import { links } from '@/_config'
 
@@ -132,28 +132,20 @@ export default {
 				const pickUpAt = new Date(now)
 				pickUpAt.setHours(this.indexToHours(this.time.hoursIndSelected))
 				pickUpAt.setMinutes(this.time.minutesIndSelected)
-				const order = {
-					coffeeHouse: this.activeAddressId,
-					totalCost: this.totalCost,
-					createdAt: this.toLocalDateTime(createdAt),
-					pickUpAt: this.toLocalDateTime(pickUpAt)
-				}
+				const order = orderBody(this.activeAddressId, this.totalCost, createdAt, pickUpAt)
 				let orderDetails = []
 				this.cart.forEach(obj => {
-					let orderDetail = {
-						product: { id: obj.product.id },
-						quantity: obj.quantity,
-						cost: obj.cost,
-						additives: []
-					}
-					obj.additives.forEach(add => orderDetail.additives.push({ id: add.id }))
+					let orderDetail = orderDetailBody(obj.product.id, obj.quantity, obj.cost)
+					obj.additives.forEach(add => orderDetail.additives.push(orderDetailAdditivesBody(add.id)))
 					orderDetails.push(orderDetail)
 				})
 				this.placeOrder({ order, orderDetails })
 			}
 		},
-		...mapActions('cart', ['resetCart', 'resetUnavailableCart', 'placeOrder']),
-		...mapActions('request', ['setErrMsg'])
+		...mapActions('cart', ['resetCart', 'resetUnavailableCart']),
+		...mapActions('request', ['clearErrMsg']),
+		...mapActions('user', ['placeOrder']),
+		...mapActions('cart', ['updateCartAvailability'])
 	},
 	computed: {
 		totalCost() {
@@ -206,14 +198,12 @@ export default {
 		}
 	},
 	mounted() {
-		checkTokenExpTime()
+		this.clearErrMsg()
 		if (this.isOpenHours) {
 			this.setTime()
 			setInterval(() => this.setTime(), this.minToMs(3))
 		}
-		if (this.errMsg) {
-			this.setErrMsg('')
-		}
+		this.updateCartAvailability()
 	}
 }
 </script>

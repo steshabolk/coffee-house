@@ -12,6 +12,9 @@ $arrowDelayThird: -0.4s;
 	min-height: 99.9vh;
 }
 
+$scroll-arrow-size: 1.5rem;
+$scroll-arrow-width: 0.1rem;
+$scroll-arrow-gap: 1rem;
 .arrow {
 	@include main-transition($duration: 0.5s, $ease: ease);
 	position: absolute;
@@ -20,21 +23,30 @@ $arrowDelayThird: -0.4s;
 	transform: translate(-50%, -50%);
 	span {
 		display: block;
-		width: 30px;
-		height: 30px;
-		border-bottom: 1px solid $gray-8;
-		border-right: 1px solid $gray-8;
+		width: $scroll-arrow-size;
+		height: $scroll-arrow-size;
+		border-bottom: $scroll-arrow-width solid $gray-8;
+		border-right: $scroll-arrow-width solid $gray-8;
 		transform: rotate(45deg);
-		margin: -15px;
-		-webkit-animation: arrow-animate $arrowSpeed infinite;
+		margin: -0.8rem;
 		animation: arrow-animate $arrowSpeed infinite;
+		-webkit-animation: arrow-animate $arrowSpeed infinite;
+		-moz-animation: arrow-animate $arrowSpeed infinite;
+		-o-animation: arrow-animate $arrowSpeed infinite;
+		-ms-animation: arrow-animate $arrowSpeed infinite;
 		&:nth-child(2) {
-			-webkit-animation-delay: $arrowDelaySecond;
 			animation-delay: $arrowDelaySecond;
+			-webkit-animation-delay: $arrowDelaySecond;
+			-moz-animation-delay: $arrowDelaySecond;
+			-o-animation-delay: $arrowDelaySecond;
+			-ms-animation-delay: $arrowDelaySecond;
 		}
 		&:nth-child(3) {
-			-webkit-animation-delay: $arrowDelayThird;
 			animation-delay: $arrowDelayThird;
+			-webkit-animation-delay: $arrowDelayThird;
+			-moz-animation-delay: $arrowDelayThird;
+			-o-animation-delay: $arrowDelayThird;
+			-ms-animation-delay: $arrowDelayThird;
 		}
 	}
 }
@@ -42,26 +54,65 @@ $arrowDelayThird: -0.4s;
 @keyframes arrow-animate {
 	0% {
 		opacity: 0;
-		transform: rotate(45deg) translate(-20px, -20px);
+		transform: rotate(45deg) translate(-$scroll-arrow-gap, -$scroll-arrow-gap);
 	}
 	50% {
 		opacity: 1;
 	}
 	100% {
 		opacity: 0;
-		transform: rotate(45deg) translate(20px, 20px);
+		transform: rotate(45deg) translate($scroll-arrow-gap, $scroll-arrow-gap);
 	}
 }
 @-webkit-keyframes arrow-animate {
 	0% {
 		opacity: 0;
-		transform: rotate(45deg) translate(-20px, -20px);
+		transform: rotate(45deg) translate(-$scroll-arrow-gap, -$scroll-arrow-gap);
 	}
 	50% {
 		opacity: 1;
 	}
 	100% {
 		opacity: 0;
-		transform: rotate(45deg) translate(20px, 20px);
+		transform: rotate(45deg) translate($scroll-arrow-gap, $scroll-arrow-gap);
+	}
+}
+@-moz-keyframes arrow-animate {
+	0% {
+		opacity: 0;
+		transform: rotate(45deg) translate(-$scroll-arrow-gap, -$scroll-arrow-gap);
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: rotate(45deg) translate($scroll-arrow-gap, $scroll-arrow-gap);
+	}
+}
+@-o-keyframes arrow-animate {
+	0% {
+		opacity: 0;
+		transform: rotate(45deg) translate(-$scroll-arrow-gap, -$scroll-arrow-gap);
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: rotate(45deg) translate($scroll-arrow-gap, $scroll-arrow-gap);
+	}
+}
+@-ms-keyframes arrow-animate {
+	0% {
+		opacity: 0;
+		transform: rotate(45deg) translate(-$scroll-arrow-gap, -$scroll-arrow-gap);
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: rotate(45deg) translate($scroll-arrow-gap, $scroll-arrow-gap);
 	}
 }

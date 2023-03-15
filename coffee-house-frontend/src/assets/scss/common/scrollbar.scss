@@ -38,14 +38,14 @@
 	contain: strict;
 	transition: opacity 275ms ease;
 	&--vertical {
-		top: 3px;
-		right: -15px;
-		width: 8px;
+		top: 0.1rem;
+		right: -1rem;
+		width: 0.5rem;
 	}
 	&--horizontal {
-		left: 3px;
-		bottom: -15px;
-		height: 8px;
+		left: 0.1rem;
+		bottom: -1rem;
+		height: 0.5rem;
 	}
 	&--autoHide {
 		opacity: 0;
@@ -76,7 +76,7 @@
 	opacity: 0.6;
 	transition: opacity 275ms ease, transform 200ms ease;
 	contain: strict;
-	border-radius: 4px;
+	border-radius: 1rem;
 	&--vertical {
 		width: 66.667%;
 		height: 100%;

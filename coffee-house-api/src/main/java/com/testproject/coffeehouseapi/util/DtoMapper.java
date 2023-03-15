@@ -1,7 +1,6 @@
 package com.testproject.coffeehouseapi.util;
 
 import com.testproject.coffeehouseapi.dto.*;
-import com.testproject.coffeehouseapi.dto.request.PlaceOrderRequest;
 import com.testproject.coffeehouseapi.dto.request.RegisterRequest;
 import com.testproject.coffeehouseapi.model.*;
 import org.modelmapper.ModelMapper;
@@ -33,6 +32,10 @@ public class DtoMapper {
 
     public ProductDto convertToProductDto(Product product) {
         return modelMapper.map(product, ProductDto.class);
+    }
+
+    public ProductAvailabilityDto convertToProductAvailabilityDto(Product product) {
+        return modelMapper.map(product, ProductAvailabilityDto.class);
     }
 
     public OrderDto convertToOrderDto(Order order) {

@@ -1,0 +1,75 @@
+:root {
+	--cardSize: 29vw;
+}
+
+@mixin cardBg($alpha) {
+	background: radial-gradient(circle, rgba(0, 0, 0, $alpha) 0%, rgba(0, 0, 0, $alpha) 0%), var(--imgHomeCard);
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+@mixin text-shift($contShift, $descShift) {
+	.home-card-content {
+		margin-top: $contShift;
+	}
+	.home-card-description {
+		top: $descShift;
+	}
+}
+
+.home-card {
+	color: $gray-8;
+	@include cardBg(0.6);
+	height: var(--cardSize);
+	width: var(--cardSize);
+	&:hover {
+		@include cardBg(0.7);
+		@include main-box-shadow($highlight, 0.7);
+		@include text-shift(15%, 45%);
+		.home-cart-line {
+			@include horizontal-line-animation();
+		}
+		.home-card-description {
+			opacity: 1;
+		}
+	}
+}
+
+.home-card-content {
+	@include flex($flex-direction: column, $align-items: center, $text-align: center);
+	@include main-transition($duration: 0.5s);
+	margin: 40% auto 0;
+}
+
+.home-card-title {
+	line-height: calc(var(--cardSize) * 0.12);
+	font-family: $headerFont;
+	text-transform: uppercase;
+	font-size: calc(var(--cardSize) * 0.1);
+	@include letter-spacing(calc(var(--cardSize) * 0.05));
+	@include highlight-text-shadow();
+}
+
+.home-cart-line {
+	@include horizontal-line-highlight($highlight);
+}
+
+.home-card-description {
+	line-height: calc(var(--cardSize) * 0.09);
+	font-size: calc(var(--cardSize) * 0.06);
+	font-style: italic;
+	padding: 0 0.5rem;
+	text-align: center;
+	color: rgba($gray-8, 0.9);
+	position: absolute;
+	top: 60%;
+	opacity: 0;
+	@include main-transition($duration: 0.5s);
+}
+
+@include max-screen($tabletWidth) {
+	:root {
+		--cardSize: 85vw;
+	}
+}

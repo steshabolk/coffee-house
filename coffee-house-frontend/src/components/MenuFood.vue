@@ -1,13 +1,13 @@
 <template>
-	<div class="grid">
-		<div class="grid-column">
-			<MenuFoodCategory :category="'Food'" :products="activeProducts.food" />
+	<div class="menu-products grid">
+		<div class="grid-column" style="width: 33%">
+			<MenuFoodCategory :category="'Food'" :products="userActiveMenu.food" />
 		</div>
-		<div class="grid-column">
-			<MenuFoodCategory :category="'Pastries'" :products="activeProducts.pastries" />
+		<div class="grid-column" style="width: 33%">
+			<MenuFoodCategory :category="'Pastries'" :products="userActiveMenu.pastries" />
 		</div>
-		<div class="grid-column">
-			<MenuFoodCategory :category="'Desserts'" :products="activeProducts.desserts" />
+		<div class="grid-column" style="width: 33%">
+			<MenuFoodCategory :category="'Desserts'" :products="userActiveMenu.desserts" />
 		</div>
 	</div>
 </template>
@@ -21,8 +21,8 @@ export default {
 		MenuFoodCategory
 	},
 	computed: {
-		...mapGetters('products', {
-			activeProducts: 'getActiveProducts'
+		...mapGetters('menu', {
+			userActiveMenu: 'getUserActiveMenu'
 		})
 	}
 }

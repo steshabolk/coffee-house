@@ -1,24 +1,20 @@
 <template>
-	<footer>
-		<div class="footer-wrapper">
-			<div class="container">
-				<div class="social-media-wrapper">
-					<div v-for="icon in socialMediaContent" :key="icon.socialMedia">
-						<SocialMediaIcon :link="icon.link" :socialMedia="icon.socialMedia" :viewBox="icon.viewBox" :svgPath="icon.svgPath"> </SocialMediaIcon>
-					</div>
-				</div>
-			</div>
+	<footer class="footer-wrapper">
+		<div class="social-media-wrapper" v-for="icon in socialMediaContent" :key="icon.socialMedia">
+			<a class="social-media-icon" :href="icon.link" :class="icon.socialMedia">
+				<SvgIcon :viewBox="icon.viewBox" :path="icon.svgPath" />
+			</a>
 		</div>
 	</footer>
 </template>
 
 <script>
 import { vkIcon, instagramIcon, telegramIcon } from '@/services/svgIcons'
-import SocialMediaIcon from '@/components/UI/SocialMediaIcon.vue'
+import SvgIcon from '@/components/UI/SvgIcon.vue'
 
 export default {
 	components: {
-		SocialMediaIcon
+		SvgIcon
 	},
 	data() {
 		return {

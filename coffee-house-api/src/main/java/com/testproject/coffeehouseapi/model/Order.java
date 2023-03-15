@@ -16,6 +16,18 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@NamedEntityGraph(
+        name = "graph.Order.orderDetails",
+        attributeNodes = {
+                @NamedAttributeNode(value = "orderDetails", subgraph = "graph.OrderDetails")
+        },
+        subgraphs = {
+                @NamedSubgraph(
+                        name = "graph.OrderDetails",
+                        attributeNodes = {
+                                @NamedAttributeNode(value = "product")
+                        })
+        })
 @Table(name = "orders")
 public class Order extends BaseEntity {
 
@@ -52,7 +64,6 @@ public class Order extends BaseEntity {
     @Column(name = "status")
     private Status status;
 
-    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private List<OrderDetails> orderDetails = new ArrayList<>();
-
 }

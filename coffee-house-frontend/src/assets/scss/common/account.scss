@@ -1,14 +1,52 @@
-.account-wrapper {
+$acc-size: 40%;
+$acc-menu-size: 60%;
+$acc-size__col: 90%;
+$acc-menu-size__col: 90%;
+
+.logged-account-wrapper {
 	.grid {
-		gap: 50px;
+		gap: 0;
+		justify-content: space-around;
 	}
 	.grid-column {
 		&__acc {
-			width: 200px;
+			width: $acc-size;
+			.horizontal-line {
+				width: 50%;
+				margin-left: 0;
+			}
 		}
 		&__acc-menu {
-			gap: 0;
-			width: 380px;
+			width: $acc-menu-size;
+		}
+	}
+	@include min-screen($smTabletWidth) {
+		.grid {
+			flex-direction: row;
+		}
+	}
+	@include max-screen($smTabletWidth) {
+		.grid {
+			gap: 2rem;
+			align-items: center;
+		}
+		.grid-column {
+			&__acc {
+				width: $acc-size__col;
+				.horizontal-line {
+					width: 100%;
+				}
+			}
+			&__acc-menu {
+				width: $acc-menu-size__col;
+			}
+		}
+		.account-menu-list {
+			flex-direction: row;
+			justify-content: space-between;
+			.account-menu-item {
+				margin: 0;
+			}
 		}
 	}
 }
@@ -16,108 +54,56 @@
 // ACC COLUMN
 .account-name {
 	font-family: $headerFont;
-	font-size: 1.5rem;
+	font-size: 1.4rem;
+	margin-bottom: 0.2rem;
+	word-wrap: break-word;
 }
 .account-phone {
 	color: rgba($brown-60, 0.6);
 }
 .account-menu-list {
+	@include flex($flex-direction: column);
 	.account-menu-item {
 		cursor: pointer;
-		margin-bottom: 10px;
+		margin-bottom: 0.8rem;
+		&:last-child {
+			margin-bottom: 0;
+		}
 		&__active {
+			cursor: default;
 			font-family: $headerFont;
 		}
 	}
 }
 
-// ORDERS BLOCK
-.orders-empty {
-	text-align: center;
-	text-transform: uppercase;
-}
-.order-status-block {
-	@include flex($flex-wrap: nowrap, $justify-content: space-between, $align-items: center);
-	color: rgba($brown-60, 0.6);
-	.svg-icon {
-		height: 18px;
-		width: 18px;
-		margin: 0 4px 0 auto;
-	}
-	.order-status {
-		font-size: 0.8rem;
-	}
-	&.status {
-		&__active {
-			.svg-icon,
-			.order-status {
-				color: $warning-main;
-			}
-		}
-		&__received {
-			.svg-icon,
-			.order-status {
-				color: $success-dark;
-			}
-		}
-		&__cancelled {
-			.svg-icon,
-			.order-status {
-				color: $error-main;
-			}
-		}
-	}
-}
-.order-cost-block {
-	@include flex($flex-wrap: nowrap, $justify-content: space-between, $align-items: center);
-	font-weight: bold;
-}
-
-.accordion-order-details {
-	padding: 10px 0;
-}
-.order-address {
-	font-size: 0.8rem;
-	text-align: center;
-	color: rgba($gray-80, 0.8);
-}
-
-.order-details-block {
-	@include flex($flex-wrap: nowrap, $justify-content: space-between, $align-items: center);
-	line-height: 1.1;
-	margin-top: 10px;
-	.order-details-name {
-		width: 82%;
-		@include flex($flex-wrap: nowrap, $justify-content: space-between, $align-items: center);
-	}
-	.order-details-quantity {
-		color: rgba($brown-60, 0.6);
-		min-width: 50px;
-		margin-left: 10px;
-	}
-}
-.order-details-additives {
-	width: 80%;
-	font-size: 0.7rem;
-	font-style: italic;
-	line-height: 1.1;
-}
-
+$stng-field-size: 90%;
 // SETTINGS BLOCK
 .settings-block {
+	width: 85%;
+	margin: 0 auto;
 	.svg-icon-stng {
 		cursor: pointer;
 		color: rgba($brown-60, 0.4);
 		transform: rotate(90deg);
-		margin: 0 0 15px 0;
-		height: 25px;
-		width: 25px;
+		margin: 0 0 1rem 0;
+		position: relative;
+		left: -2rem;
+		height: 1.8rem;
+		width: 1.8rem;
 	}
 }
 .settings-wrapper {
+	.horizontal-line {
+		width: 50%;
+		margin-left: 0;
+	}
 	&:last-child {
 		.horizontal-line {
 			display: none;
 		}
 	}
+}
+.settings-input-wrapper {
+	width: $stng-field-size;
+	margin: 1rem auto;
 }

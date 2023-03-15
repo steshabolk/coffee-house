@@ -1,31 +1,26 @@
-.menu-link-wrapper {
-	margin-left: 20px;
+.arrow-link-wrapper {
 	@include flex($justify-content: center, $align-items: center, $text-align: center);
-	@include max-screen($tabletWidth) {
-		margin: 0;
-	}
-}
-
-.arrow-link {
 	&:hover {
 		.arrow-link-text:after {
-			transform: translate(0.5em, 0) rotate(45deg);
+			transform: translate(0.3rem, 0) rotate(45deg);
 		}
 	}
 }
 
+$link-arrow-size: 0.7rem;
+$link-arrow-width: 0.1rem;
 .arrow-link-text {
 	color: $brown-60;
 	text-transform: uppercase;
 	font-family: $headerFont;
-	letter-spacing: 0.3em;
+	letter-spacing: 0.6rem;
 	&:after {
 		display: inline-block;
 		content: '';
-		width: 0.7em;
-		height: 0.7em;
-		border-top: 2px solid $brown-60;
-		border-right: 2px solid $brown-60;
+		width: $link-arrow-size;
+		height: $link-arrow-size;
+		border-top: $link-arrow-width solid $brown-60;
+		border-right: $link-arrow-width solid $brown-60;
 		@include main-transition();
 		transform: translate(0, 0) rotate(45deg);
 	}

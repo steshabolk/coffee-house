@@ -1,12 +1,13 @@
 package com.testproject.coffeehouseapi.controller;
 
-import com.testproject.coffeehouseapi.dto.request.CancelOrderRequest;
+import com.testproject.coffeehouseapi.dto.request.UpdateOrderRequest;
 import com.testproject.coffeehouseapi.dto.request.ChangeNameRequest;
 import com.testproject.coffeehouseapi.dto.request.ChangePasswordRequest;
 import com.testproject.coffeehouseapi.dto.request.PlaceOrderRequest;
 import com.testproject.coffeehouseapi.exception.RequestException;
 import com.testproject.coffeehouseapi.model.Order;
 import com.testproject.coffeehouseapi.model.OrderDetails;
+import com.testproject.coffeehouseapi.model.Status;
 import com.testproject.coffeehouseapi.model.User;
 import com.testproject.coffeehouseapi.service.OrderService;
 import com.testproject.coffeehouseapi.service.UserService;
@@ -47,8 +48,8 @@ public class UserController {
     @GetMapping("/orders")
     public ResponseEntity<?> getUserOrders(HttpServletRequest request) {
         User user = (User) request.getAttribute("user");
-        List<Order> orders = orderService.getUserOrders(user.getId());
-        return new ResponseEntity<>(responseHelper.getUserOrdersResponse(orders), HttpStatus.OK);
+        List<Order> orders = orderService.getUserOrders(user);
+        return new ResponseEntity<>(responseHelper.getOrdersResponse(orderService.getUserOrders(user)), HttpStatus.OK);
     }
 
     @PostMapping("/orders")
@@ -65,22 +66,25 @@ public class UserController {
                         .map(dtoMapper::convertToOrderDetails)
                         .toList();
         orderService.placeOrder(user, requestOrder, orderDetails);
-        List<Order> orders = orderService.getUserOrders(user.getId());
-        return new ResponseEntity<>(responseHelper.getUserOrdersResponse(orders), HttpStatus.OK);
+        List<Order> orders = orderService.getUserOrders(user);
+        return new ResponseEntity<>(responseHelper.getOrdersResponse(orders), HttpStatus.OK);
     }
 
     @PatchMapping("/orders")
-    public ResponseEntity<?> cancelOrder(HttpServletRequest request, @RequestBody @Valid CancelOrderRequest cancelOrderRequest,
+    public ResponseEntity<?> cancelOrder(HttpServletRequest request, @RequestBody @Valid UpdateOrderRequest updateOrderRequest,
                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String errMsg = ValidationErrMsgBuilder.buildFieldErrMsg(bindingResult);
             throw new RequestException(errMsg, HttpStatus.BAD_REQUEST);
         }
-        orderService.cancelOrder(orderService.findById(cancelOrderRequest.getId()), cancelOrderRequest.getClosedAt());
-        User user = (User) request.getAttribute("user");
-        List<Order> orders = orderService.getUserOrders(user.getId());
-        return new ResponseEntity<>(responseHelper.getUserOrdersResponse(orders), HttpStatus.OK);
-
+        if (updateOrderRequest.getStatus().equals(Status.CANCELLED)) {
+            orderService.updateOrderStatus(orderService.findById(updateOrderRequest.getId()), updateOrderRequest.getClosedAt(), updateOrderRequest.getStatus());
+            User user = (User) request.getAttribute("user");
+            List<Order> orders = orderService.getUserOrders(user);
+            return new ResponseEntity<>(responseHelper.getOrdersResponse(orders), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/settings/name")

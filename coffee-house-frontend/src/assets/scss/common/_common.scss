@@ -1,3 +1,6 @@
+// Fonts
+@import 'fonts';
+
 // Screen Sizes
 @import 'screen-sizes';
 
@@ -5,7 +8,10 @@
 @import 'text';
 
 // Effects
-@import 'effects';
+@import 'elements';
+
+// Transition
+@import 'transition';
 
 // Slide
 @import 'carousel';
@@ -16,38 +22,38 @@
 // Scrollbar
 @import 'scrollbar';
 
+// Grid
+@import 'grid';
+
 // Loader
 @import 'loader';
 
-// Transition
-@import 'transition';
+// Loader
+@import 'toggle';
 
 // Button
 @import 'button';
 
-// Grid
-@import 'grid';
-
-// Home Page
-@import 'home';
+// Input
+@import 'input';
 
 // Link
 @import 'links';
 
-// Navbar
-@import 'navbar';
+// Home Card
+@import 'card';
 
-// Fonts
-@import 'fonts';
+// Navbar
+@import 'header';
+
+// Footer social media icons
+@import 'footer';
+
+// Home Page
+@import 'home';
 
 // Home Main Banner
 @import 'main-banner';
-
-// Home Card
-@import 'home-card';
-
-// Footer social media icons
-@import 'social-media';
 
 // YMap
 @import 'ymap';
@@ -63,3 +69,9 @@
 
 // Account
 @import 'account';
+
+// Order
+@import 'order';
+
+// Search Bar
+@import 'search-bar';

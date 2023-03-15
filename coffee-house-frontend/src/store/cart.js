@@ -1,8 +1,3 @@
-import instance from '@/store/axiosInstance'
-import { requests } from '@/_config'
-import { UNKNOWN_ERROR } from '@/services/messages'
-import { authHeader } from '@/services/userService'
-
 export default {
 	namespaced: true,
 	state: {
@@ -51,10 +46,10 @@ export default {
 			commit('resetUnavailableCart')
 		},
 		async updateCartAvailability({ state, commit, rootGetters }) {
-			const activeProducts = rootGetters['products/getActiveProducts']
+			const activeMenu = rootGetters['menu/getUserActiveMenu']
 			const availableIds = []
-			Object.keys(activeProducts).forEach(key => {
-				activeProducts[key].forEach(obj => {
+			Object.keys(activeMenu).forEach(key => {
+				activeMenu[key].forEach(obj => {
 					availableIds.push(obj.id)
 				})
 			})
@@ -68,32 +63,6 @@ export default {
 				}
 			}
 			commit('updateCartAvailability', { newCart, newUnavailableCart })
-		},
-		async placeOrder({ commit, dispatch }, { order, orderDetails }) {
-			dispatch('request/setErrMsg', '', { root: true })
-			dispatch('request/setIsRequesting', true, { root: true })
-			await instance
-				.post(
-					requests.requestOrders,
-					{
-						order: order,
-						orderDetails: orderDetails
-					},
-					{
-						headers: {
-							...authHeader()
-						}
-					}
-				)
-				.then(response => {
-					dispatch('request/setIsRequesting', false, { root: true })
-					commit('resetCart')
-					dispatch('user/setOrders', response.data.orders, { root: true })
-				})
-				.catch(error => {
-					dispatch('request/setIsRequesting', false, { root: true })
-					dispatch('request/setErrMsg', UNKNOWN_ERROR, { root: true })
-				})
 		}
 	},
 	getters: {

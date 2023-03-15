@@ -15,19 +15,19 @@ export function decodeToken(token) {
 export function userFromAuthHeader(authHeader) {
 	const token = authHeader.replace('Bearer ', '')
 	localStorage.setItem('token', token)
-	const user = decodeToken(token)
-	store.dispatch('user/setUser', user)
+	setUserByRole(token)
 }
 
-export function checkTokenExpTime() {
-	if (localStorage.getItem('token')) {
-		const token = localStorage.getItem('token')
-		const exp = VueJwtDecode.decode(token).exp
-		if (exp < Math.floor(Date.now() / 1000)) {
-			store.dispatch('auth/logout')
-		} else {
-			const user = decodeToken(token)
-			store.dispatch('user/setUser', user)
-		}
+export function setUserByRole(token) {
+	const user = decodeToken(token)
+	if (user.role === 'user') {
+		store.dispatch('user/setUser', user)
 	}
+	if (user.role === 'manager') {
+		store.dispatch('manager/setManager', user)
+	}
+}
+
+export function isAnyAccountLogged() {
+	return store.getters['user/isLogged'] || store.getters['manager/isLogged']
 }

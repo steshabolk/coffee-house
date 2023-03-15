@@ -23,7 +23,9 @@ VALUES ('Raff "Salted caramel"', (SELECT id FROM products_categories WHERE categ
        ('Latte "Lavender-Coconut"', (SELECT id FROM products_categories WHERE category_name = 'Coffee Specialty'),
         '350 ml', 290, 'Espresso, coconut milk, coconut sugar, lavender'),
        ('Cappuccino "Almond"', (SELECT id FROM products_categories WHERE category_name = 'Coffee Specialty'),
-        '350 ml', 350, 'Espresso, almond milk, brown sugar, almond paste, chocolate chips');
+        '350 ml', 350, 'Espresso, almond milk, brown sugar, almond paste, chocolate chips'),
+       ('Pumpkin Spice Latte', (SELECT id FROM products_categories WHERE category_name = 'Coffee Specialty'),
+        '400 ml', 400, 'Espresso, coconut milk, pumpkin purée, maple syrup, vanilla extract, spices (cinnamon, nutmeg, ginger)');
 --rollback DELETE FROM products WHERE product_category = (SELECT id FROM products_categories WHERE category_name = 'Coffee Specialty');
 
 --changeset steshabolk:3
@@ -32,12 +34,20 @@ VALUES ('Caramel Syrup', (SELECT id FROM products_categories WHERE category_name
         '20 ml', 20, 'Caramel syrup'),
        ('Coconut Syrup', (SELECT id FROM products_categories WHERE category_name = 'Syrup'),
         '20 ml', 20, 'Coconut syrup'),
+       ('Gingerbread Syrup', (SELECT id FROM products_categories WHERE category_name = 'Syrup'),
+        '20 ml', 20, 'Gingerbread syrup'),
+       ('Irish Cream Syrup', (SELECT id FROM products_categories WHERE category_name = 'Syrup'),
+        '20 ml', 20, 'Irish Cream syrup'),
        ('Almond Syrup', (SELECT id FROM products_categories WHERE category_name = 'Syrup'),
         '20 ml', 20, 'Almond syrup'),
+       ('Hazelnut Syrup', (SELECT id FROM products_categories WHERE category_name = 'Syrup'),
+        '20 ml', 20, 'Hazelnut syrup'),
        ('Chocolate Syrup', (SELECT id FROM products_categories WHERE category_name = 'Syrup'),
         '20 ml', 20, 'Chocolate syrup'),
        ('Vanilla Syrup', (SELECT id FROM products_categories WHERE category_name = 'Syrup'),
-        '20 ml', 20, 'Vanilla syrup');
+        '20 ml', 20, 'Vanilla syrup'),
+       ('Raspberry Syrup', (SELECT id FROM products_categories WHERE category_name = 'Syrup'),
+        '20 ml', 20, 'Raspberry syrup');
 --rollback DELETE FROM products WHERE product_category = (SELECT id FROM products_categories WHERE category_name = 'Syrup');
 
 --changeset steshabolk:4
@@ -52,7 +62,9 @@ VALUES ('Chocolate Chips', (SELECT id FROM products_categories WHERE category_na
 
 --changeset steshabolk:5
 INSERT INTO products (product_name, product_category, size_value, price, description)
-VALUES ('Coconut Milk', (SELECT id FROM products_categories WHERE category_name = 'Milk'),
+VALUES ('Lactose-free Milk', (SELECT id FROM products_categories WHERE category_name = 'Milk'),
+        '100 ml', 70, 'Lactose-free milk'),
+       ('Coconut Milk', (SELECT id FROM products_categories WHERE category_name = 'Milk'),
         '100 ml', 70, 'Coconut milk'),
        ('Almond Milk', (SELECT id FROM products_categories WHERE category_name = 'Milk'),
         '100 ml', 70, 'Almond milk'),

@@ -8,8 +8,21 @@ export default {
 		async setIsRequesting({ commit }, payload) {
 			commit('setIsRequesting', payload)
 		},
-		async setErrMsg({ commit }, err) {
-			commit('setErrMsg', err)
+		async setErrMsg({ commit, state }, payload) {
+			if (state.errMsg !== payload) {
+				commit('setErrMsg', payload)
+			}
+		},
+		async clearErrMsg({ commit, state }) {
+			if (state.errMsg) {
+				commit('setErrMsg', '')
+			}
+		},
+		async aipRequest({ commit, state }) {
+			if (state.errMsg) {
+				commit('setErrMsg', '')
+			}
+			commit('setIsRequesting', true)
 		}
 	},
 	getters: {

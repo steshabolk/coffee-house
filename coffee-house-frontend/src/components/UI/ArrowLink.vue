@@ -1,10 +1,8 @@
 <template>
-	<div class="menu-link-wrapper">
-		<div class="arrow-link">
-			<router-link :to="link">
-				<span class="arrow-link-text">{{ linkText }}</span>
-			</router-link>
-		</div>
+	<div class="arrow-link-wrapper">
+		<router-link :to="link">
+			<span class="arrow-link-text">{{ linkText }}</span>
+		</router-link>
 	</div>
 </template>
 

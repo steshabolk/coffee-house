@@ -6,7 +6,7 @@
 				{{ product.productName }} <span class="menu-item-price"><span v-if="generalCategory === 'additives'">+</span>{{ product.price }}&#8381;</span>
 			</p>
 			<p v-if="generalCategory !== 'additives'" class="menu-item-description">{{ product.description }}</p>
-			<div v-if="generalCategory !== 'additives'" class="btn-wrapper">
+			<div v-if="generalCategory !== 'additives'" class="btn-qty-wrapper">
 				<p class="menu-item-size">{{ product.sizeValue }}</p>
 				<QuantityBtnGroup v-if="generalCategory === 'food'" :cartObj="cartObj" />
 			</div>
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { formCartObjBody } from '@/services/requestBody'
 import QuantityBtnGroup from '@/components/UI/QuantityBtnGroup.vue'
 import { mapGetters } from 'vuex'
 
@@ -41,7 +42,7 @@ export default {
 			const obj = this.cart.find(obj => JSON.stringify(obj.product) === JSON.stringify(this.product))
 			const quantity = obj ? obj.quantity : 0
 			const cost = obj ? obj.cost : 0
-			return { product: this.product, quantity: quantity, cost: cost, additives: [] }
+			return formCartObjBody(this.product, quantity, cost, [])
 		},
 		...mapGetters('cart', { cart: 'getCart' })
 	}

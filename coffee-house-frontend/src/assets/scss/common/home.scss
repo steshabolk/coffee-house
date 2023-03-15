@@ -1,73 +1,94 @@
-.home-content-wrapper {
-	.grid {
+.home-card-wrapper {
+	&.grid {
+		justify-content: space-around;
+	}
+	.grid-cell {
+		margin: 0 auto;
+	}
+}
+.home-info-wrapper {
+	&.grid {
+		gap: 0;
 		align-items: center;
 	}
 	img {
 		@include main-box-shadow($highlight, 0.7);
 		@include filter-darken();
+		width: 30vw;
+	}
+	.home-info-gap {
+		margin-left: 2rem;
 	}
 }
 .contact-wrapper {
-	.grid {
+	&.grid {
 		align-items: center;
-		justify-content: space-around;
+		justify-content: space-between;
+	}
+	li {
+		margin-bottom: 1rem;
+		&:last-child {
+			margin-bottom: 0;
+		}
 	}
 }
 
-.home-content-block {
-	max-width: 650px;
+.home-info-block {
+	width: 35vw;
 	height: auto;
-	padding: 10px;
-	margin-left: 15px;
+	padding: 0.5rem;
 	p {
-		margin-bottom: 0.5em;
+		margin-bottom: 0.5rem;
 		&:last-child {
 			margin-bottom: 0;
 		}
 	}
 	@include main-border($gray-80);
-	@include shift-background($top: -15px, $right: -15px, $width: 19px, $height: 5px);
-	@include max-screen($tabletWidth) {
-		@include shift-background($top: 6px, $right: 6px, $width: 37px, $height: 23px);
-	}
+	@include shift-background($top: -0.6rem, $right: -0.6rem);
 }
 
+$home-card-shift: 0.8rem;
 .shift-top-right {
-	@include shift-element($left: 30px, $top: -30px);
+	@include shift-element($left: $home-card-shift, $top: -$home-card-shift);
 }
 
 .shift-top {
-	@include shift-element($top: -30px);
+	@include shift-element($top: -$home-card-shift);
 }
 
 .shift-bottom-left {
-	@include shift-element($right: 30px, $top: 30px);
+	@include shift-element($right: $home-card-shift, $top: $home-card-shift);
 }
 
+$home-width__col: 85vw;
 @include max-screen($tabletWidth) {
-	.cell-img-padding {
-		padding: 1.3em;
+	.home-info-wrapper {
+		.grid-column {
+			gap: 0;
+		}
+		img {
+			width: $home-width__col;
+		}
+		.home-info-gap {
+			gap: 1rem;
+			margin-left: 0;
+			margin-top: 1.2rem;
+		}
+		.home-info-block {
+			width: $home-width__col;
+		}
 	}
-	.cell-text-padding {
-		padding: 1.3em 1.3em 0;
+	.contact-wrapper {
+		li {
+			margin-bottom: 0.8rem;
+		}
+	}
+	.cell-img-padding {
+		padding: 0.8rem;
 	}
 	.shift-top-right,
 	.shift-bottom-left,
 	.shift-top {
 		@include shift-element();
-	}
-	.cell-text-main {
-		margin: 0;
-	}
-}
-
-.contact-block {
-	max-width: 650px;
-	height: auto;
-	.main-title {
-		margin-top: 15px;
-		&:first-child {
-			margin-top: 0;
-		}
 	}
 }

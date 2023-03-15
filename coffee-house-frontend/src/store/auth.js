@@ -1,7 +1,8 @@
 import instance from '@/store/axiosInstance'
+import router from '@/router/router'
 import { requests } from '@/_config'
 import { userFromAuthHeader } from '@/services/userService'
-import { UNKNOWN_ERROR, AUTHORIZATION_ERROR } from '@/services/messages'
+import { UNKNOWN_ERROR, AUTHORIZATION_ERROR } from '@/services/errorMessages'
 
 export default {
 	namespaced: true,
@@ -10,12 +11,9 @@ export default {
 	},
 	actions: {
 		async register({ commit, dispatch }, user) {
-			dispatch('request/setErrMsg', '', { root: true })
-			dispatch('request/setIsRequesting', true, { root: true })
+			dispatch('request/aipRequest', null, { root: true })
 			await instance
-				.post(requests.register, {
-					...user
-				})
+				.post(requests.register, user)
 				.then(response => {
 					dispatch('request/setIsRequesting', false, { root: true })
 					commit('setIsRegisterSuccess', true)
@@ -29,16 +27,21 @@ export default {
 					}
 				})
 		},
-		async login({ commit, dispatch }, user) {
-			dispatch('request/setErrMsg', '', { root: true })
-			dispatch('request/setIsRequesting', true, { root: true })
+		async login({ commit, dispatch, rootGetters }, user) {
+			dispatch('request/aipRequest', null, { root: true })
 			await instance
-				.post(requests.login, {
-					...user
-				})
+				.post(requests.login, user)
 				.then(response => {
 					dispatch('request/setIsRequesting', false, { root: true })
 					userFromAuthHeader(response.headers.authorization)
+					if (rootGetters['user/isLogged']) {
+						router.push({ name: 'menu' })
+						// dispatch('user/requestOrders', null, { root: true })
+					}
+					if (rootGetters['manager/isLogged']) {
+						router.push({ name: 'management' })
+						// dispatch('manager/requestAddress', null, { root: true })
+					}
 				})
 				.catch(error => {
 					dispatch('request/setIsRequesting', false, { root: true })
@@ -49,9 +52,14 @@ export default {
 					}
 				})
 		},
-		async logout({ commit, dispatch }) {
+		async logout({ commit, dispatch, rootGetters }) {
 			commit('logout')
-			dispatch('user/setUser', null, { root: true })
+			if (rootGetters['user/isLogged']) {
+				dispatch('user/logoutUser', null, { root: true })
+			}
+			if (rootGetters['manager/isLogged']) {
+				dispatch('manager/logoutManager', null, { root: true })
+			}
 		},
 		async setIsRegisterSuccess({ commit }, payload) {
 			commit('setIsRegisterSuccess', payload)

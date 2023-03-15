@@ -1,33 +1,31 @@
 <template>
-	<div>
-		<div class="menu-category-title">{{ category }}</div>
-		<div v-for="product in products" :key="product.id">
-			<label :for="product.id">
-				<input
-					v-if="category === 'Milk'"
-					type="radio"
-					:name="category"
-					:id="product.id"
-					:value="product.id"
-					:checked="selectedMilk === product"
-					@click="checkRadio(product, category)" />
-				<input
-					v-else
-					type="checkbox"
-					:name="category"
-					:id="product.id"
-					:value="product.id"
-					:checked="select(product, category)"
-					@click="checkCheckbox(product, category)" />
-				<MenuObj :product="{ productName: additives(category, product.productName), price: product.price }" :generalCategory="'additives'" />
-			</label>
-		</div>
+	<div class="menu-category-title">{{ category }}</div>
+	<div v-for="product in products" :key="product.id">
+		<label :for="product.id">
+			<input
+				v-if="category === 'Milk'"
+				type="radio"
+				:name="category"
+				:id="product.id"
+				:value="product.id"
+				:checked="selectedMilk === product"
+				@click="inputRadio(product, category)" />
+			<input
+				v-else
+				type="checkbox"
+				:name="category"
+				:id="product.id"
+				:value="product.id"
+				:checked="select(product, category)"
+				@click="inputCheckbox(product, category)" />
+			<MenuObj :product="{ productName: additives(category, product.productName), price: product.price }" :generalCategory="'additives'" />
+		</label>
 	</div>
 </template>
 
 <script>
 import MenuObj from '@/components/UI/MenuObj.vue'
-import checkInput from '@/mixins/checkInput'
+import inputFormat from '@/mixins/inputFormat'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -46,8 +44,10 @@ export default {
 	},
 	methods: {
 		additives(category, name) {
-			if (category === 'Milk' || category === 'Syrup') {
-				return name.split(' ')[0]
+			if (category === 'Milk') {
+				return name.split('Milk')[0]
+			} else if (category === 'Syrup') {
+				return name.split('Syrup')[0]
 			} else {
 				return name
 			}
@@ -68,6 +68,6 @@ export default {
 			selectedTopping: 'getSelectedTopping'
 		})
 	},
-	mixins: [checkInput]
+	mixins: [inputFormat]
 }
 </script>

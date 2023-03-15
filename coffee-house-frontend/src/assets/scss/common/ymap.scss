@@ -1,5 +1,5 @@
 .ymap-wrapper {
-	padding: 1px;
+	padding: 0.01rem;
 	@include main-border($gray-80);
 	filter: grayscale(100%);
 	width: 50vw;
@@ -12,11 +12,7 @@
 
 @include max-screen($tabletWidth) {
 	.ymap-wrapper {
-		width: 70vw;
-	}
-}
-@include max-screen($phoneWidth) {
-	.ymap-wrapper {
-		width: 65vw;
+		width: $home-width__col;
+		margin-top: 1rem;
 	}
 }

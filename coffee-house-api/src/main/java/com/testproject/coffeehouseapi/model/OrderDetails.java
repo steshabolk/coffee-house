@@ -37,7 +37,7 @@ public class OrderDetails extends BaseEntity {
     @Column(name = "cost")
     private Integer cost;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(name = "orders_details_additives",
             joinColumns = @JoinColumn(name = "order_details_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))

@@ -14,24 +14,6 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
-//@NamedEntityGraph(
-//        name = "graph.User.orders",
-//        attributeNodes = {
-//                @NamedAttributeNode(value = "orders", subgraph = "graph.Order")
-//        },
-//        subgraphs = {
-//                @NamedSubgraph(
-//                        name = "graph.Order",
-//                        attributeNodes = {
-//                                @NamedAttributeNode(value = "coffeeHouse"),
-//                                @NamedAttributeNode(value = "orderDetails")
-//                }),
-//                @NamedSubgraph(
-//                        name = "graph.OrderDetails",
-//                        attributeNodes = {
-//                                @NamedAttributeNode(value = "orderDetails.product")
-//                })
-//        })
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {

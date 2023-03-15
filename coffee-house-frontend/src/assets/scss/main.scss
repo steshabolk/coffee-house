@@ -7,13 +7,29 @@ html {
 	-webkit-user-select: none;
 	scroll-behavior: smooth;
 	height: 100%;
-	font-size: $mainFontSize;
-
+	@include min-screen($maxDesktopWidth) {
+		font-size: 1.8vw;
+	}
+	@include max-screen($maxDesktopWidth) {
+		font-size: 28px;
+	}
+	@include max-screen($lgDesktopWidth) {
+		font-size: 26px;
+	}
+	@include max-screen($desktopWidth) {
+		font-size: 22px;
+	}
 	@include max-screen($smDesktopWidth) {
-		font-size: 15px;
+		font-size: 18px;
+	}
+	@include max-screen($tabletWidth) {
+		font-size: 18px;
+	}
+	@include max-screen($smTabletWidth) {
+		font-size: 16px;
 	}
 	@include max-screen($phoneWidth) {
-		font-size: 14px;
+		font-size: 3vw;
 	}
 }
 
@@ -39,13 +55,13 @@ input {
 	background: transparent;
 	font-size: 1rem;
 	font-family: $mainFont;
-	font-size: 1rem;
 }
 
 button {
 	cursor: pointer;
 	color: $gray-80;
 	background-color: transparent;
+	font-size: 1rem;
 }
 
 a {
@@ -66,36 +82,14 @@ section {
 
 .wrapper-content {
 	@include flex($flex-direction: column);
-	min-height: 70vh;
-	margin-top: 80px; // if header is fixed do mt: headerHeight
+	min-height: calc(100vh - $headerHeight - $footerHeight);
+	margin-top: $headerHeight;
+	padding-bottom: 2rem;
 }
 
 .container {
-	border: 3px solid blue;
 	position: relative;
 	flex: 0 0 auto;
 	margin: 0 auto;
-	width: 100%;
-	max-width: $lgDesktopWidth;
-
-	@include max-screen($lgDesktopWidth) {
-		max-width: $desktopWidth;
-	}
-	@include max-screen($desktopWidth) {
-		max-width: $smDesktopWidth;
-	}
-	@include max-screen($smDesktopWidth) {
-		max-width: $tabletWidth;
-	}
-	@include max-screen($tabletWidth) {
-		max-width: $smTabletWidth;
-	}
-	@include max-screen($smTabletWidth) {
-		max-width: $phoneWidth;
-	}
-	@include max-screen($phoneWidth) {
-		max-width: $smPhoneWidth;
-	}
+	width: 95%;
 }
-
-@import './helpers/_helpers';

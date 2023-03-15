@@ -1,0 +1,41 @@
+.footer-wrapper {
+	@include flex($justify-content: center, $align-items: center);
+	height: $footerHeight;
+}
+
+.social-media-wrapper {
+	@include flex($flex-direction: row, $flex-wrap: nowrap, $justify-content: center, $align-items: center);
+}
+
+.social-media-icon {
+	margin: 0 1.5rem;
+	color: $brown-70;
+	background: transparent;
+	@include main-transition($duration: 0.25s);
+	&:focus {
+		outline-color: inherit;
+	}
+	.svg-icon {
+		max-height: $footerHeight;
+	}
+}
+
+@mixin socialMedia($color) {
+	&:hover,
+	&:focus {
+		color: $color;
+		filter: drop-shadow(0rem 0rem 0.2rem $color);
+	}
+}
+
+.vk {
+	@include socialMedia($vk-color);
+}
+
+.instagram {
+	@include socialMedia($instagram-color);
+}
+
+.telegram {
+	@include socialMedia($telegram-color);
+}

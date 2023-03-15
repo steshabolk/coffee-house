@@ -1,5 +1,5 @@
 <template>
-	<div class="btn-group">
+	<div class="btn-qty-block">
 		<button v-if="cartObj.quantity" class="btn-quantity" @click="changeQuantity(-1)">
 			<SvgIcon :viewBox="minusIcon.viewBox" :path="minusIcon.svgPath" />
 		</button>

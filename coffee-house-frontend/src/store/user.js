@@ -1,6 +1,6 @@
 import instance from '@/store/axiosInstance'
 import { authHeader, userFromAuthHeader } from '@/services/userService'
-import { UNKNOWN_ERROR } from '@/services/messages'
+import { UNKNOWN_ERROR, ORDER_DETAILS_NOT_AVAILABLE } from '@/services/errorMessages'
 import { requests } from '@/_config'
 
 export default {
@@ -8,31 +8,66 @@ export default {
 	state: {
 		user: null,
 		isOrdersLoaded: false,
-		orders: []
+		orders: [],
+		activeOrdersNum: 0
 	},
 	actions: {
 		async setUser({ commit }, user) {
 			commit('setUser', user)
 		},
-		async requestOrders({ commit }) {
-			console.log('requestOrders')
+		async requestOrders({ commit, state }) {
+			if (!state.isOrdersLoaded) {
+				await instance
+					.get(requests.requestOrders, {
+						headers: {
+							...authHeader()
+						}
+					})
+					.then(response => {
+						commit('setOrders', response.data.orders)
+					})
+					.catch(error => {
+						console.log(error)
+					})
+			}
+		},
+		async placeOrder({ commit, dispatch }, { order, orderDetails }) {
+			dispatch('request/aipRequest', null, { root: true })
 			await instance
-				.get(requests.requestOrders, {
-					headers: {
-						...authHeader()
+				.post(
+					requests.requestOrders,
+					{
+						order: order,
+						orderDetails: orderDetails
+					},
+					{
+						headers: {
+							...authHeader()
+						}
 					}
-				})
+				)
 				.then(response => {
+					dispatch('request/setIsRequesting', false, { root: true })
+					dispatch('cart/resetCart', null, { root: true })
 					commit('setOrders', response.data.orders)
-					commit('setIsOrdersLoaded', true)
 				})
 				.catch(error => {
-					console.log(error)
+					dispatch('request/setIsRequesting', false, { root: true })
+					if (error.response.status === 400 && error.response.data.message === ORDER_DETAILS_NOT_AVAILABLE) {
+						dispatch('menu/resetUserMenu', null, { root: true })
+						dispatch('menu/requestUserMenu', null, { root: true })
+						setTimeout(() => {
+							dispatch('request/setErrMsg', ORDER_DETAILS_NOT_AVAILABLE, { root: true })
+						}, 100)
+					} else {
+						setTimeout(() => {
+							dispatch('request/setErrMsg', UNKNOWN_ERROR, { root: true })
+						}, 100)
+					}
 				})
 		},
 		async cancelOrder({ commit, dispatch }, cancelledOrder) {
-			dispatch('request/setErrMsg', '', { root: true })
-			dispatch('request/setIsRequesting', true, { root: true })
+			dispatch('request/aipRequest', null, { root: true })
 			await instance
 				.patch(
 					requests.requestOrders,
@@ -47,19 +82,15 @@ export default {
 				)
 				.then(response => {
 					dispatch('request/setIsRequesting', false, { root: true })
-					dispatch('user/setOrders', response.data.orders, { root: true })
+					commit('setOrders', response.data.orders)
 				})
 				.catch(error => {
 					dispatch('request/setIsRequesting', false, { root: true })
 					dispatch('request/setErrMsg', UNKNOWN_ERROR, { root: true })
 				})
 		},
-		async setOrders({ commit }, orders) {
-			commit('setOrders', orders)
-		},
 		async changeName({ commit, dispatch }, name) {
-			dispatch('request/setErrMsg', '', { root: true })
-			dispatch('request/setIsRequesting', true, { root: true })
+			dispatch('request/aipRequest', null, { root: true })
 			await instance
 				.post(
 					requests.changeName,
@@ -86,8 +117,7 @@ export default {
 				})
 		},
 		async changePassword({ commit, dispatch }, password) {
-			dispatch('request/setErrMsg', '', { root: true })
-			dispatch('request/setIsRequesting', true, { root: true })
+			dispatch('request/aipRequest', null, { root: true })
 			await instance
 				.post(
 					requests.changePassword,
@@ -111,6 +141,9 @@ export default {
 						dispatch('request/setErrMsg', UNKNOWN_ERROR, { root: true })
 					}
 				})
+		},
+		async logoutUser({ commit }) {
+			commit('logoutUser')
 		}
 	},
 	getters: {
@@ -123,6 +156,9 @@ export default {
 		getOrders(state) {
 			return state.orders
 		},
+		getActiveOrdersNum(state) {
+			return state.activeOrdersNum
+		},
 		isOrdersLoaded(state) {
 			return state.isOrdersLoaded
 		}
@@ -133,9 +169,15 @@ export default {
 		},
 		setOrders(state, payload) {
 			state.orders = payload.reverse()
+			state.isOrdersLoaded = true
+			const arr = state.orders.filter(el => el.status.toLowerCase() === 'active')
+			state.activeOrdersNum = arr.length
 		},
-		setIsOrdersLoaded(state, payload) {
-			state.isOrdersLoaded = payload
+		logoutUser(state, payload) {
+			state.user = null
+			state.isOrdersLoaded = false
+			state.orders = []
+			state.activeOrdersNum = 0
 		}
 	}
 }

@@ -21,16 +21,43 @@ export const links = [
 	}
 ]
 
+export const linksManager = [
+	{
+		title: 'Home',
+		alias: 'home',
+		url: '/'
+	},
+	{
+		title: 'Management',
+		alias: 'management',
+		url: '/management'
+	},
+	{
+		title: 'Account',
+		alias: 'account',
+		url: '/account'
+	}
+]
+
 export const api = {
-	api: 'http://localhost:8085/'
+	api: 'http://localhost:8085',
+	coffeeHouseController: '/api/v1/coffeehouse',
+	userController: '/api/v1/users',
+	managerController: '/api/v1/manager'
 }
 
 export const requests = {
-	requestAddresses: api.api + 'api/v1/coffeehouse',
-	requestProducts: api.api + 'api/v1/coffeehouse/products',
-	register: api.api + 'register',
-	login: api.api + 'login',
-	requestOrders: api.api + 'api/v1/users/orders',
-	changeName: api.api + 'api/v1/users/settings/name',
-	changePassword: api.api + 'api/v1/users/settings/password'
+	register: api.api + '/register',
+	login: api.api + '/login',
+	//
+	requestAddresses: api.api + api.coffeeHouseController,
+	requestUserMenu: api.api + api.coffeeHouseController + '/menu',
+	//
+	requestOrders: api.api + api.userController + '/orders',
+	changeName: api.api + api.userController + '/settings/name',
+	changePassword: api.api + api.userController + '/settings/password',
+	//
+	requestManagerAddress: api.api + api.managerController + '/address',
+	requestManagerMenu: api.api + api.managerController + '/menu',
+	requestManagerOrders: api.api + api.managerController + '/orders'
 }

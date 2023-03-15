@@ -2,8 +2,8 @@
 	<section id="account-section">
 		<div class="wrapper-content">
 			<div class="container">
-				<div v-if="!isLogged" class="auth-form-wrapper">
-					<div class="grid gap-h">
+				<div v-if="!isAnyAccountLogged" class="auth-wrapper">
+					<div class="grid">
 						<div class="grid-column">
 							<div class="grid-cell">
 								<img class="random-img" :src="imgPath(randomImage())" />
@@ -11,24 +11,16 @@
 						</div>
 						<div class="grid-column">
 							<div class="grid-cell">
-								<div class="auth-btn-group">
-									<button
-										class="btn-list"
-										:class="{ 'btn-list-active': logIn.isActive }"
-										style="width: 45%; border-radius: 5px 0 0 5px"
-										@click="changeForm(logIn.key)">
+								<div class="inline-btn-wrapper">
+									<button class="btn-list inline-btn-left" :class="{ 'btn-list-active': logIn.isActive }" @click="changeForm(logIn.key)">
 										Log in
 									</button>
-									<button
-										class="btn-list"
-										:class="{ 'btn-list-active': signUp.isActive }"
-										style="width: 45%; border-radius: 0 5px 5px 0; border-left: 0"
-										@click="changeForm(signUp.key)">
+									<button class="btn-list inline-btn-right" :class="{ 'btn-list-active': signUp.isActive }" @click="changeForm(signUp.key)">
 										Sign up
 									</button>
 								</div>
 								<transition-group name="fade" mode="out-in">
-									<FormObj
+									<AuthForm
 										v-if="logIn.isActive"
 										:form="{
 											key: logIn.key,
@@ -37,7 +29,7 @@
 											btnText: logIn.btnText
 										}"
 										:fields="logIn.fields" />
-									<FormObj
+									<AuthForm
 										v-if="signUp.isActive"
 										:form="{
 											key: signUp.key,
@@ -51,8 +43,11 @@
 						</div>
 					</div>
 				</div>
-				<div v-if="isLogged" class="account-wrapper">
-					<LoggedAccount />
+				<div v-if="userIsLogged" class="logged-account-wrapper">
+					<LoggedAccount :loggedAccount="user" :menu="loggedAccount.userMenu" :activeMenuIndexProp="0" />
+				</div>
+				<div v-if="managerIsLogged" class="logged-account-wrapper">
+					<LoggedAccount :loggedAccount="manager" :menu="loggedAccount.managerMenu" :activeMenuIndexProp="0" />
 				</div>
 			</div>
 		</div>
@@ -62,15 +57,19 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { nameField, phoneField, passwordField, passwordConfirmationField } from '@/services/inputFields'
-import { checkTokenExpTime } from '@/services/userService'
+import { isAnyAccountLogged } from '@/services/userService'
 import imgPath from '@/mixins/imgPath'
-import FormObj from '@/components/FormObj.vue'
+import AuthForm from '@/components/AuthForm.vue'
 import LoggedAccount from '@/components/LoggedAccount.vue'
+import UOrders from '@/components/UOrders.vue'
+import UAccountSettings from '@/components/UAccountSettings.vue'
 
 export default {
 	components: {
-		FormObj,
-		LoggedAccount
+		AuthForm,
+		LoggedAccount,
+		UOrders,
+		UAccountSettings
 	},
 	data() {
 		return {
@@ -89,6 +88,10 @@ export default {
 				description: 'Before using our service you need to create an account',
 				btnText: 'Create account',
 				fields: [nameField, phoneField, passwordField, passwordConfirmationField]
+			},
+			loggedAccount: {
+				userMenu: ['Orders', 'Settings', 'Logout'],
+				managerMenu: ['Management', 'Logout']
 			}
 		}
 	},
@@ -113,8 +116,10 @@ export default {
 		}
 	},
 	computed: {
+		isAnyAccountLogged,
 		...mapGetters('auth', { isRegisterSuccess: 'isRegisterSuccess' }),
-		...mapGetters('user', { isLogged: 'isLogged' }),
+		...mapGetters('user', { userIsLogged: 'isLogged', user: 'getUser' }),
+		...mapGetters('manager', { managerIsLogged: 'isLogged', manager: 'getManager' }),
 		...mapGetters('request', { isRequesting: 'isRequesting' })
 	},
 	watch: {
@@ -125,9 +130,6 @@ export default {
 			}
 		}
 	},
-	mixins: [imgPath],
-	mounted() {
-		checkTokenExpTime()
-	}
+	mixins: [imgPath]
 }
 </script>

@@ -2,25 +2,35 @@
 	<div class="grid">
 		<div class="grid-column grid-column__acc">
 			<div class="grid-cell">
-				<p class="account-name">{{ user.name }}</p>
-				<p class="account-phone">+{{ user.phone }}</p>
+				<p class="account-name">{{ loggedAccount.name }}</p>
+				<p class="account-phone">+{{ loggedAccount.phone }}</p>
 				<p class="horizontal-line" />
 				<ul class="account-menu-list">
 					<li
 						class="account-menu-item"
 						v-for="(item, index) of menu"
 						:key="index"
-						:class="{ 'account-menu-item__active': index === activeMenuInd }"
+						:class="{ 'account-menu-item__active': index === activeMenuIndex }"
 						@click="changeActiveMenu(index)">
 						{{ item }}
 					</li>
 				</ul>
+				<p class="horizontal-line" />
 			</div>
 		</div>
-		<div class="grid-column grid-column__acc-menu">
+		<div v-if="userIsLogged" class="grid-column grid-column__acc-menu">
 			<transition-group name="fade" mode="out-in">
-				<AccountOrders v-if="activeMenuInd === menu.indexOf('Orders')" />
-				<AccountSettings v-if="activeMenuInd === menu.indexOf('Settings')" />
+				<UOrders v-if="activeMenuIndex === menu.indexOf('Orders')" />
+				<UAccountSettings v-if="activeMenuIndex === menu.indexOf('Settings')" />
+				<div v-if="activeMenuIndex === menu.indexOf('Menu Management')"></div>
+			</transition-group>
+		</div>
+		<div v-if="managerIsLogged" class="grid-column grid-column__acc-menu">
+			<transition-group name="fade" mode="out-in">
+				<div v-if="activeMenuIndex === menu.indexOf('Management')">
+					<p class="uppercase" style="margin-bottom: 0.5rem">Go to management page</p>
+					<ArrowLink :link="management.link" :linkText="management.linkText" />
+				</div>
 			</transition-group>
 		</div>
 	</div>
@@ -28,33 +38,60 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import AccountOrders from '@/components/AccountOrders.vue'
-import AccountSettings from '@/components/AccountSettings.vue'
+import { linksManager } from '@/_config'
+import UOrders from '@/components/UOrders.vue'
+import UAccountSettings from '@/components/UAccountSettings.vue'
+import ArrowLink from '@/components/UI/ArrowLink.vue'
 
 export default {
+	props: {
+		loggedAccount: {
+			type: Object,
+			required: true
+		},
+		menu: {
+			type: Array,
+			required: true
+		},
+		activeMenuIndexProp: {
+			type: Number,
+			required: true
+		}
+	},
 	components: {
-		AccountOrders,
-		AccountSettings
+		UOrders,
+		UAccountSettings,
+		ArrowLink
 	},
 	data() {
 		return {
-			menu: ['Orders', 'Settings', 'Logout'],
-			activeMenuInd: 0
+			activeMenuIndex: null,
+			management: {
+				link: linksManager[1].url,
+				linkText: 'Management'
+			}
 		}
 	},
 	methods: {
 		...mapActions('auth', ['logout']),
+		setActiveMenu() {
+			this.activeMenuIndex = this.activeMenuIndexProp
+		},
 		changeActiveMenu(setActiveInd) {
 			if (setActiveInd === this.menu.indexOf('Logout')) {
 				this.logout()
 			}
-			if (this.activeMenu !== setActiveInd) {
-				this.activeMenuInd = setActiveInd
+			if (this.activeMenuIndex !== setActiveInd) {
+				this.activeMenuIndex = setActiveInd
 			}
 		}
 	},
 	computed: {
-		...mapGetters('user', { user: 'getUser' })
+		...mapGetters('user', { userIsLogged: 'isLogged' }),
+		...mapGetters('manager', { managerIsLogged: 'isLogged' })
+	},
+	mounted() {
+		this.setActiveMenu()
 	}
 }
 </script>

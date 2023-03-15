@@ -13,4 +13,6 @@ public interface CoffeeHouseRepository extends JpaRepository<CoffeeHouse, Long> 
     @EntityGraph(type = EntityGraph.EntityGraphType.FETCH, attributePaths = "manager")
     List<CoffeeHouse> findAll();
 
+    @EntityGraph(type = EntityGraph.EntityGraphType.FETCH, attributePaths = "manager")
+    CoffeeHouse findByManagerId(Long id);
 }

@@ -12,16 +12,17 @@ export default {
 		}
 	},
 	actions: {
-		async requestAddresses({ commit }) {
-			console.log('requestAddresses')
-			await instance
-				.get(requests.requestAddresses)
-				.then(result => {
-					commit('setAddresses', result.data.coffeeHouses)
-				})
-				.catch(error => {
-					console.log(error)
-				})
+		async requestAddresses({ commit, state }) {
+			if (state.addresses.length === 0) {
+				await instance
+					.get(requests.requestAddresses)
+					.then(response => {
+						commit('setAddresses', response.data.coffeeHouses)
+					})
+					.catch(error => {
+						console.log(error)
+					})
+			}
 		},
 		async setActiveAddressId({ commit }, id) {
 			commit('setActiveAddressId', id)

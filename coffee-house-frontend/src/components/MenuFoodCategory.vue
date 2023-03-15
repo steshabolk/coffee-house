@@ -1,10 +1,10 @@
 <template>
-	<div>
-		<div class="menu-category-title">{{ category }}</div>
-		<div v-for="product in products" :key="product.id">
-			<MenuObj :product="product" :generalCategory="'food'" />
-		</div>
+	<!-- <div> -->
+	<div class="menu-category-title">{{ category }}</div>
+	<div v-for="product in products" :key="product.id">
+		<MenuObj :product="product" :generalCategory="'food'" />
 	</div>
+	<!-- </div> -->
 </template>
 
 <script>

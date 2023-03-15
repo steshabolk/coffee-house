@@ -1,131 +1,51 @@
-$form-size: 350px;
-$form-size-sm: 270px;
-$field-width: 250px;
+$auth-form-size: 45vw;
+$auth-form-size-col: 80vw;
+$auth-field-size: calc($auth-form-size * 0.7);
+$auth-field-size-col: calc($auth-form-size-col * 0.7);
 
 // RANDOM IMAGES
-.auth-form-wrapper {
+.auth-wrapper {
 	.random-img {
-		height: 530px;
-		width: 800px;
+		height: 80vh;
 		overflow: hidden;
 		@include filter-darken();
 		@include main-box-shadow($highlight, 0.7);
 	}
+	.grid {
+		gap: 0;
+		justify-content: space-around;
+	}
+	.grid-column {
+		width: $auth-form-size;
+	}
 	@include max-screen($tabletWidth) {
 		.random-img {
-			height: 200px;
+			height: 30vw;
 		}
-	}
-	.grid {
-		gap: 40px;
-	}
-}
-
-// LOGIN SIGN UP BUTTONS
-.auth-btn-group {
-	@include flex($flex-wrap: nowrap, $justify-content: center, $align-items: center, $text-align: center);
-	max-width: $form-size;
-	width: 100%;
-	margin: 0 auto;
-	.btn-list {
-		margin: 0;
+		.grid {
+			gap: 5vw;
+			align-items: center;
+		}
+		.grid-column {
+			width: $auth-form-size-col;
+		}
+		.auth-input-wrapper {
+			width: $auth-field-size-col;
+		}
+		.request-fail {
+			max-width: $auth-form-size-col * 0.9;
+		}
 	}
 }
 
 // FORM
-.form-wrapper {
-	margin: 20px auto;
-	width: $form-size;
-	@include flex($flex-direction: column, $justify-content: center, $align-items: center, $text-align: center);
-}
-.form-text {
+.auth-form-desc {
+	margin: 0.3rem 1rem 0.5rem;
 	line-height: 1.2;
-	margin: 5px 0 15px;
-	padding: 0 20px;
 }
 
 // INPUT
-.input-field {
-	@include flex($flex-direction: column, $text-align: left);
-	width: $field-width;
-	margin: 15px 0;
-	input {
-		width: 100%;
-		@include main-transition($duration: 0.2s);
-		padding-bottom: 5px;
-		color: $brown-60;
-		&::placeholder {
-			color: rgba($brown-60, 0.4);
-		}
-	}
-	.main-btn {
-		width: 100%;
-	}
-}
-.input-field-error {
-	.input-block {
-		border-bottom: 1px solid $error-main;
-	}
-}
-.input-block {
-	@include flex($align-items: center);
-	border-bottom: 1px solid rgba($brown-60, 0.4);
-	&__active {
-		border-bottom: 1px solid $brown-60;
-	}
-	.svg-icon {
-		padding-bottom: 5px;
-		margin-right: 5px;
-		color: rgba($brown-60, 0.8);
-		width: 31px;
-		height: 31px;
-	}
-}
-
-// ERRORS
-.form-error-block {
-	height: 30px;
-	.form-error-msg {
-		&:not(:first-of-type) {
-			display: none;
-		}
-	}
-}
-.form-error-msg {
-	color: rgba($brown-60, 0.6);
-	font-size: 0.7rem;
-	line-height: 1.2;
-	margin-top: 3px;
-	padding-left: 3px;
-	font-style: italic;
-}
-
-// REQUEST
-.request-fail {
-	// max-width: $form-size * 0.9;
-	width: 100%;
-	text-align: left;
-}
-.request-success {
-	@include flex($align-items: center);
-	.svg-icon {
-		width: 30px;
-		height: 30px;
-	}
-}
-.success-msg {
-	font-family: $headerFont;
-	margin-left: 3px;
-}
-
-@include max-screen($phoneWidth) {
-	.auth-btn-group {
-		max-width: $form-size-sm;
-	}
-	.form-wrapper {
-		width: $form-size-sm;
-	}
-	.request-fail {
-		max-width: $form-size-sm * 0.9;
-	}
+.auth-input-wrapper {
+	width: $auth-field-size;
+	margin: 1rem auto;
 }

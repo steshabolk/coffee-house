@@ -1,78 +1,81 @@
-$cart-empty-size: 350px;
+$cart-empty-size: 60vw;
+
 .cart-empty {
-	margin-top: 30px;
-	min-width: $cart-empty-size;
-	min-height: $cart-empty-size;
-	@include flex($flex-direction: column, $align-items: center, $text-align: center);
+	text-align: center;
+	margin-top: 10vh;
 	.svg-icon {
 		min-width: $cart-empty-size;
 		min-height: $cart-empty-size;
 		color: rgba($brown-45, 0.2);
-		margin-bottom: 30px;
+		margin-bottom: 1rem;
 	}
 }
 
-$cart-size: 450px;
 .cart-wrapper {
-	width: $cart-size;
+	width: 65vw;
+	.close-btn {
+		height: 1rem;
+		width: 1rem;
+		margin-left: 0.2rem;
+	}
 }
 .cart-list {
-	margin-bottom: 10px;
-	.btn-group {
-		margin-left: 10px;
+	margin-bottom: 0.3rem;
+	.btn-qty-block {
+		margin-left: 0.5rem;
+	}
+}
+@include max-screen($tabletWidth) {
+	.cart-wrapper {
+		width: 90vw;
 	}
 }
 
 // CART TEXT
 .cart-unavailable {
 	@include flex($justify-content: space-between, $align-items: center);
-	.close-btn {
-		height: 25px;
-		width: 25px;
-	}
 	.cart-unavailable-title {
+		width: 95%;
 		font-family: $headerFont;
 		text-transform: uppercase;
-		font-size: 0.8rem;
-		line-height: 1.1;
-		margin-bottom: 10px;
+		font-size: 0.9rem;
+		line-height: 1.2;
+		margin-bottom: 0.2rem;
 	}
 }
 .cart-list-item {
 	@include flex($justify-content: space-between, $align-items: center);
 	.close-btn {
 		color: rgba($gray-80, 0.6);
-		height: 16px;
-		width: 16px;
 	}
 }
 .cart-price {
 	font-size: 0.9rem;
-	min-width: 59.2px;
-	margin-left: 10px;
+	min-width: 3.5rem;
+	margin-left: 0.2rem;
 	text-align: right;
 }
 .cart-list-additives {
-	width: 260px;
+	width: 75%;
 	font-size: 0.7rem;
-	font-style: italic;
 	line-height: 1.1;
+	font-style: italic;
 }
 .cart-total {
-	@include flex($flex-wrap: nowrap, $align-items: center);
-	max-width: 180px;
+	@include flex($flex-wrap: nowrap, $justify-content: space-between, $align-items: center);
 	margin: 0 0 0 auto;
+	width: 10rem;
+	max-width: 100%;
 	.cart-total-text {
-		@include flex($flex-wrap: nowrap, $align-items: center);
+		@include flex($flex-wrap: nowrap, $justify-content: space-around, $align-items: center);
+		width: 80%;
 		font-weight: bold;
 		text-transform: uppercase;
 	}
-	.cart-price {
-		font-size: 1rem;
-	}
 	.svg-icon {
-		color: rgba($gray-80, 0.5);
-		max-height: 25px;
-		max-width: 25px;
+		cursor: pointer;
+		color: rgba($gray-80, 0.6);
+		height: 1.5rem;
+		width: 1.5rem;
 	}
 }

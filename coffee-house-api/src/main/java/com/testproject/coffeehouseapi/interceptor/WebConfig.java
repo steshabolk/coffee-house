@@ -9,14 +9,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     private final CheckAuthInterceptor checkAuthInterceptor;
+    private final CheckManagerRoleInterceptor checkManagerRoleInterceptor;
 
     @Autowired
-    public WebConfig(CheckAuthInterceptor checkAuthInterceptor) {
+    public WebConfig(CheckAuthInterceptor checkAuthInterceptor, CheckManagerRoleInterceptor checkManagerRoleInterceptor) {
         this.checkAuthInterceptor = checkAuthInterceptor;
+        this.checkManagerRoleInterceptor = checkManagerRoleInterceptor;
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(checkAuthInterceptor).addPathPatterns("/api/**/users/**");
+        registry.addInterceptor(checkManagerRoleInterceptor).addPathPatterns("/api/**/manager/**");
     }
 }

@@ -4,6 +4,7 @@ import com.testproject.coffeehouseapi.dto.PlaceOrderDetailsDto;
 import com.testproject.coffeehouseapi.dto.PlaceOrderDto;
 import lombok.*;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -18,5 +19,6 @@ public class PlaceOrderRequest {
     private PlaceOrderDto order;
 
     @NotNull(message = "{field.notNull}")
+    @NotEmpty(message = "{field.notEmpty}")
     private List<PlaceOrderDetailsDto> orderDetails;
 }

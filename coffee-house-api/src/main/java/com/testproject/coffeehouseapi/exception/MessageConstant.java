@@ -10,5 +10,7 @@ public class MessageConstant {
     public static final String PHONE_ALREADY_USED = "phone.already.used";
     public static final String COFFEE_HOUSE_NOT_FOUND = "coffeehouse.not.found";
     public static final String ORDER_NOT_FOUND = "order.not.found";
+    public static final String PRODUCTS_NOT_FOUND = "products.not.found";
+    public static final String ORDER_DETAILS_NOT_AVAILABLE = "order.details.not.available";
 
 }
