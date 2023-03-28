@@ -164,8 +164,8 @@ export default {
 		isOpenHours() {
 			const cond1 = new Date().getHours() >= this.beginningHours && new Date().getHours() < this.endingHours
 			const cond2 = new Date().getHours() === this.endingHours - 1 ? new Date().getMinutes() < 30 : true
-			// return cond1 && cond2
-			return true
+			return cond1 && cond2
+			// return true
 		},
 		...mapGetters('cart', {
 			cart: 'getCart',

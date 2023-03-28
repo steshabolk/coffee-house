@@ -8,13 +8,13 @@ html {
 	scroll-behavior: smooth;
 	height: 100%;
 	@include min-screen($maxDesktopWidth) {
-		font-size: 1.8vw;
+		font-size: 1.6vw;
 	}
 	@include max-screen($maxDesktopWidth) {
-		font-size: 28px;
+		font-size: 26px;
 	}
 	@include max-screen($lgDesktopWidth) {
-		font-size: 26px;
+		font-size: 24px;
 	}
 	@include max-screen($desktopWidth) {
 		font-size: 22px;
@@ -82,7 +82,7 @@ section {
 
 .wrapper-content {
 	@include flex($flex-direction: column);
-	min-height: calc(100vh - $headerHeight - $footerHeight);
+	min-height: $contentHeight;
 	margin-top: $headerHeight;
 	padding-bottom: 2rem;
 }

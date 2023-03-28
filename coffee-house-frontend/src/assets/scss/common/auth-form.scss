@@ -1,12 +1,14 @@
-$auth-form-size: 45vw;
+$auth-form-size-max: 40vw;
+$auth-form-size-mid: 45vw;
 $auth-form-size-col: 80vw;
-$auth-field-size: calc($auth-form-size * 0.7);
+$auth-field-size-max: calc($auth-form-size-max * 0.7);
+$auth-field-size-mid: calc($auth-form-size-mid * 0.7);
 $auth-field-size-col: calc($auth-form-size-col * 0.7);
 
 // RANDOM IMAGES
 .auth-wrapper {
 	.random-img {
-		height: 80vh;
+		height: $contentHeight * 0.96;
 		overflow: hidden;
 		@include filter-darken();
 		@include main-box-shadow($highlight, 0.7);
@@ -16,7 +18,15 @@ $auth-field-size-col: calc($auth-form-size-col * 0.7);
 		justify-content: space-around;
 	}
 	.grid-column {
-		width: $auth-form-size;
+		width: $auth-form-size-mid;
+	}
+	@include min-screen($maxDesktopWidth) {
+		.grid-column {
+			width: $auth-form-size-max;
+		}
+		.auth-input-wrapper {
+			width: $auth-field-size-max;
+		}
 	}
 	@include max-screen($tabletWidth) {
 		.random-img {
@@ -29,6 +39,9 @@ $auth-field-size-col: calc($auth-form-size-col * 0.7);
 		.grid-column {
 			width: $auth-form-size-col;
 		}
+		.auth-form-wrapper {
+			margin-bottom: 1.5rem;
+		}
 		.auth-input-wrapper {
 			width: $auth-field-size-col;
 		}
@@ -39,13 +52,18 @@ $auth-field-size-col: calc($auth-form-size-col * 0.7);
 }
 
 // FORM
+.auth-form-wrapper {
+	margin-top: 1rem;
+}
+
 .auth-form-desc {
-	margin: 0.3rem 1rem 0.5rem;
-	line-height: 1.2;
+	margin: 0.2rem 1rem 0.8rem;
+	line-height: 1.1;
+	font-size: 0.9rem;
 }
 
 // INPUT
 .auth-input-wrapper {
-	width: $auth-field-size;
-	margin: 1rem auto;
+	width: $auth-field-size-mid;
+	margin: 0.3rem auto;
 }

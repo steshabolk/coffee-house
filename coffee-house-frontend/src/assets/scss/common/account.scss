@@ -25,6 +25,11 @@ $acc-menu-size__col: 90%;
 			flex-direction: row;
 		}
 	}
+	@include min-screen($tabletWidth) {
+		.settings-form-wrapper {
+			align-items: flex-start;
+		}
+	}
 	@include max-screen($smTabletWidth) {
 		.grid {
 			gap: 2rem;

@@ -1,5 +1,5 @@
 <template>
-	<div class="main-form-wrapper">
+	<div class="main-form-wrapper settings-form-wrapper">
 		<form @submit.prevent="handleForm">
 			<div
 				v-for="(field, index) of fields"
@@ -25,14 +25,9 @@
 			</div>
 			<LoaderLine v-if="isRequesting" style="margin-top: 0" />
 			<div v-if="form.btnText" class="main-input-wrapper settings-input-wrapper">
-				<button
-					v-if="form.key === 'changeName'"
-					type="submit"
-					class="main-btn btn-disable"
-					:class="{ 'btn-active': isFormValid && user.name !== userStore.name }">
+				<button style="margin-top: 0" type="submit" class="main-btn btn-disable" :class="{ 'btn-active': activeBtnCond() }">
 					{{ form.btnText }}
 				</button>
-				<button v-else type="submit" class="main-btn btn-disable" :class="{ 'btn-active': isFormValid }">{{ form.btnText }}</button>
 			</div>
 		</form>
 		<div v-if="errMsg.length !== 0" class="request-fail">
@@ -88,6 +83,14 @@ export default {
 				this.user = { password: '', passwordConfirmation: '' }
 			}
 			this.v$.$reset()
+		},
+		activeBtnCond() {
+			if (this.form.key === 'changeName') {
+				return this.isFormValid && this.user.name !== this.userStore.name
+			}
+			if (this.form.key === 'changePassword') {
+				return this.isFormValid
+			}
 		},
 		handleForm() {
 			if (!this.isRequesting) {

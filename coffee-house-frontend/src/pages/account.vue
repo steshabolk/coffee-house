@@ -1,6 +1,6 @@
 <template>
 	<section id="account-section">
-		<div class="wrapper-content">
+		<div class="wrapper-content" style="padding-bottom: 0">
 			<div class="container">
 				<div v-if="!isAnyAccountLogged" class="auth-wrapper">
 					<div class="grid">

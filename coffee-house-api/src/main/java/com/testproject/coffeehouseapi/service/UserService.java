@@ -3,11 +3,9 @@ package com.testproject.coffeehouseapi.service;
 import com.testproject.coffeehouseapi.model.Role;
 import com.testproject.coffeehouseapi.model.User;
 import com.testproject.coffeehouseapi.repository.UserRepository;
-import com.testproject.coffeehouseapi.security.JwtUtil;
 import com.testproject.coffeehouseapi.util.ResponseHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,15 +19,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
     private final ResponseHelper responseHelper;
 
     @Autowired
-    public UserService(UserRepository userRepository,
-                       PasswordEncoder passwordEncoder, JwtUtil jwtUtil, ResponseHelper responseHelper) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, ResponseHelper responseHelper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.jwtUtil = jwtUtil;
         this.responseHelper = responseHelper;
     }
 
@@ -50,6 +45,7 @@ public class UserService {
     public void changeName(User user, String name) {
         String oldName = user.getName();
         user.setName(name);
+        userRepository.saveAndFlush(user);
         log.info("User {} changed name from '{}' to '{}' at {}",
                 user.getPhone(), oldName, user.getName(), responseHelper.currentDateTime());
     }
@@ -59,12 +55,5 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(password));
         userRepository.saveAndFlush(user);
         log.info("User {} changed password at {}", user.getPhone(), responseHelper.currentDateTime());
-    }
-
-    public HttpHeaders getAuthToken(User user) {
-        String token = jwtUtil.generateToken(user.getPhone(), user.getName(), user.getRole().name());
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set(jwtUtil.getHeader(), jwtUtil.getTokenPrefix() + token);
-        return responseHeaders;
     }
 }

@@ -24,6 +24,7 @@ $smPhoneWidth: 320px;
 // Sections Height
 $headerHeight: 8vh;
 $footerHeight: 8vh;
+$contentHeight: calc(100vh - $headerHeight - $footerHeight);
 
 // Gray palette
 $gray-85: #262323;

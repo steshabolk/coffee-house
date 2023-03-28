@@ -63,7 +63,7 @@ public class OrderService {
     }
 
     @Transactional
-    public void updateOrderStatus(Order order, LocalDateTime closedAt, Status status) {
+    public void closeActiveOrder(Order order, LocalDateTime closedAt, Status status) {
         order.setStatus(status);
         order.setClosedAt(closedAt);
         orderRepository.saveAndFlush(order);

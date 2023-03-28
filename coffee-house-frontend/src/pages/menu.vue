@@ -6,7 +6,7 @@
 				<div v-else class="menu-wrapper">
 					<!-- ADDRESSES -->
 					<ListBtnGroup
-						style="font-size: 0.9rem; line-height: 1.2; margin-bottom: 0.5rem"
+						style="font-size: 0.8rem; line-height: 1.2; margin-bottom: 0.5rem"
 						:keyI="'address'"
 						:objectsArray="addresses"
 						:activeId="activeAddressId"

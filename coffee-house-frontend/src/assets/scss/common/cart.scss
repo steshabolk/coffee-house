@@ -1,8 +1,7 @@
-$cart-empty-size: 60vw;
+$cart-empty-size: 40vh;
 
 .cart-empty {
 	text-align: center;
-	margin-top: 10vh;
 	.svg-icon {
 		min-width: $cart-empty-size;
 		min-height: $cart-empty-size;

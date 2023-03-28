@@ -1,5 +1,6 @@
 package com.testproject.coffeehouseapi.swagger;
 
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -13,10 +14,12 @@ import java.util.List;
 
 @Configuration
 @SecurityScheme(
-        name = "bearerAuth",
+        name = "Authorization",
+        description = "Bearer Authentication with JWT Token",
         type = SecuritySchemeType.HTTP,
         bearerFormat = "JWT",
-        scheme = "bearer"
+        scheme = "bearer",
+        in = SecuritySchemeIn.HEADER
 )
 public class OpenApi30Config {
 

@@ -1,5 +1,5 @@
 <template>
-	<div class="main-form-wrapper">
+	<div class="main-form-wrapper auth-form-wrapper">
 		<p v-if="form.title" class="main-title">{{ form.title }}</p>
 		<p v-if="form.description" class="auth-form-desc">{{ form.description }}</p>
 		<form @submit.prevent="handleForm">

@@ -18,8 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -74,7 +72,7 @@ public class CoffeeHouseService {
     public void setMenuAvailability(CoffeeHouse coffeeHouse, List<UpdatedAvailabilityDto> updatedAvailability) {
         List<Long> updatedIds = updatedAvailability.stream().map(UpdatedAvailabilityDto::getId).toList();
         if (!coffeeHouse.getAvailableProducts().keySet().containsAll(updatedIds)) {
-            log.info("Fail while updating menu availability of the Coffee House (id = {}), products were not found {}",
+            log.info("Error when updating the availability of the Coffee House menu (id = {}), the specified product ids were not found {}",
                     coffeeHouse.getId(), updatedIds);
             throw new RequestException(ExceptionMessage.setMessage(MessageConstant.PRODUCTS_NOT_FOUND), HttpStatus.BAD_REQUEST);
         }

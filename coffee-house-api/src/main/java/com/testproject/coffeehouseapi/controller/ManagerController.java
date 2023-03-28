@@ -1,8 +1,12 @@
 package com.testproject.coffeehouseapi.controller;
 
+import com.testproject.coffeehouseapi.dto.CoffeeHouseAddressDto;
 import com.testproject.coffeehouseapi.dto.OrderFilter;
 import com.testproject.coffeehouseapi.dto.request.UpdateCoffeeHouseMenuAvailabilityRequest;
 import com.testproject.coffeehouseapi.dto.request.UpdateOrderRequest;
+import com.testproject.coffeehouseapi.dto.response.CoffeeHouseMenuResponse;
+import com.testproject.coffeehouseapi.dto.response.OrdersResponse;
+import com.testproject.coffeehouseapi.exception.ExceptionResponse;
 import com.testproject.coffeehouseapi.exception.RequestException;
 import com.testproject.coffeehouseapi.model.CoffeeHouse;
 import com.testproject.coffeehouseapi.model.Order;
@@ -13,6 +17,13 @@ import com.testproject.coffeehouseapi.service.OrderService;
 import com.testproject.coffeehouseapi.util.DtoMapper;
 import com.testproject.coffeehouseapi.util.ResponseHelper;
 import com.testproject.coffeehouseapi.validator.ValidationErrMsgBuilder;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +40,7 @@ import java.util.List;
 
 @Slf4j
 @Tag(name = "Manager", description = "Manager API")
+@SecurityRequirement(name = "Authorization")
 @RestController
 @RequestMapping("/api/v1/manager")
 public class ManagerController {
@@ -46,6 +58,16 @@ public class ManagerController {
         this.responseHelper = responseHelper;
     }
 
+    @Operation(summary = "Get coffee house address by authorized manager", description = "Received data : coffee house id, city, address")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Coffee house address is received successfully",
+                    content = @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = CoffeeHouseAddressDto.class)))),
+            @ApiResponse(responseCode = "401", description = "Authentication error. User not found",
+                    content = @Content),
+            @ApiResponse(responseCode = "403", description = "Authorization error. No permissions to access the resource",
+                    content = @Content)
+    })
     @GetMapping("/address")
     public ResponseEntity<?> getCoffeeHouseAddress(HttpServletRequest request) {
         User user = (User) request.getAttribute("user");
@@ -54,12 +76,39 @@ public class ManagerController {
                 HttpStatus.OK);
     }
 
+    @Operation(summary = "Get coffee house menu with products availability by authorized manager",
+            description = "You get a list of menu products with availability for ordering divided into categories " +
+                    "for the coffee house found by manager account from request")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "The list of menu products with boolean availability key is received successfully",
+                    content = @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = CoffeeHouseMenuResponse.class)))),
+            @ApiResponse(responseCode = "401", description = "Authentication error. User not found",
+                    content = @Content),
+            @ApiResponse(responseCode = "403", description = "Authorization error. No permissions to access the resource",
+                    content = @Content)
+    })
     @GetMapping("/menu")
     public ResponseEntity<?> getCoffeeHouseMenu(HttpServletRequest request) {
         User user = (User) request.getAttribute("user");
         return new ResponseEntity<>(coffeeHouseService.findCoffeeHouseMenu(coffeeHouseService.findByManagerId(user)), HttpStatus.OK);
     }
 
+    @Operation(summary = "Update products availability for ordering at the coffee house by authorized manager",
+            description = "Change the product availability for ordering key to true/false")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "The menu availability update was successful; you get an updated menu in response",
+                    content = @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = CoffeeHouseMenuResponse.class)))),
+            @ApiResponse(responseCode = "400", description = "Error when updating the availability of the Coffee House menu: " +
+                    "Invalid Request Body or the specified product ids were not found",
+                    content = @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = ExceptionResponse.class)))),
+            @ApiResponse(responseCode = "401", description = "Authentication error. User not found",
+                    content = @Content),
+            @ApiResponse(responseCode = "403", description = "Authorization error. No permissions to access the resource",
+                    content = @Content)
+    })
     @PatchMapping("/menu")
     public ResponseEntity<?> updateCoffeeHouseMenuAvailability(HttpServletRequest request,
                                                                @RequestBody @Valid UpdateCoffeeHouseMenuAvailabilityRequest updateCoffeeHouseMenuAvailabilityRequest,
@@ -74,6 +123,20 @@ public class ManagerController {
         return new ResponseEntity<>(coffeeHouseService.findCoffeeHouseMenu(coffeeHouse), HttpStatus.OK);
     }
 
+    @Operation(summary = "Get the history of Coffee House orders by request parameters",
+            description = "Required parameter 'show': active - get all active orders in the Coffee House; " +
+                    "search - get orders filtered by parameters (order id, time intervals of orders creation, pick up and closing dates, orders status)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of Coffee House orders filtered by the specified parameters is received successfully",
+                    content = @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = OrdersResponse.class)))),
+            @ApiResponse(responseCode = "400", description = "Invalid request parameters",
+                    content = @Content),
+            @ApiResponse(responseCode = "401", description = "Authentication error. User not found",
+                    content = @Content),
+            @ApiResponse(responseCode = "403", description = "Authorization error. No permissions to access the resource",
+                    content = @Content)
+    })
     @GetMapping("/orders")
     public ResponseEntity<?> getCoffeeHouseOrders(HttpServletRequest request, @RequestParam(value = "show") String show,
                                                   @RequestParam(value = "id", required = false) Long id,
@@ -110,14 +173,28 @@ public class ManagerController {
         }
     }
 
+    @Operation(summary = "Close the active order",
+            description = "Set the order closing date and update the order status to received or cancelled")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "The order is closed successfully; you get an updated list of active orders in response",
+                    content = @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = OrdersResponse.class)))),
+            @ApiResponse(responseCode = "400", description = "Invalid Request Body or the specified order id was not found",
+                    content = @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = ExceptionResponse.class)))),
+            @ApiResponse(responseCode = "401", description = "Authentication error. User not found",
+                    content = @Content),
+            @ApiResponse(responseCode = "403", description = "Authorization error. No permissions to access the resource",
+                    content = @Content)
+    })
     @PatchMapping("/orders")
-    public ResponseEntity<?> updateOrderStatus(HttpServletRequest request, @RequestBody @Valid UpdateOrderRequest updateOrderRequest,
-                                         BindingResult bindingResult) {
+    public ResponseEntity<?> closeActiveOrder(HttpServletRequest request, @RequestBody @Valid UpdateOrderRequest updateOrderRequest,
+                                              BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String errMsg = ValidationErrMsgBuilder.buildFieldErrMsg(bindingResult);
             throw new RequestException(errMsg, HttpStatus.BAD_REQUEST);
         }
-        orderService.updateOrderStatus(orderService.findById(updateOrderRequest.getId()), updateOrderRequest.getClosedAt(), updateOrderRequest.getStatus());
+        orderService.closeActiveOrder(orderService.findById(updateOrderRequest.getId()), updateOrderRequest.getClosedAt(), updateOrderRequest.getStatus());
         User user = (User) request.getAttribute("user");
         List<Order> orders = orderService.getCoffeeHouseActiveOrders(coffeeHouseService.findByManagerId(user));
         return new ResponseEntity<>(responseHelper.getOrdersResponse(orders), HttpStatus.OK);

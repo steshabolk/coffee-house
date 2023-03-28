@@ -16,7 +16,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-@Slf4j
 @Tag(name = "Auth", description = "Authentication API")
 @RestController
 public class AuthController {
@@ -43,11 +41,11 @@ public class AuthController {
         this.userService = userService;
     }
 
-    @Operation(summary = "Register new user", description = "Required data : name, unique phone number, password")
+    @Operation(summary = "New user registration", description = "Required data : name, unique phone number, password")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "New user successfully registered",
                     content = @Content),
-            @ApiResponse(responseCode = "400", description = "Fail while register new user : incorrect input data",
+            @ApiResponse(responseCode = "400", description = "Error when registering a new user : invalid input data",
                     content = @Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = ExceptionResponse.class))))
     })
@@ -64,10 +62,10 @@ public class AuthController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Operation(summary = "Login user profile",
-            description = "In response you will get JWT token in Authentication HTTP header with \"Bearer \" prefix")
+    @Operation(summary = "Log in to the user account",
+            description = "You get JWT token in Authentication HTTP header with \"Bearer \" prefix in response")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful Login user profile, received JWT token in Authentication HTTP header",
+            @ApiResponse(responseCode = "200", description = "Login to user account successfully, JWT token received in Authentication HTTP header",
                     content = @Content),
             @ApiResponse(responseCode = "401", description = "Unauthorized : authentication required", content = @Content)
     })

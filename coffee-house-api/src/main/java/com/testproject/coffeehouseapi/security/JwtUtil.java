@@ -8,6 +8,7 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -24,6 +25,11 @@ public class JwtUtil {
 
     private static final String TOKEN_PREFIX = "Bearer ";
     private static final String HEADER = "Authorization";
+
+    public void setAuthHeader(HttpServletResponse response, String phone, String name, String role) {
+        String token = generateToken(phone, name, role);
+        response.setHeader(HEADER, TOKEN_PREFIX + token);
+    }
 
     public String generateToken(String phone, String name, String role) {
         Date expirationDate = Date.from(Instant.now().plus(expiration, ChronoUnit.MINUTES));

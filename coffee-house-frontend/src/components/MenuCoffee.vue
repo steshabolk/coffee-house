@@ -18,8 +18,8 @@
 			:class="{ 'btn-active': selectedCoffee }"
 			style="display: flex; flex-direction: row; align-items: center; margin-top: 2rem"
 			@click="addSelectedToCart">
-			<SvgIcon style="width: 2rem; height: 2rem" :viewBox="plusIcon.viewBox" :path="plusIcon.svgPath" />
-			<SvgIcon :viewBox="cartIcon.viewBox" :path="cartIcon.svgPath" />
+			<SvgIcon style="width: 1.5rem; height: 1.5rem" :viewBox="plusIcon.viewBox" :path="plusIcon.svgPath" />
+			<SvgIcon style="width: 2rem; height: 2rem" :viewBox="cartIcon.viewBox" :path="cartIcon.svgPath" />
 		</button>
 	</div>
 </template>

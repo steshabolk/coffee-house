@@ -125,8 +125,8 @@ $lineWidthMax: 70%;
 @mixin main-border($color) {
 	// box-shadow: 0rem 0rem 0rem 0.2rem rgba($color, 0.5), 0rem 0.2rem 0.4rem rgba($color, 0.1), 0rem 0.4rem 0.8rem rgba($color, 0.1),
 	// 	0rem 0.8rem 1.6rem rgba($color, 0.1);
-	box-shadow: 0rem 0rem 0rem 0.15rem rgba($color, 0.5), 0rem 0.15rem 0.3rem rgba($color, 0.1), 0rem 0.3rem 0.6rem rgba($color, 0.1),
-		0rem 0.6rem 1.2rem rgba($color, 0.1);
+	box-shadow: 0rem 0rem 0rem 0.1rem rgba($color, 0.5), 0rem 0.1rem 0.2rem rgba($color, 0.1), 0rem 0.3rem 0.6rem rgba($color, 0.1),
+		0rem 0.4rem 0.8rem rgba($color, 0.1);
 }
 
 // EFFECTS
