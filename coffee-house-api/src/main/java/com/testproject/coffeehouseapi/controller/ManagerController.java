@@ -194,9 +194,17 @@ public class ManagerController {
             String errMsg = ValidationErrMsgBuilder.buildFieldErrMsg(bindingResult);
             throw new RequestException(errMsg, HttpStatus.BAD_REQUEST);
         }
-        orderService.closeActiveOrder(orderService.findById(updateOrderRequest.getId()), updateOrderRequest.getClosedAt(), updateOrderRequest.getStatus());
         User user = (User) request.getAttribute("user");
-        List<Order> orders = orderService.getCoffeeHouseActiveOrders(coffeeHouseService.findByManagerId(user));
-        return new ResponseEntity<>(responseHelper.getOrdersResponse(orders), HttpStatus.OK);
+        Order order = orderService.findById(updateOrderRequest.getId());
+        CoffeeHouse coffeeHouse = coffeeHouseService.findByManagerId(user);
+        if (order.getStatus().equals(Status.ACTIVE) &&
+                (updateOrderRequest.getStatus().equals(Status.CANCELLED) || updateOrderRequest.getStatus().equals(Status.RECEIVED))
+                && order.getCoffeeHouse().getId().equals(coffeeHouse.getId())) {
+            orderService.closeActiveOrder(order, updateOrderRequest.getClosedAt(), updateOrderRequest.getStatus());
+            List<Order> orders = orderService.getCoffeeHouseActiveOrders(coffeeHouse);
+            return new ResponseEntity<>(responseHelper.getOrdersResponse(orders), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 }

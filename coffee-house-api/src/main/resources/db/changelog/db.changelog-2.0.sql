@@ -2,12 +2,6 @@
 
 --changeset steshabolk:1
 INSERT INTO users (user_name, phone, password, role)
-VALUES ('Admin', '78005553535',
-        '$2a$10$ONpj6XnrSFJnviyaGyupfODt55a0HmkSN5CYF5asFOdxzE044VWda', 'ROLE_ADMIN');
---rollback DELETE FROM users WHERE role = 'ROLE_ADMIN';
-
---changeset steshabolk:2
-INSERT INTO users (user_name, phone, password, role)
 VALUES ('ManagerBerthold', '71234567890',
         '$2a$10$SK1k3RL5wSesalxB4QAD8OMVyRgdYMtnHSsFLSNvbfxFVS5nE8tpK', 'ROLE_MANAGER'),
        ('ManagerSevkabel', '79876543210',
@@ -16,7 +10,7 @@ VALUES ('ManagerBerthold', '71234567890',
         '$2a$10$F.jv0SvK9uAL5VBv4NR3wOmNQDvwej8TkR.WAspYE4p5o8pRfBwJi', 'ROLE_MANAGER');
 --rollback DELETE FROM users WHERE role = 'ROLE_MANAGER';
 
---changeset steshabolk:3
+--changeset steshabolk:2
 INSERT INTO users (user_name, phone, password, role)
 VALUES ('Anna_K', '71873001877',
         '$2a$10$LiWl6OUDYoHheC.4C/98AePqaSlD6UfNIpaMN7xSd3UikE/tN9ZlW', 'ROLE_USER'),
@@ -28,14 +22,14 @@ VALUES ('Anna_K', '71873001877',
         '$2a$10$obN5EoVeHuFYwHwZgLSMROoNhXHrzyBYka.nLQ6B0RIlLoYVGtJNm', 'ROLE_USER');
 --rollback DELETE FROM users WHERE role = 'ROLE_USER';
 
---changeset steshabolk:4
+--changeset steshabolk:3
 INSERT INTO coffeehouses (manager_id, city, address)
 VALUES ((SELECT id FROM users WHERE user_name = 'ManagerBerthold'), 'St.Petersburg', 'st.Grazhdanskaya 15, "Berthold Centre"'),
        ((SELECT id FROM users WHERE user_name = 'ManagerSevkabel'), 'St.Petersburg', 'Kozhevennaya liniya 40, "Sevkabel Port"'),
        ((SELECT id FROM users WHERE user_name = 'ManagerFligel'), 'St.Petersburg', 'st.Vosstaniya 24, "Fligel"');
 --rollback TRUNCATE TABLE coffeehouses;
 
---changeset steshabolk:5
+--changeset steshabolk:4
 INSERT INTO products_categories (category_name)
 VALUES ('Coffee Classic'),
        ('Coffee Specialty'),

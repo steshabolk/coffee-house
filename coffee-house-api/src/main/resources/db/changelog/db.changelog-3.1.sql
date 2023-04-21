@@ -275,25 +275,25 @@ VALUES (42, (SELECT id FROM products WHERE product_name = 'Brownie'), 1, 140),
 INSERT INTO orders (user_id, coffeehouse_id, total_cost, created_at, pick_up_at, closed_at, status)
 VALUES ((SELECT id FROM users WHERE phone = '71928001940'), 3, 670,
         '2022-11-17 10:01:00', '2022-11-17 10:22:00', '2022-11-17 10:22:00', 'RECEIVED');
---rollback DELETE FROM orders WHERE id = 42;
+--rollback DELETE FROM orders WHERE id = 43;
 
 --changeset steshabolk:47
 INSERT INTO orders_details (order_id, product_id, quantity, cost)
-VALUES (42, (SELECT id FROM products WHERE product_name = 'Raf Grande'), 1, 350),
-       (42, (SELECT id FROM products WHERE product_name = 'Avocado toast'), 1, 320);
---rollback DELETE FROM orders_details WHERE order_id = 42;
+VALUES (43, (SELECT id FROM products WHERE product_name = 'Raf Grande'), 1, 350),
+       (43, (SELECT id FROM products WHERE product_name = 'Avocado toast'), 1, 320);
+--rollback DELETE FROM orders_details WHERE order_id = 43;
 
 --changeset steshabolk:48
 INSERT INTO orders (user_id, coffeehouse_id, total_cost, created_at, pick_up_at, closed_at, status)
 VALUES ((SELECT id FROM users WHERE phone = '71928001940'), 1, 275,
         '2023-01-25 19:02:00', '2023-01-25 19:42:00', '2023-01-25 19:49:00', 'RECEIVED');
---rollback DELETE FROM orders WHERE id = 43;
+--rollback DELETE FROM orders WHERE id = 44;
 
 --changeset steshabolk:49
 INSERT INTO orders_details (order_id, product_id, quantity, cost)
-VALUES (43, (SELECT id FROM products WHERE product_name = 'Raf'), 1, 200),
-       (43, (SELECT id FROM products WHERE product_name = 'Croissant'), 1, 75);
---rollback DELETE FROM orders_details WHERE order_id = 43;
+VALUES (44, (SELECT id FROM products WHERE product_name = 'Raf'), 1, 200),
+       (44, (SELECT id FROM products WHERE product_name = 'Croissant'), 1, 75);
+--rollback DELETE FROM orders_details WHERE order_id = 44;
 
 --changeset steshabolk:50
 INSERT INTO orders_details_additives (order_details_id, product_id)

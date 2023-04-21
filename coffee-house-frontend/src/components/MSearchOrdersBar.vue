@@ -61,11 +61,11 @@
 			</div>
 		</div>
 		<div class="btn-block-wrapper btn-block-wrapper-col" style="margin-left: 0.5rem">
-			<button class="main-btn btn-active" @click="resetSearchBar()">
-				<SvgIcon class="close-btn" :viewBox="plusIcon.viewBox" :path="plusIcon.svgPath" />
-			</button>
 			<button type="submit" class="main-btn btn-disable" :class="{ 'btn-active': isSearchingParamsValid }">
 				<SvgIcon :viewBox="searchIcon.viewBox" :path="searchIcon.svgPath" />
+			</button>
+			<button class="main-btn btn-active" @click="resetSearchBar()">
+				<SvgIcon class="close-btn" :viewBox="plusIcon.viewBox" :path="plusIcon.svgPath" />
 			</button>
 		</div>
 	</form>

@@ -1,6 +1,6 @@
 <template>
 	<LoaderCard v-if="!isOrdersLoaded" />
-	<custom-scrollbar v-else-if="orders.length > 0" :autoHide="false" :style="{ height: '60vh' }" ref="scroll">
+	<custom-scrollbar v-else-if="orders.length > 0" :autoHide="false" ref="scroll" class="order-scrollbar">
 		<accordion>
 			<accordion-item v-for="(order, index) of orders" :key="index">
 				<template #accordion-trigger>

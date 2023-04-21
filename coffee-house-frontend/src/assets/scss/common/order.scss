@@ -1,4 +1,8 @@
 // ORDERS BLOCK
+.order-scrollbar {
+	height: $contentHeight;
+}
+
 .order-status-block {
 	@include flex($flex-wrap: nowrap, $justify-content: space-between, $align-items: center);
 	color: rgba($brown-60, 0.6);

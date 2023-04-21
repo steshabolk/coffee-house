@@ -51,6 +51,21 @@ export default {
 					})
 			}
 		},
+		async updateActiveOrders({ commit, state }) {
+			if (state.isActiveOrdersLoaded) {
+				await instance
+					.get(requests.requestManagerOrders, {
+						headers: authHeader(),
+						params: getActiveOrdersParams()
+					})
+					.then(response => {
+						commit('setActiveOrders', response.data.orders)
+					})
+					.catch(error => {
+						console.log(error)
+					})
+			}
+		},
 		async requestSearchOrders({ commit, state }, searchParams) {
 			await instance
 				.get(requests.requestManagerOrders, {

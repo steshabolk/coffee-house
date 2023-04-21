@@ -1,3 +1,0 @@
-[2023-03-28 23:27:07] [INFO ] [main] [CoffeeHouseApiApplication:55] - Starting CoffeeHouseApiApplication v0.0.1-SNAPSHOT using Java 17.0.6 on 4ac6de8f3257 with PID 1 (/api/*.jar started by root in /api)
-[2023-03-28 23:27:07] [INFO ] [main] [CoffeeHouseApiApplication:634] - No active profile set, falling back to 1 default profile: "default"
-[2023-03-28 23:27:34] [INFO ] [main] [CoffeeHouseApiApplication:61] - Started CoffeeHouseApiApplication in 28.669 seconds (JVM running for 33.214)

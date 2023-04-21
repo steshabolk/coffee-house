@@ -1,7 +1,7 @@
 <template>
 	<div class="btn-block-wrapper btn-block-wrapper-col">
 		<button class="main-btn btn-disable" :class="{ 'btn-active': !isRequesting }" @click="cancelOrder(orderId)">
-			<SvgIcon class="close-btn" :viewBox="plusIcon.viewBox" :path="plusIcon.svgPath" />
+			<SvgIcon class="close-btn" style="cursor: pointer" :viewBox="plusIcon.viewBox" :path="plusIcon.svgPath" />
 		</button>
 		<button class="main-btn btn-disable" :class="{ 'btn-active': !isRequesting }" @click="receiveOrder(orderId)">
 			<SvgIcon :viewBox="checkIcon.viewBox" :path="checkIcon.svgPath" />

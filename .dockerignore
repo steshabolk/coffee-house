@@ -1,5 +1,11 @@
 .gitignore
 .git
 .idea
+.cache
+.vscode/
+.DS_Store
 node_modules
-dist
+/dist
+target/
+logs/
+*.log

@@ -3,8 +3,8 @@ version: '3.9'
 services:
   api:
     container_name: api
-    # image: steshabolk/coffee-house-api
-    build: ./coffee-house-api
+    image: steshabolk/coffee-house-api
+    # build: ./coffee-house-api
     restart: always
     ports:
       - '8085:8085'
@@ -21,8 +21,8 @@ services:
 
   frontend:
     container_name: frontend
-    # image: steshabolk/coffee-house-frontend
-    build: ./coffee-house-frontend
+    image: steshabolk/coffee-house-frontend
+    # build: ./coffee-house-frontend
     restart: always
     ports:
       - '8088:8088'

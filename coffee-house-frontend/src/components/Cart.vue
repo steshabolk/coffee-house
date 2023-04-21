@@ -29,7 +29,7 @@
 					</div>
 				</div>
 				<div key="0">
-					<div v-if="isOpenHours">
+					<div v-if="isOrderTime">
 						<TimeCarousel v-model="time.hoursIndSelected" :key="time.hKey" :arrValues="availableHours" />
 						<TimeCarousel v-model="time.minutesIndSelected" :key="time.mKey" :arrValues="availableMinutes" />
 						<p class="main-title">Pick up an order:</p>
@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import { minToMs } from '@/services/helper'
 import dateFormat from '@/mixins/dateFormat'
 import { cartIcon, removeIcon, plusIcon } from '@/services/svgIcons'
 import { orderBody, orderDetailBody, orderDetailAdditivesBody } from '@/services/requestBody'
@@ -96,13 +97,12 @@ export default {
 				minutesIndSelected: 0
 			},
 			minOrderInterval: 20,
-			updateTimeCarousel: 3
+			updateTimeCarousel: 3,
+			intervalIndex: null
 		}
 	},
 	methods: {
-		minToMs(min) {
-			return min * 60 * 1000
-		},
+		minToMs,
 		arrBetweenNums(start, end) {
 			return Array.from({ length: end - start + 1 }, (v, k) => start + k)
 		},
@@ -113,12 +113,14 @@ export default {
 			return index + this.beginningHours
 		},
 		setTime() {
-			const now = new Date()
-			const availableDate = new Date(now.getTime() + this.minToMs(this.minOrderInterval))
-			this.time.hoursIndSelected = this.hoursToIndex(availableDate.getHours())
-			this.time.hoursIndCounted = this.hoursToIndex(availableDate.getHours())
-			this.time.minutesIndSelected = availableDate.getMinutes()
-			this.time.minutesIndCounted = availableDate.getMinutes()
+			if (this.isOrderTime) {
+				const now = new Date()
+				const availableDate = new Date(now.getTime() + this.minToMs(this.minOrderInterval))
+				this.time.hoursIndSelected = this.hoursToIndex(availableDate.getHours())
+				this.time.hoursIndCounted = this.hoursToIndex(availableDate.getHours())
+				this.time.minutesIndSelected = availableDate.getMinutes()
+				this.time.minutesIndCounted = availableDate.getMinutes()
+			}
 		},
 		changeKey(key) {
 			const prefix = key.slice(0, 1)
@@ -161,7 +163,7 @@ export default {
 		availableMinutes() {
 			return this.arrBetweenNums(0, 59)
 		},
-		isOpenHours() {
+		isOrderTime() {
 			const cond1 = new Date().getHours() >= this.beginningHours && new Date().getHours() < this.endingHours
 			const cond2 = new Date().getHours() === this.endingHours - 1 ? new Date().getMinutes() < 30 : true
 			return cond1 && cond2
@@ -199,11 +201,14 @@ export default {
 	},
 	mounted() {
 		this.clearErrMsg()
-		if (this.isOpenHours) {
+		if (this.isOrderTime) {
 			this.setTime()
-			setInterval(() => this.setTime(), this.minToMs(3))
+			this.intervalIndex = setInterval(() => this.setTime(), this.minToMs(3))
 		}
 		this.updateCartAvailability()
+	},
+	unmounted() {
+		clearInterval(this.intervalIndex)
 	}
 }
 </script>

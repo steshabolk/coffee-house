@@ -9,6 +9,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import { minToMs } from '@/services/helper'
 import LoaderCard from '@/components/UI/LoaderCard.vue'
 import MSearchOrdersBar from '@/components/MSearchOrdersBar.vue'
 import MOrdersTable from '@/components/UI/MOrdersTable.vue'
@@ -21,17 +22,38 @@ export default {
 	},
 	data() {
 		return {
-			tableColumns: ['№', 'total cost', 'created at', 'pick up at', 'closed at', 'status', 'details', 'actions']
+			tableColumns: ['№', 'total cost', 'created at', 'pick up at', 'closed at', 'status', 'details', 'actions'],
+			pollingActiveOrders: null
 		}
 	},
 	methods: {
-		...mapActions('manager', ['requestActiveOrders'])
+		minToMs,
+		pollActiveOrders() {
+			if (this.isOpenHours) {
+				this.pollingActiveOrders = setInterval(() => this.updateActiveOrders(), this.minToMs(1))
+			}
+		},
+		...mapActions('manager', ['requestActiveOrders', 'updateActiveOrders'])
 	},
 	computed: {
-		...mapGetters('manager', { isActiveOrdersLoaded: 'isActiveOrdersLoaded', activeOrders: 'getActiveOrders' })
+		isOpenHours() {
+			return new Date().getHours() >= this.beginningHours && new Date().getHours() < this.endingHours
+			// return true
+		},
+		...mapGetters('manager', {
+			isActiveOrdersLoaded: 'isActiveOrdersLoaded',
+			activeOrders: 'getActiveOrders'
+		}),
+		...mapGetters('addresses', { beginningHours: 'getBeginningHours', endingHours: 'getEndingHours' })
 	},
 	beforeMount() {
 		this.requestActiveOrders()
+		if (this.isOpenHours) {
+			this.pollActiveOrders()
+		}
+	},
+	unmounted() {
+		clearInterval(this.pollingActiveOrders)
 	}
 }
 </script>

@@ -122,9 +122,10 @@ public class UserController {
             String errMsg = ValidationErrMsgBuilder.buildFieldErrMsg(bindingResult);
             throw new RequestException(errMsg, HttpStatus.BAD_REQUEST);
         }
-        if (updateOrderRequest.getStatus().equals(Status.CANCELLED)) {
-            orderService.closeActiveOrder(orderService.findById(updateOrderRequest.getId()), updateOrderRequest.getClosedAt(), updateOrderRequest.getStatus());
-            User user = (User) request.getAttribute("user");
+        User user = (User) request.getAttribute("user");
+        Order order = orderService.findById(updateOrderRequest.getId());
+        if (order.getStatus().equals(Status.ACTIVE) && updateOrderRequest.getStatus().equals(Status.CANCELLED) && order.getUser().getId().equals(user.getId())) {
+            orderService.closeActiveOrder(order, updateOrderRequest.getClosedAt(), updateOrderRequest.getStatus());
             List<Order> orders = orderService.getUserOrders(user);
             return new ResponseEntity<>(responseHelper.getOrdersResponse(orders), HttpStatus.OK);
         } else {

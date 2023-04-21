@@ -32,7 +32,6 @@ export function hh_mm__dd_mm_yyyy(date) {
 	const d = addZero(parsed.getDate())
 	const h = addZero(parsed.getHours())
 	const min = addZero(parsed.getMinutes())
-	// return `${h}:${min}⠀${d}.${m}.${y}`
 	return `${h}:${min} ${d}.${m}.${y}`
 }
 
@@ -52,4 +51,8 @@ export function toLocalDateTime(date) {
 	const min = addZero(parsed.getMinutes())
 	const s = addZero(parsed.getSeconds())
 	return `${y}-${m}-${d} ${h}:${min}:${s}`
+}
+
+export function minToMs(min) {
+	return min * 60 * 1000
 }
