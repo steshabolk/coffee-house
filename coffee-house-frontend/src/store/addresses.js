@@ -20,7 +20,7 @@ export default {
 						commit('setAddresses', response.data.coffeeHouses)
 					})
 					.catch(error => {
-						console.log(error)
+						// console.log(error)
 					})
 			}
 		},

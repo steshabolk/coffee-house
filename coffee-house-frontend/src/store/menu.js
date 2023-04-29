@@ -29,7 +29,7 @@ export default {
 						}
 					})
 					.catch(error => {
-						console.log(error)
+						// console.log(error)
 					})
 			}
 		},
@@ -51,7 +51,7 @@ export default {
 						commit('resetAvailability')
 					})
 					.catch(error => {
-						console.log(error)
+						// console.log(error)
 					})
 			}
 		},

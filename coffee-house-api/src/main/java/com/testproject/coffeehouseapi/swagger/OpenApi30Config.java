@@ -29,8 +29,10 @@ public class OpenApi30Config {
     private String API_VERSION;
     @Value("${api.description}")
     private String API_DESCRIPTION;
-    @Value("${api.url}")
-    private String API_URL;
+    @Value("${dev.server}")
+    private String DEV_SERVER;
+    @Value("${prod.server}")
+    private String PROD_SERVER;
 
     @Bean
     public OpenAPI customOpenApi() {
@@ -38,7 +40,9 @@ public class OpenApi30Config {
                 .info(new Info().title(API_TITLE)
                         .version(API_VERSION)
                         .description(API_DESCRIPTION))
-                .servers(List.of(new Server().url(API_URL)
-                        .description("Dev service")));
+                .servers(List.of(new Server().url(DEV_SERVER)
+                        .description("development"),
+                        new Server().url(PROD_SERVER)
+                                .description("production")));
     }
 }

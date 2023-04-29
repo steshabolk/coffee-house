@@ -40,7 +40,7 @@ export const linksManager = [
 ]
 
 export const api = {
-	api: 'http://localhost:8085',
+	api: process.env.VUE_APP_API,
 	coffeeHouseController: '/api/v1/coffeehouse',
 	userController: '/api/v1/users',
 	managerController: '/api/v1/manager'

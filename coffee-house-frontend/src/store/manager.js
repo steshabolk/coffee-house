@@ -32,7 +32,7 @@ export default {
 						commit('setAddress', response.data)
 					})
 					.catch(error => {
-						console.log(error)
+						// console.log(error)
 					})
 			}
 		},
@@ -47,7 +47,7 @@ export default {
 						commit('setActiveOrders', response.data.orders)
 					})
 					.catch(error => {
-						console.log(error)
+						// console.log(error)
 					})
 			}
 		},
@@ -62,7 +62,7 @@ export default {
 						commit('setActiveOrders', response.data.orders)
 					})
 					.catch(error => {
-						console.log(error)
+						// console.log(error)
 					})
 			}
 		},
@@ -76,7 +76,7 @@ export default {
 					commit('setSearchOrders', response.data.orders)
 				})
 				.catch(error => {
-					console.log(error)
+					// console.log(error)
 				})
 		},
 		async resetSearchOrders({ commit }) {

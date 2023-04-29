@@ -27,7 +27,7 @@ export default {
 						commit('setOrders', response.data.orders)
 					})
 					.catch(error => {
-						console.log(error)
+						// console.log(error)
 					})
 			}
 		},
