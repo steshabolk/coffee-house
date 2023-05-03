@@ -1,22 +1,30 @@
 # :coffee: Coffee House Application
 
-**Coffee house app for ordering coffee and food.**
+<div style="text-align: center">
 
-- **The Backend using Java with Spring Boot:**
-  - Authentication and authorization are performed using **Spring Security** and **JWT**
-  - Access to API endpoints using **Swagger UI** or **[Postman](./coffee-house-api/coffee-house-api.postman_collection.json)**
-  - Database migration with **Liquibase**
-  - **Validation** of request body
-  - **Logging** using **log4j2** to console output and file
-  - Build and run app with **Docker Compose**
-- **The Frontend using HTML, SCSS, JavaScript with VueJS:**
-  - Navigation using **Vue-router**
-  - **Vuex Store** as source of State
-  - **Axios** as module for network requests
-  - Validation of forms data using **Vuelidate**
-  - Responsive layout adapt to screen size
+[![Docker](./screenshots/docker.svg)](#small_blue_diamond-docker-compose) [![Railway](./screenshots/railway.svg)](#small_blue_diamond-railway)
 
-## Summary:
+</div>
+
+## **<p style="text-align: center"> Coffee house app for ordering coffee and food. </p>**
+
+:small_blue_diamond: **The Backend using Java with Spring Boot:**
+
+- Authentication and authorization are performed using **Spring Security** and **JWT**
+- Access to API endpoints using **Swagger UI** or **[Postman](./coffee-house-api/coffee-house-api.postman_collection.json)**
+- Database migration with **Liquibase**
+- **Validation** of request body
+- **Logging** using **log4j2** to console output and file
+
+:small_blue_diamond: **The Frontend using HTML, SCSS, JavaScript with VueJS:**
+
+- Navigation using **Vue-router**
+- **Vuex Store** as source of State
+- **Axios** as module for network requests
+- Validation of forms data using **Vuelidate**
+- Responsive layout adapt to screen size
+
+## :small_blue_diamond: Summary:
 
 - **Home:** General description page.
 
@@ -44,7 +52,9 @@
 - **Order management**: The page displays a list of active coffee house orders updated once a minute with the ability to change the order status to received or cancelled. There is also a search bar for orders by specified parameters: order id or time intervals of orders creation, pick up and closing dates, orders status. <details><summary>_Management_</summary>
   ![Management](./screenshots/manager-orders.gif) </details>
 
-## Docker Compose
+## :small_blue_diamond: Docker Compose
+
+Build and run app with **Docker Compose**.
 
 Start the docker containers from project directory using the following command :
 
@@ -84,7 +94,8 @@ Once the containers are running successfully, you will be able to access :
 
   - Swagger UI by the link : **http://localhost:8085/swagger-ui.html**
 
-  - **[Postman Collection](./coffee-house-api/coffee-house-api.postman_collection.json) :** _"token"_ is a necessary collection variable for accessing secured endpoints. It is received after successful authorization of the user
+  - **[Postman Collection](./coffee-house-api/coffee-house-api.postman_collection.json) :**
+    - `token` - a necessary collection variable for accessing secured endpoints. It is received after successful authorization of the user
 
 > For the example database will be initialized with test [data](./coffee-house-api/src/main/resources/db/changelog/). The password used to log in to the account is **`userPassword0`** for a **standard user** and **`managerPassword0`** for a **manager**
 
@@ -93,3 +104,15 @@ Once the containers are running successfully, you will be able to access :
 - go inside the container : `docker exec -it api sh`
 - navigate to the folder /logs : `cd logs`
 - view the list of files : `ls` and file content : `cat [log-file-name].log`
+
+## :small_blue_diamond: Railway
+
+App on **[Railway](https://railway.app/)** :
+
+- the **app** by the link : **https://coffee-house.up.railway.app/#/**
+
+- the **backend api** using :
+
+  - **[Postman Collection](./coffee-house-api/coffee-house-api.postman_collection.json) :**
+    - `base_url` - change collection variable to **https://coffee-house-api.up.railway.app**
+    - `token` - a necessary collection variable for accessing secured endpoints. It is received after successful authorization of the user
