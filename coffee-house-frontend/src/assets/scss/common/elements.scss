@@ -172,12 +172,13 @@ $lineWidthMax: 70%;
 
 // MESSAGES
 @mixin main-message($main-color, $light-color) {
-	border-left: 0.8rem solid $main-color;
+	border-left: 0.6rem solid $main-color;
 	background-color: $light-color;
-	color: $brown-60;
-	font-weight: bold;
+	color: $gray-65;
+	font-style: italic;
 	margin-top: 1.5rem;
-	padding-left: 0.6rem;
+	padding-left: 0.3rem;
+	text-align: left;
 }
 .main-error-message {
 	@include main-message($error-main, $error-light);
@@ -189,4 +190,11 @@ $lineWidthMax: 70%;
 
 .main-success-message {
 	@include main-message($success-main, $success-light);
+}
+
+.error-message_closeable {
+	@include flex($flex-direction: row, $flex-wrap: nowrap, $justify-content: space-between, $align-items: center, $text-align: center);
+	.svg-icon {
+		width: 1.3rem;
+	}
 }

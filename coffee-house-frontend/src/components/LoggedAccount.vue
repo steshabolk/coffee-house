@@ -19,14 +19,13 @@
 			</div>
 		</div>
 		<div v-if="userIsLogged" class="grid-column grid-column__acc-menu">
-			<transition-group name="fade" mode="out-in">
+			<transition-group name="fade-Y" mode="out-in">
 				<UOrders v-if="activeMenuIndex === menu.indexOf('Orders')" />
 				<UAccountSettings v-if="activeMenuIndex === menu.indexOf('Settings')" />
-				<div v-if="activeMenuIndex === menu.indexOf('Menu Management')"></div>
 			</transition-group>
 		</div>
 		<div v-if="managerIsLogged" class="grid-column grid-column__acc-menu">
-			<transition-group name="fade" mode="out-in">
+			<transition-group name="fade-Y" mode="out-in">
 				<div v-if="activeMenuIndex === menu.indexOf('Management')">
 					<p class="uppercase" style="margin-bottom: 0.5rem">Go to management page</p>
 					<ArrowLink :link="management.link" :linkText="management.linkText" />

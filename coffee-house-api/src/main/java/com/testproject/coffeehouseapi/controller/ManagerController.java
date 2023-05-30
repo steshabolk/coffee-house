@@ -14,6 +14,7 @@ import com.testproject.coffeehouseapi.model.Status;
 import com.testproject.coffeehouseapi.model.User;
 import com.testproject.coffeehouseapi.service.CoffeeHouseService;
 import com.testproject.coffeehouseapi.service.OrderService;
+import com.testproject.coffeehouseapi.service.UserService;
 import com.testproject.coffeehouseapi.util.DtoMapper;
 import com.testproject.coffeehouseapi.util.ResponseHelper;
 import com.testproject.coffeehouseapi.validator.ValidationErrMsgBuilder;
@@ -33,7 +34,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -45,13 +45,15 @@ import java.util.List;
 @RequestMapping("/api/v1/manager")
 public class ManagerController {
 
+    private final UserService userService;
     private final CoffeeHouseService coffeeHouseService;
     private final OrderService orderService;
     private final DtoMapper dtoMapper;
     private final ResponseHelper responseHelper;
 
     @Autowired
-    public ManagerController(CoffeeHouseService coffeeHouseService, OrderService orderService, DtoMapper dtoMapper, ResponseHelper responseHelper) {
+    public ManagerController(UserService userService, CoffeeHouseService coffeeHouseService, OrderService orderService, DtoMapper dtoMapper, ResponseHelper responseHelper) {
+        this.userService = userService;
         this.coffeeHouseService = coffeeHouseService;
         this.orderService = orderService;
         this.dtoMapper = dtoMapper;
@@ -69,8 +71,8 @@ public class ManagerController {
                     content = @Content)
     })
     @GetMapping("/address")
-    public ResponseEntity<?> getCoffeeHouseAddress(HttpServletRequest request) {
-        User user = (User) request.getAttribute("user");
+    public ResponseEntity<?> getCoffeeHouseAddress() {
+        User user = userService.getUserByPhone(responseHelper.getPhoneFromAuthentication());
         return new ResponseEntity<>(
                 dtoMapper.convertToCoffeeHouseAddressDto(coffeeHouseService.findByManagerId(user)),
                 HttpStatus.OK);
@@ -89,8 +91,8 @@ public class ManagerController {
                     content = @Content)
     })
     @GetMapping("/menu")
-    public ResponseEntity<?> getCoffeeHouseMenu(HttpServletRequest request) {
-        User user = (User) request.getAttribute("user");
+    public ResponseEntity<?> getCoffeeHouseMenu() {
+        User user = userService.getUserByPhone(responseHelper.getPhoneFromAuthentication());
         return new ResponseEntity<>(coffeeHouseService.findCoffeeHouseMenu(coffeeHouseService.findByManagerId(user)), HttpStatus.OK);
     }
 
@@ -110,14 +112,13 @@ public class ManagerController {
                     content = @Content)
     })
     @PatchMapping("/menu")
-    public ResponseEntity<?> updateCoffeeHouseMenuAvailability(HttpServletRequest request,
-                                                               @RequestBody @Valid UpdateCoffeeHouseMenuAvailabilityRequest updateCoffeeHouseMenuAvailabilityRequest,
+    public ResponseEntity<?> updateCoffeeHouseMenuAvailability(@RequestBody @Valid UpdateCoffeeHouseMenuAvailabilityRequest updateCoffeeHouseMenuAvailabilityRequest,
                                                                BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String errMsg = ValidationErrMsgBuilder.buildFieldErrMsg(bindingResult);
             throw new RequestException(errMsg, HttpStatus.BAD_REQUEST);
         }
-        User user = (User) request.getAttribute("user");
+        User user = userService.getUserByPhone(responseHelper.getPhoneFromAuthentication());
         CoffeeHouse coffeeHouse = coffeeHouseService.findByManagerId(user);
         coffeeHouseService.setMenuAvailability(coffeeHouse, updateCoffeeHouseMenuAvailabilityRequest.getUpdatedAvailability());
         return new ResponseEntity<>(coffeeHouseService.findCoffeeHouseMenu(coffeeHouse), HttpStatus.OK);
@@ -138,7 +139,7 @@ public class ManagerController {
                     content = @Content)
     })
     @GetMapping("/orders")
-    public ResponseEntity<?> getCoffeeHouseOrders(HttpServletRequest request, @RequestParam(value = "show") String show,
+    public ResponseEntity<?> getCoffeeHouseOrders(@RequestParam(value = "show") String show,
                                                   @RequestParam(value = "id", required = false) Long id,
                                                   @RequestParam(value = "createdAt_from", required = false)
                                                             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime createdAt_from,
@@ -154,7 +155,7 @@ public class ManagerController {
                                                             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime closedAt_to,
                                                   @RequestParam(value = "status", required = false) List<Status> status) {
         List<String> showParam = List.of("active", "search");
-        User user = (User) request.getAttribute("user");
+        User user = userService.getUserByPhone(responseHelper.getPhoneFromAuthentication());
         if (showParam.contains(show)) {
             CoffeeHouse coffeeHouse = coffeeHouseService.findByManagerId(user);
             List<Order> orders = switch (show) {
@@ -188,13 +189,13 @@ public class ManagerController {
                     content = @Content)
     })
     @PatchMapping("/orders")
-    public ResponseEntity<?> closeActiveOrder(HttpServletRequest request, @RequestBody @Valid UpdateOrderRequest updateOrderRequest,
+    public ResponseEntity<?> closeActiveOrder(@RequestBody @Valid UpdateOrderRequest updateOrderRequest,
                                               BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String errMsg = ValidationErrMsgBuilder.buildFieldErrMsg(bindingResult);
             throw new RequestException(errMsg, HttpStatus.BAD_REQUEST);
         }
-        User user = (User) request.getAttribute("user");
+        User user = userService.getUserByPhone(responseHelper.getPhoneFromAuthentication());
         Order order = orderService.findById(updateOrderRequest.getId());
         CoffeeHouse coffeeHouse = coffeeHouseService.findByManagerId(user);
         if (order.getStatus().equals(Status.ACTIVE) &&

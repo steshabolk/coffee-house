@@ -19,9 +19,7 @@ export default {
 			if (!state.isOrdersLoaded) {
 				await instance
 					.get(requests.requestOrders, {
-						headers: {
-							...authHeader()
-						}
+						headers: authHeader()
 					})
 					.then(response => {
 						commit('setOrders', response.data.orders)
@@ -41,9 +39,7 @@ export default {
 						orderDetails: orderDetails
 					},
 					{
-						headers: {
-							...authHeader()
-						}
+						headers: authHeader()
 					}
 				)
 				.then(response => {
@@ -69,17 +65,9 @@ export default {
 		async cancelOrder({ commit, dispatch }, cancelledOrder) {
 			dispatch('request/aipRequest', null, { root: true })
 			await instance
-				.patch(
-					requests.requestOrders,
-					{
-						...cancelledOrder
-					},
-					{
-						headers: {
-							...authHeader()
-						}
-					}
-				)
+				.patch(requests.requestOrders, cancelledOrder, {
+					headers: authHeader()
+				})
 				.then(response => {
 					dispatch('request/setIsRequesting', false, { root: true })
 					commit('setOrders', response.data.orders)
@@ -92,17 +80,9 @@ export default {
 		async changeName({ commit, dispatch }, name) {
 			dispatch('request/aipRequest', null, { root: true })
 			await instance
-				.post(
-					requests.changeName,
-					{
-						...name
-					},
-					{
-						headers: {
-							...authHeader()
-						}
-					}
-				)
+				.post(requests.changeName, name, {
+					headers: authHeader()
+				})
 				.then(response => {
 					dispatch('request/setIsRequesting', false, { root: true })
 					userFromAuthHeader(response.headers.authorization)
@@ -119,17 +99,9 @@ export default {
 		async changePassword({ commit, dispatch }, password) {
 			dispatch('request/aipRequest', null, { root: true })
 			await instance
-				.post(
-					requests.changePassword,
-					{
-						...password
-					},
-					{
-						headers: {
-							...authHeader()
-						}
-					}
-				)
+				.post(requests.changePassword, password, {
+					headers: authHeader()
+				})
 				.then(response => {
 					dispatch('request/setIsRequesting', false, { root: true })
 				})

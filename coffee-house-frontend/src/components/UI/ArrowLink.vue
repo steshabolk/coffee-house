@@ -1,12 +1,14 @@
 <template>
-	<div class="arrow-link-wrapper">
-		<router-link :to="link">
-			<span class="arrow-link-text">{{ linkText }}</span>
-		</router-link>
-	</div>
+	<router-link :to="link" class="arrow-link-wrapper">
+		<span>{{ linkText }}</span>
+		<SvgIcon :viewBox="arrowIcon.viewBox" :path="arrowIcon.svgPath" />
+	</router-link>
 </template>
 
 <script>
+import SvgIcon from '@/components/UI/SvgIcon.vue'
+import { arrowIcon } from '@/services/svgIcons'
+
 export default {
 	props: {
 		link: {
@@ -16,6 +18,14 @@ export default {
 		linkText: {
 			type: String,
 			required: true
+		}
+	},
+	components: {
+		SvgIcon
+	},
+	data() {
+		return {
+			arrowIcon
 		}
 	}
 }

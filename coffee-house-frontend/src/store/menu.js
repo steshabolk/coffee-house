@@ -39,6 +39,7 @@ export default {
 		async resetUserMenu({ commit }) {
 			commit('resetUserMenu')
 		},
+
 		// MANAGER PART
 		async requestManagerMenu({ commit, state }) {
 			if (!state.managerMenu) {

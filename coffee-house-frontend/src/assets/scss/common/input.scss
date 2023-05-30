@@ -27,12 +27,12 @@
 	}
 }
 .form-error-msg {
-	color: rgba($brown-60, 0.6);
+	color: rgba($gray-65, 0.8);
 	font-size: 0.7rem;
 	line-height: 1.1;
 	margin-top: 0.3rem;
-	padding-left: 0.3rem;
-	font-style: italic;
+	padding-left: 0.2rem;
+	font-weight: bold;
 }
 .request-fail {
 	width: 100%;
@@ -57,9 +57,9 @@
 		width: 100%;
 		@include main-transition($duration: 0.2s);
 		color: $brown-60;
-		// font-size: 1.2rem;
 		&::placeholder {
-			// font-size: 1.2rem;
+			font-size: 0.9rem;
+			font-style: italic;
 			color: rgba($brown-60, 0.4);
 		}
 		&:disabled {

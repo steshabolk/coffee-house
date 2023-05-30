@@ -1,6 +1,6 @@
 <template>
-	<LoaderCard v-if="!isOrdersLoaded" />
-	<custom-scrollbar v-else-if="orders.length > 0" :autoHide="false" ref="scroll" class="order-scrollbar">
+	<LoaderCard v-if="!isOrdersLoaded" style="height: 60vh" />
+	<custom-scrollbar v-else-if="orders.length > 0" class="order-scrollbar" :autoHide="false" ref="scroll">
 		<accordion>
 			<accordion-item v-for="(order, index) of orders" :key="index">
 				<template #accordion-trigger>
@@ -29,18 +29,18 @@
 				</template>
 				<template #accordion-not-trigger>
 					<div v-if="!order.closedAt">
-						<transition-group name="fade-text" mode="out-in">
-							<button
-								v-if="cancelledId !== order.id"
-								style="margin-bottom: 0; margin-top: 1vw; width: 85%"
-								class="main-btn"
-								:class="{ 'btn-active': !isRequesting, 'btn-disable': isRequesting }"
-								@click="activateConfirmation(order.id)">
-								Cancel
-							</button>
+						<button
+							v-if="cancelledId !== order.id"
+							style="margin-bottom: 0; margin-top: 0.8rem; width: 80%"
+							class="main-btn"
+							:class="{ 'btn-active': !isRequesting, 'btn-disable': isRequesting }"
+							@click="activateConfirmation(order.id)">
+							Cancel
+						</button>
+						<transition-group name="fade-slot" mode="out-in">
 							<div v-if="cancelledId === order.id">
 								<p class="main-warning-message">{{ confirmationMsg }}</p>
-								<LoaderLine v-if="isRequesting" style="margin: 2vw auto" />
+								<LoaderLine style="margin: 2vw auto" />
 								<div v-if="!isRequesting" class="inline-btn-wrapper" style="margin-top: 1vw">
 									<button
 										class="main-btn inline-btn-left"
@@ -55,7 +55,7 @@
 										Yes
 									</button>
 								</div>
-								<p class="main-error-message" v-if="errMsg && !isRequesting">{{ errMsg }}</p>
+								<ErrorCloseable v-if="!isRequesting" key="1" />
 							</div>
 						</transition-group>
 					</div>
@@ -85,8 +85,9 @@
 </template>
 
 <script>
-import additivesNames from '@/mixins/textFormat'
 import { mapGetters, mapActions } from 'vuex'
+import { links } from '@/_config'
+import additivesNames from '@/mixins/textFormat'
 import SvgIcon from '@/components/UI/SvgIcon.vue'
 import Accordion from '@/components/UI/Accordion.vue'
 import AccordionItem from '@/components/UI/AccordionItem.vue'
@@ -98,7 +99,7 @@ import { successIcon, plusIcon, clockIcon } from '@/services/svgIcons'
 import { hh_mm__dd_mm_yyyy, hh_mm } from '@/services/helper'
 import { updateOrderBody } from '@/services/requestBody'
 import { orderStatus } from '@/services/orderStatus'
-import { links } from '@/_config'
+import ErrorCloseable from '@/components/UI/ErrorCloseable.vue'
 
 export default {
 	components: {
@@ -108,7 +109,8 @@ export default {
 		CustomScrollbar,
 		ArrowLink,
 		LoaderCard,
-		LoaderLine
+		LoaderLine,
+		ErrorCloseable
 	},
 	data() {
 		return {
@@ -127,9 +129,11 @@ export default {
 		hh_mm__dd_mm_yyyy,
 		hh_mm,
 		activateConfirmation(id) {
+			this.clearErrMsg()
 			this.cancelledId = id
 		},
 		disableConfirmation() {
+			this.clearErrMsg()
 			if (!this.isRequesting) {
 				this.cancelledId = null
 			}
@@ -137,6 +141,7 @@ export default {
 		cancelOrderHandler() {
 			if (!this.isRequesting) {
 				this.cancelOrder(updateOrderBody(this.cancelledId, orderStatus.cancelled))
+				this.disableConfirmation()
 			}
 		},
 		...mapActions('user', ['requestOrders', 'cancelOrder']),
@@ -144,7 +149,7 @@ export default {
 	},
 	computed: {
 		...mapGetters('user', { orders: 'getOrders', isOrdersLoaded: 'isOrdersLoaded' }),
-		...mapGetters('request', { isRequesting: 'isRequesting', errMsg: 'getErrMsg' })
+		...mapGetters('request', { isRequesting: 'isRequesting' })
 	},
 	mixins: [additivesNames],
 	mounted() {

@@ -1,6 +1,6 @@
 <template>
 	<div class="main-form-wrapper settings-form-wrapper">
-		<form @submit.prevent="handleForm">
+		<form @submit.prevent="handleForm" autocomplete="off">
 			<div
 				v-for="(field, index) of fields"
 				:key="index"
@@ -23,16 +23,16 @@
 					</p>
 				</div>
 			</div>
-			<LoaderLine v-if="isRequesting" style="margin-top: 0" />
+			<LoaderLine />
 			<div v-if="form.btnText" class="main-input-wrapper settings-input-wrapper">
 				<button style="margin-top: 0" type="submit" class="main-btn btn-disable" :class="{ 'btn-active': activeBtnCond() }">
 					{{ form.btnText }}
 				</button>
 			</div>
 		</form>
-		<div v-if="errMsg.length !== 0" class="request-fail">
-			<p class="main-error-message" style="margin-top: 0" v-for="(errMsg, index) of splittedErrMsg" :key="index">
-				{{ errMsg }}
+		<div v-if="errMsg" class="request-fail" style="margin-bottom: 2rem">
+			<p class="main-error-message" style="margin-top: 0" v-for="(msg, index) of splitFieldsErrMsg" :key="index">
+				{{ msg }}
 			</p>
 		</div>
 	</div>

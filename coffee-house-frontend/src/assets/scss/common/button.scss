@@ -42,6 +42,7 @@
 			z-index: 1;
 		}
 		.btn-quantity {
+			@include main-transition($duration: 0.1s);
 			&:active {
 				@include main-transition($duration: 0.1s);
 				transform: scale(0.85);
@@ -84,9 +85,22 @@
 .close-btn {
 	cursor: pointer;
 	transform: rotate(45deg);
+	@include main-transition($duration: 0.05s);
 	&:active {
-		@include main-transition($duration: 0.1s);
+		@include main-transition($duration: 0.05s);
 		transform: rotate(45deg) scale(0.85);
+	}
+}
+.return-btn {
+	cursor: pointer;
+	color: rgba($brown-60, 0.4);
+	transform: rotate(180deg);
+	width: 1.5rem;
+	height: 1.5rem;
+	@include main-transition($duration: 0.05s);
+	&:active {
+		@include main-transition($duration: 0.05s);
+		transform: rotate(180deg) scale(0.9);
 	}
 }
 

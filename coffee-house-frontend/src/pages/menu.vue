@@ -14,7 +14,7 @@
 					<!-- CATEGORY -->
 					<ListBtnGroup :keyI="'menuCategory'" :objectsArray="categories" :activeId="activeCategoryId" :toggleMethod="toggleCategory" />
 					<!-- MENU -->
-					<transition-group name="fade" mode="out-in">
+					<transition-group name="fade-slot" mode="out-in">
 						<MenuCoffee v-if="activeCategoryId === 1" :key="menuIndex" />
 						<MenuFood v-if="activeCategoryId === 2" :key="menuIndex" />
 						<Cart v-if="activeCategoryId === 3" :key="menuIndex" />

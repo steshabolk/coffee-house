@@ -1,7 +1,7 @@
 <template>
 	<div class="grid" style="margin-top: 2rem">
 		<div class="grid-column">
-			<div v-if="cart.length === 0" class="cart-empty">
+			<div v-if="cart.length === 0 && unavailableCart.length === 0" class="cart-empty">
 				<SvgIcon :viewBox="cartEmpty.viewBox" :path="cartEmpty.svgPath" />
 				<p class="main-title">{{ cartEmpty.msg }}</p>
 			</div>
@@ -20,7 +20,7 @@
 					<CartObj :cartObj="item" :cartType="'available'" />
 				</div>
 				<div key="0" style="margin-bottom: 1.5rem">
-					<p class="horizontal-line" />
+					<p v-if="cart.length > 0" class="horizontal-line" />
 					<div class="cart-total">
 						<p class="cart-total-text">
 							Total : <span class="cart-price">{{ totalCost }}&#8381;</span>
@@ -32,13 +32,18 @@
 					<div v-if="isOrderTime">
 						<TimeCarousel v-model="time.hoursIndSelected" :key="time.hKey" :arrValues="availableHours" />
 						<TimeCarousel v-model="time.minutesIndSelected" :key="time.mKey" :arrValues="availableMinutes" />
-						<p class="main-title">Pick up an order:</p>
+						<p class="main-title" style="margin-top: 2rem">Pick up an order:</p>
 						<p>{{ pickUpDate }}</p>
 						<p style="margin-bottom: 1rem">{{ activeAddress }}</p>
 						<div v-if="isLogged">
-							<LoaderLine style="margin-bottom: 1rem" v-if="isRequesting" />
-							<button class="main-btn btn-active" :class="{ 'btn-disable': isRequesting }" @click="handleOrder()">Place order</button>
-							<p class="main-error-message" v-if="errMsg">{{ errMsg }}</p>
+							<LoaderLine style="margin-bottom: 1rem" />
+							<button
+								class="main-btn"
+								:class="{ 'btn-disable': isRequesting || cart.length === 0, 'btn-active': !isRequesting && cart.length > 0 }"
+								@click="handleOrder()">
+								Place order
+							</button>
+							<ErrorCloseable />
 						</div>
 						<div v-if="!isLogged">
 							<p style="text-align: center; font-weight: bold">You need to log in to place an order</p>
@@ -56,6 +61,8 @@
 </template>
 
 <script>
+import { links } from '@/_config'
+import { mapGetters, mapActions } from 'vuex'
 import { minToMs } from '@/services/helper'
 import dateFormat from '@/mixins/dateFormat'
 import { cartIcon, removeIcon, plusIcon } from '@/services/svgIcons'
@@ -65,8 +72,7 @@ import CartObj from '@/components/UI/CartObj.vue'
 import SvgIcon from '@/components/UI/SvgIcon.vue'
 import ArrowLink from '@/components/UI/ArrowLink.vue'
 import LoaderLine from '@/components/UI/LoaderLine.vue'
-import { mapGetters, mapActions } from 'vuex'
-import { links } from '@/_config'
+import ErrorCloseable from '@/components/UI/ErrorCloseable.vue'
 
 export default {
 	components: {
@@ -74,7 +80,8 @@ export default {
 		CartObj,
 		SvgIcon,
 		ArrowLink,
-		LoaderLine
+		LoaderLine,
+		ErrorCloseable
 	},
 	data() {
 		return {
@@ -128,7 +135,7 @@ export default {
 			return prefix + ++ind
 		},
 		handleOrder() {
-			if (!this.isRequesting) {
+			if (!this.isRequesting && this.cart.length > 0) {
 				const now = new Date()
 				const createdAt = new Date(now)
 				const pickUpAt = new Date(now)
@@ -181,7 +188,7 @@ export default {
 			endingHours: 'getEndingHours'
 		}),
 		...mapGetters('user', { isLogged: 'isLogged' }),
-		...mapGetters('request', { isRequesting: 'isRequesting', errMsg: 'getErrMsg' })
+		...mapGetters('request', { isRequesting: 'isRequesting' })
 	},
 	mixins: [dateFormat],
 	watch: {

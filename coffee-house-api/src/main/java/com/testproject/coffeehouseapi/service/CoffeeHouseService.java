@@ -43,7 +43,7 @@ public class CoffeeHouseService {
 
     public CoffeeHouse findById(Long id) {
         return coffeeHouseRepository.findById(id).orElseThrow(() -> {
-            log.info("Fail while finding Coffee House with id {}", id);
+            log.info("Error when finding a Coffee House with id {}", id);
             throw new RequestException(ExceptionMessage.setMessage(MessageConstant.COFFEE_HOUSE_NOT_FOUND), HttpStatus.BAD_REQUEST);
         });
     }

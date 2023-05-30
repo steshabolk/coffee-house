@@ -50,3 +50,9 @@
 		@content;
 	}
 }
+
+.tablet_disabled {
+	@include max-screen($tabletWidth) {
+		display: none !important;
+	}
+}

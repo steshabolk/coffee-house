@@ -32,7 +32,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
@@ -68,8 +67,8 @@ public class UserController {
                     content = @Content)
     })
     @GetMapping("/orders")
-    public ResponseEntity<?> getUserOrders(HttpServletRequest request) {
-        User user = (User) request.getAttribute("user");
+    public ResponseEntity<?> getUserOrders() {
+        User user = userService.getUserByPhone(responseHelper.getPhoneFromAuthentication());
         List<Order> orders = orderService.getUserOrders(user);
         return new ResponseEntity<>(responseHelper.getOrdersResponse(orders), HttpStatus.OK);
     }
@@ -86,13 +85,13 @@ public class UserController {
                     content = @Content)
     })
     @PostMapping("/orders")
-    public ResponseEntity<?> placeOrder(HttpServletRequest request, @RequestBody @Valid PlaceOrderRequest placeOrderRequest,
+    public ResponseEntity<?> placeOrder(@RequestBody @Valid PlaceOrderRequest placeOrderRequest,
                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String errMsg = ValidationErrMsgBuilder.buildFieldErrMsg(bindingResult);
             throw new RequestException(errMsg, HttpStatus.BAD_REQUEST);
         }
-        User user = (User) request.getAttribute("user");
+        User user = userService.getUserByPhone(responseHelper.getPhoneFromAuthentication());
         Order requestOrder = dtoMapper.convertToOrder(placeOrderRequest.getOrder());
         List<OrderDetails> orderDetails =
                 placeOrderRequest.getOrderDetails().stream()
@@ -116,13 +115,13 @@ public class UserController {
                     content = @Content)
     })
     @PatchMapping("/orders")
-    public ResponseEntity<?> cancelOrder(HttpServletRequest request, @RequestBody @Valid UpdateOrderRequest updateOrderRequest,
+    public ResponseEntity<?> cancelOrder(@RequestBody @Valid UpdateOrderRequest updateOrderRequest,
                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String errMsg = ValidationErrMsgBuilder.buildFieldErrMsg(bindingResult);
             throw new RequestException(errMsg, HttpStatus.BAD_REQUEST);
         }
-        User user = (User) request.getAttribute("user");
+        User user = userService.getUserByPhone(responseHelper.getPhoneFromAuthentication());
         Order order = orderService.findById(updateOrderRequest.getId());
         if (order.getStatus().equals(Status.ACTIVE) && updateOrderRequest.getStatus().equals(Status.CANCELLED) && order.getUser().getId().equals(user.getId())) {
             orderService.closeActiveOrder(order, updateOrderRequest.getClosedAt(), updateOrderRequest.getStatus());
@@ -145,14 +144,14 @@ public class UserController {
                     content = @Content)
     })
     @PostMapping("/settings/name")
-    public ResponseEntity<?> changeUserName(HttpServletRequest request, HttpServletResponse response,
+    public ResponseEntity<?> changeUserName(HttpServletResponse response,
                                             @RequestBody @Valid ChangeNameRequest changeNameRequest,
                                             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String errMsg = ValidationErrMsgBuilder.buildFieldErrMsg(bindingResult);
             throw new RequestException(errMsg, HttpStatus.BAD_REQUEST);
         }
-        User user = (User) request.getAttribute("user");
+        User user = userService.getUserByPhone(responseHelper.getPhoneFromAuthentication());
         userService.changeName(user, changeNameRequest.getName());
         jwtUtil.setAuthHeader(response, user.getPhone(), user.getName(), user.getRole().name());
         return new ResponseEntity<>(HttpStatus.OK);
@@ -170,13 +169,13 @@ public class UserController {
                     content = @Content)
     })
     @PostMapping("/settings/password")
-    public ResponseEntity<?> changeUserPassword(HttpServletRequest request, @RequestBody @Valid ChangePasswordRequest changePasswordRequest,
+    public ResponseEntity<?> changeUserPassword(@RequestBody @Valid ChangePasswordRequest changePasswordRequest,
                                             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String errMsg = ValidationErrMsgBuilder.buildFieldErrMsg(bindingResult);
             throw new RequestException(errMsg, HttpStatus.BAD_REQUEST);
         }
-        User user = (User) request.getAttribute("user");
+        User user = userService.getUserByPhone(responseHelper.getPhoneFromAuthentication());
         userService.changePassword(user, changePasswordRequest.getPassword());
         return new ResponseEntity<>(HttpStatus.OK);
     }

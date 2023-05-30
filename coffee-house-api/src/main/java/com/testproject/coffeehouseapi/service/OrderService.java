@@ -42,7 +42,7 @@ public class OrderService {
 
     public Order findById(Long id) {
         return orderRepository.findById(id).orElseThrow(() -> {
-            log.info("Fail while finding order with id {}", id);
+            log.info("Error when finding an order with id {}", id);
             throw new RequestException(ExceptionMessage.setMessage(MessageConstant.ORDER_NOT_FOUND), HttpStatus.BAD_REQUEST);
         });
     }

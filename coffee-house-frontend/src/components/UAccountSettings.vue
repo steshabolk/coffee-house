@@ -1,25 +1,25 @@
 <template>
 	<div class="settings-block">
-		<SvgIcon @click="setActiveSetting(null)" class="svg-icon-stng" :viewBox="arrowIcon.viewBox" :path="arrowIcon.svgPath" />
-		<div class="settings-wrapper" v-for="(setting, index) of settings" :key="index">
-			<transition-group name="fade" mode="out-in">
+		<SvgIcon @click="setActiveSetting(null)" class="return-btn" :viewBox="arrowIcon.viewBox" :path="arrowIcon.svgPath" />
+		<div class="settings-wrapper">
+			<transition-group name="fade-Y" mode="out-in">
 				<div v-if="activeSettingsInd === null">
-					<p @click="setActiveSetting(index)" style="cursor: pointer">{{ setting.stngTitle }}</p>
-					<p class="horizontal-line" />
+					<div class="setting-item" v-for="(setting, index) of settings" :key="index">
+						<p @click="setActiveSetting(index)" style="cursor: pointer">{{ setting.stngTitle }}</p>
+						<p class="horizontal-line" />
+					</div>
 				</div>
+				<FormInput
+					v-if="
+						activeSettingsInd !== null && (settings[activeSettingsInd].key === 'changeName' || settings[activeSettingsInd].key === 'changePassword')
+					"
+					:form="{
+						key: settings[activeSettingsInd].key,
+						btnText: settings[activeSettingsInd].btnText
+					}"
+					:fields="settings[activeSettingsInd].fields" />
 			</transition-group>
 		</div>
-		<transition-group name="fade" mode="out-in">
-			<FormInput
-				v-if="
-					activeSettingsInd !== null && (settings[activeSettingsInd].key === 'changeName' || settings[activeSettingsInd].key === 'changePassword')
-				"
-				:form="{
-					key: settings[activeSettingsInd].key,
-					btnText: settings[activeSettingsInd].btnText
-				}"
-				:fields="settings[activeSettingsInd].fields" />
-		</transition-group>
 	</div>
 </template>
 

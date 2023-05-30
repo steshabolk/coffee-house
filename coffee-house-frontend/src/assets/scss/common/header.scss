@@ -28,7 +28,7 @@ $navbar-width: calc(20 * $navbarFontSize);
 	border-radius: 0.7rem;
 	background-color: rgba(#000000, 0.4);
 	overflow: hidden;
-	max-height: $footerHeight;
+	max-height: $headerHeight;
 	max-width: 100%;
 
 	input {

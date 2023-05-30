@@ -1,8 +1,6 @@
 <template>
 	<div class="main-form-wrapper auth-form-wrapper">
-		<p v-if="form.title" class="main-title">{{ form.title }}</p>
-		<p v-if="form.description" class="auth-form-desc">{{ form.description }}</p>
-		<form @submit.prevent="handleForm">
+		<form @submit.prevent="handleForm" autocomplete="off">
 			<div
 				v-for="(field, index) of fields"
 				:key="index"
@@ -25,15 +23,17 @@
 					</p>
 				</div>
 			</div>
-			<LoaderLine v-if="isRequesting" style="margin-top: 0" />
-			<p v-if="isRegisterSuccess" class="main-success-message" style="margin-top: 0">Registration Successful</p>
+			<LoaderLine />
+			<p v-if="isRegisterSuccess" class="main-success-message" style="margin-top: 0; margin-bottom: 1rem; text-align: left">
+				Registration Successful
+			</p>
 			<div v-if="form.btnText" class="main-input-wrapper auth-input-wrapper">
 				<button type="submit" class="main-btn btn-disable" :class="{ 'btn-active': isFormValid }">{{ form.btnText }}</button>
 			</div>
 		</form>
-		<div v-if="errMsg.length !== 0" class="request-fail">
-			<p class="main-error-message" style="margin-top: 0" v-for="(errMsg, index) of splittedErrMsg" :key="index">
-				{{ errMsg }}
+		<div v-if="errMsg" class="request-fail">
+			<p class="main-error-message" style="margin-top: 0" v-for="(msg, index) of splitFieldsErrMsg" :key="index">
+				{{ msg }}
 			</p>
 		</div>
 	</div>
@@ -85,6 +85,7 @@ export default {
 			}
 			this.v$.$reset()
 		},
+
 		handleForm() {
 			if (!this.isRequesting) {
 				if (this.form.key === 'logIn') {
@@ -97,16 +98,28 @@ export default {
 		},
 		handleLogin() {
 			if (this.isFormValid) {
-				this.login(loginUserBody(this.phoneFormatted(this.user.phone), this.user.password))
+				this.login(loginUserBody(this.formatPhoneField(this.user.phone), this.user.password))
 				this.resetForm()
 			}
 		},
 		handleRegister() {
 			if (this.isFormValid) {
-				this.register(registerUserBody(this.user.name, this.phoneFormatted(this.user.phone), this.user.password))
+				this.register(registerUserBody(this.user.name, this.formatPhoneField(this.user.phone), this.user.password))
 				this.resetForm()
 			}
 		},
+
+		formatPhoneField(phone) {
+			let phoneFormatted = phone
+			if (phoneFormatted.startsWith('+')) {
+				phoneFormatted = phoneFormatted.slice(1)
+			}
+			if (phoneFormatted.startsWith('8')) {
+				phoneFormatted = '7' + phoneFormatted.slice(1)
+			}
+			return phoneFormatted
+		},
+
 		...mapActions('auth', ['login', 'register']),
 		...mapActions('request', ['clearErrMsg'])
 	},

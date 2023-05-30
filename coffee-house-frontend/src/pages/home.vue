@@ -17,7 +17,7 @@
 					</div>
 				</div>
 				<div class="grid home-info-wrapper" style="margin-top: 2rem; margin-bottom: 2rem">
-					<div class="grid-column">
+					<div class="grid-column tablet_disabled">
 						<div class="grid-cell cell-img-padding hover-zoom">
 							<img :src="imgPath(homeImg(1))" />
 						</div>
@@ -25,7 +25,7 @@
 							<img :src="imgPath(homeImg(2))" />
 						</div>
 					</div>
-					<div class="grid-column">
+					<div class="grid-column tablet_disabled">
 						<div class="grid-cell cell-img-padding hover-zoom shift-bottom-left" style="z-index: 1">
 							<img :src="imgPath(homeImg(3))" />
 						</div>
@@ -65,7 +65,7 @@
 							</li>
 						</ul>
 					</div>
-					<div class="grid-column">
+					<div class="grid-column" style="margin-bottom: 1rem">
 						<div class="grid-cell ymap-wrapper">
 							<YMap />
 						</div>
@@ -88,9 +88,9 @@ import LoaderCard from '@/components/UI/LoaderCard.vue'
 export default {
 	components: {
 		Card,
-		ArrowLink,
 		YMap,
-		LoaderCard
+		LoaderCard,
+		ArrowLink
 	},
 	data() {
 		return {

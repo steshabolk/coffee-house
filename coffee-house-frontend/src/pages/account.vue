@@ -10,7 +10,7 @@
 							</div>
 						</div>
 						<div class="grid-column">
-							<div class="grid-cell">
+							<div class="grid-cell auth-form-margin">
 								<div class="inline-btn-wrapper">
 									<button class="btn-list inline-btn-left" :class="{ 'btn-list-active': logIn.isActive }" @click="changeForm(logIn.key)">
 										Log in
@@ -19,7 +19,7 @@
 										Sign up
 									</button>
 								</div>
-								<transition-group name="fade" mode="out-in">
+								<transition-group name="fade-slot" mode="out-in">
 									<AuthForm
 										v-if="logIn.isActive"
 										:form="{
@@ -76,16 +76,12 @@ export default {
 			logIn: {
 				key: 'logIn',
 				isActive: true,
-				title: 'Welcome!',
-				description: 'Log in to your account to place an order',
 				btnText: 'Log in',
 				fields: [phoneField, passwordField]
 			},
 			signUp: {
 				key: 'signUp',
 				isActive: false,
-				title: 'Welcome!',
-				description: 'Before using our service you need to create an account',
 				btnText: 'Create account',
 				fields: [nameField, phoneField, passwordField, passwordConfirmationField]
 			},
@@ -125,8 +121,8 @@ export default {
 	watch: {
 		isRegisterSuccess(newValue) {
 			if (newValue === true) {
-				setTimeout(() => this.changeForm('logIn'), 2000)
-				setTimeout(() => this.setIsRegisterSuccess(false), 2000)
+				setTimeout(() => this.changeForm('logIn'), 1500)
+				setTimeout(() => this.setIsRegisterSuccess(false), 1500)
 			}
 		}
 	},

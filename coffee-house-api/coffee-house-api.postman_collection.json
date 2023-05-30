@@ -404,7 +404,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Changed Name\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Changed_Name\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -454,6 +454,7 @@
 					"response": []
 				}
 			],
+			"description": "User API",
 			"auth": {
 				"type": "bearer",
 				"bearer": [
@@ -508,6 +509,11 @@
 	],
 	"variable": [
 		{
+			"key": "token",
+			"value": "Bearer token_value",
+			"type": "string"
+		},
+		{
 			"key": "base_url",
 			"value": "localhost:8085",
 			"type": "string"
@@ -525,11 +531,6 @@
 		{
 			"key": "manager_api",
 			"value": "api/v1/manager",
-			"type": "string"
-		},
-		{
-			"key": "token",
-			"value": "Bearer token_value",
 			"type": "string"
 		}
 	]

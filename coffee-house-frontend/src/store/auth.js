@@ -20,7 +20,7 @@ export default {
 				})
 				.catch(error => {
 					dispatch('request/setIsRequesting', false, { root: true })
-					if (error.response.status === 400) {
+					if (error.response && error.response.status && error.response.status === 400) {
 						dispatch('request/setErrMsg', error.response.data.message, { root: true })
 					} else {
 						dispatch('request/setErrMsg', UNKNOWN_ERROR, { root: true })
@@ -45,7 +45,7 @@ export default {
 				})
 				.catch(error => {
 					dispatch('request/setIsRequesting', false, { root: true })
-					if (error.response.status === 401) {
+					if (error.response && error.response.status && error.response.status === 401) {
 						dispatch('request/setErrMsg', AUTHORIZATION_ERROR, { root: true })
 					} else {
 						dispatch('request/setErrMsg', UNKNOWN_ERROR, { root: true })

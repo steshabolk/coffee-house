@@ -1,7 +1,7 @@
 <template>
-	<LoaderCard v-if="!isManagerMenuLoaded" />
-	<div v-else>
-		<custom-scrollbar :autoHide="false" :style="{ height: '70vh' }" ref="scroll">
+	<LoaderCard v-if="!isManagerMenuLoaded" style="height: 70vh" />
+	<div v-else class="menu-mng-wrapper">
+		<custom-scrollbar :autoHide="false" :style="{ height: '100vh' }" ref="scroll">
 			<div v-for="(menuCategory, key) of managerMenu" :key="key">
 				<p style="margin-top: 1rem" class="menu-category-title">{{ camel2title(key) }}</p>
 				<div v-for="(product, index) of menuCategory" :key="index">
@@ -14,23 +14,23 @@
 				</div>
 			</div>
 		</custom-scrollbar>
-		<LoaderLine style="margin-bottom: 1rem" v-if="isRequesting" />
-		<div class="btn-block-wrapper" style="width: 20%; margin-top: 0.8rem">
+		<LoaderLine />
+		<ErrorCloseable />
+		<div class="btn-block-wrapper" style="width: 30%; margin-top: 0.8rem">
 			<button class="main-btn btn-disable" :class="{ 'btn-active': !isRequesting && isMenuAvailabilityChanged }" @click="resetAvailability()">
 				<SvgIcon class="close-btn" style="width: 1.8rem; height: 1.8rem" :viewBox="plusIcon.viewBox" :path="plusIcon.svgPath" />
 			</button>
 			<button class="main-btn btn-disable" :class="{ 'btn-active': !isRequesting && isMenuAvailabilityChanged }" @click="saveChanges()">
-				<SvgIcon style="width: 1.8rem; height: 1.8rem" :viewBox="checkIcon.viewBox" :path="checkIcon.svgPath" />
+				<SvgIcon style="width: 1.8rem; height: 1.8rem" :viewBox="confirmIcon.viewBox" :path="confirmIcon.svgPath" />
 			</button>
 		</div>
-		<p class="main-error-message" v-if="errMsg">{{ errMsg }}</p>
 	</div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { updateAvailabilityBody } from '@/services/requestBody'
-import { plusIcon, checkIcon } from '@/services/svgIcons'
+import { plusIcon, confirmIcon } from '@/services/svgIcons'
 import { firstArrDiffFromSecond } from '@/services/helper'
 import CustomScrollbar from 'custom-vue-scrollbar'
 import camel2title from '@/mixins/textFormat'
@@ -38,6 +38,7 @@ import LoaderCard from '@/components/UI/LoaderCard.vue'
 import LoaderLine from '@/components/UI/LoaderLine.vue'
 import SvgIcon from '@/components/UI/SvgIcon.vue'
 import Toggle from '@/components/UI/Toggle.vue'
+import ErrorCloseable from '@/components/UI/ErrorCloseable.vue'
 
 export default {
 	components: {
@@ -45,12 +46,13 @@ export default {
 		LoaderCard,
 		LoaderLine,
 		Toggle,
-		CustomScrollbar
+		CustomScrollbar,
+		ErrorCloseable
 	},
 	data() {
 		return {
 			plusIcon,
-			checkIcon
+			confirmIcon
 		}
 	},
 	methods: {
@@ -78,7 +80,7 @@ export default {
 			menuAvailability: 'getChangedMenuAvailability',
 			isMenuAvailabilityChanged: 'isMenuAvailabilityChanged'
 		}),
-		...mapGetters('request', { isRequesting: 'isRequesting', errMsg: 'getErrMsg' })
+		...mapGetters('request', { isRequesting: 'isRequesting' })
 	},
 	mixins: [camel2title],
 	beforeMount() {

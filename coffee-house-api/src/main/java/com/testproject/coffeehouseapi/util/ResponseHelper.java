@@ -11,6 +11,7 @@ import com.testproject.coffeehouseapi.model.CoffeeHouse;
 import com.testproject.coffeehouseapi.model.Order;
 import com.testproject.coffeehouseapi.model.Product;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -20,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Component
 public class ResponseHelper {
 
@@ -94,5 +94,9 @@ public class ResponseHelper {
 
     public String currentDateTime() {
         return LocalDateTime.now().format(DateTimeFormatter.ofPattern(MessageConstant.DATE_TIME_PATTERN));
+    }
+
+    public String getPhoneFromAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 }

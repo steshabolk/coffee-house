@@ -28,7 +28,7 @@ public class UserValidator implements Validator {
     public void validate(Object target, Errors errors) {
         User user = (User) target;
         if (userService.findByPhone(user.getPhone()).isPresent()) {
-            log.info("Fail while register new user. Phone number {} already in use", user.getPhone());
+            log.info("Error when registering a new user. Phone number {} already in use", user.getPhone());
 
             errors.rejectValue("phone", "", ExceptionMessage.setMessage(MessageConstant.PHONE_ALREADY_USED, user.getPhone()));
         }

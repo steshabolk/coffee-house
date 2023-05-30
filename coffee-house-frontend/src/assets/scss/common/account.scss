@@ -1,12 +1,13 @@
-$acc-size: 40%;
-$acc-menu-size: 60%;
+$acc-size: 35%;
+$acc-menu-size: 65%;
+$acc-menu-size__lg: 50%;
 $acc-size__col: 90%;
 $acc-menu-size__col: 90%;
 
 .logged-account-wrapper {
 	.grid {
 		gap: 0;
-		justify-content: space-around;
+		justify-content: center;
 	}
 	.grid-column {
 		&__acc {
@@ -20,19 +21,18 @@ $acc-menu-size__col: 90%;
 			width: $acc-menu-size;
 		}
 	}
-	@include min-screen($smTabletWidth) {
-		.grid {
-			flex-direction: row;
+	.order-scrollbar {
+		height: 80vh;
+	}
+
+	@include min-screen($lgDesktopWidth) {
+		.grid-column__acc-menu {
+			width: $acc-menu-size__lg;
 		}
 	}
-	@include min-screen($tabletWidth) {
-		.settings-form-wrapper {
-			align-items: flex-start;
-		}
-	}
-	@include max-screen($smTabletWidth) {
+	@include max-screen($tabletWidth) {
 		.grid {
-			gap: 2rem;
+			gap: 1rem;
 			align-items: center;
 		}
 		.grid-column {
@@ -55,6 +55,9 @@ $acc-menu-size__col: 90%;
 		}
 		.order-scrollbar {
 			height: 65vh;
+		}
+		.settings-block {
+			justify-content: center;
 		}
 	}
 }
@@ -87,22 +90,18 @@ $acc-menu-size__col: 90%;
 $stng-field-size: 90%;
 // SETTINGS BLOCK
 .settings-block {
-	width: 85%;
-	margin: 0 auto;
-	.svg-icon-stng {
-		cursor: pointer;
-		color: rgba($brown-60, 0.4);
-		transform: rotate(90deg);
-		margin: 0 0 1rem 0;
-		position: relative;
-		left: -2rem;
-		height: 1.8rem;
-		width: 1.8rem;
+	@include flex($flex-direction: row, $flex-wrap: nowrap, $justify-content: flex-start);
+	.return-btn {
+		margin-right: 1.5rem;
 	}
 }
 .settings-wrapper {
+	margin-top: 2rem;
+	width: 60%;
+}
+.setting-item {
 	.horizontal-line {
-		width: 50%;
+		width: 60%;
 		margin-left: 0;
 	}
 	&:last-child {
@@ -110,6 +109,9 @@ $stng-field-size: 90%;
 			display: none;
 		}
 	}
+}
+.settings-form-wrapper {
+	align-items: flex-start;
 }
 .settings-input-wrapper {
 	width: $stng-field-size;

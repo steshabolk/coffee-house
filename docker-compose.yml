@@ -3,8 +3,8 @@ version: '3.9'
 services:
   api:
     container_name: api
-    image: steshabolk/coffee-house-api
-    # build: ./coffee-house-api
+    # image: steshabolk/coffee-house-api
+    build: ./coffee-house-api
     restart: always
     ports:
       - '8085:8085'
@@ -21,8 +21,8 @@ services:
 
   frontend:
     container_name: frontend
-    image: steshabolk/coffee-house-frontend
-    # build: ./coffee-house-frontend
+    # image: steshabolk/coffee-house-frontend
+    build: ./coffee-house-frontend
     restart: always
     ports:
       - '8088:8088'
@@ -32,7 +32,7 @@ services:
 
   postgres:
     container_name: postgres
-    image: postgres:13.7
+    image: postgres:15.2
     restart: always
     environment:
       POSTGRES_USER: postgres
@@ -45,7 +45,7 @@ services:
 
   pgadmin:
     container_name: pgadmin
-    image: dpage/pgadmin4:6.8
+    image: dpage/pgadmin4:6.20
     restart: always
     ports:
       - '5050:5050'

@@ -24,7 +24,7 @@ instance.interceptors.response.use(
 		return response
 	},
 	error => {
-		if (error.response.status === 401 && !error.config._retry) {
+		if (error.response && error.response.status && error.response.status === 401 && !error.config._retry) {
 			error.config._retry = true
 			store.dispatch('auth/logout')
 			return Promise.reject(error)

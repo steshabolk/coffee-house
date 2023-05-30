@@ -3,7 +3,7 @@
 		<li class="btn-list" v-for="obj in objectsArray" :key="obj.id" @click="toggleMethod(obj.id)" :class="{ 'btn-list-active': activeId === obj.id }">
 			<div v-if="keyI === 'address'">
 				<p>{{ splittedAddress(obj)[1] }}</p>
-				<p class="main-text">{{ splittedAddress(obj)[0] }}</p>
+				<p class="main-text" style="font-style: italic; font-size: 0.7rem">{{ splittedAddress(obj)[0] }}</p>
 			</div>
 			<SvgIcon v-if="keyI === 'menuCategory'" :viewBox="obj.viewBox" :path="obj.svgPath" />
 			<div v-if="keyI === 'management'">

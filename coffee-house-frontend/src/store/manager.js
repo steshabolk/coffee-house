@@ -66,17 +66,20 @@ export default {
 					})
 			}
 		},
-		async requestSearchOrders({ commit, state }, searchParams) {
+		async requestSearchOrders({ commit, dispatch, state }, searchParams) {
+			dispatch('request/aipRequest', null, { root: true })
 			await instance
 				.get(requests.requestManagerOrders, {
 					headers: authHeader(),
 					params: getOrdersBySearchParams(searchParams)
 				})
 				.then(response => {
+					dispatch('request/setIsRequesting', false, { root: true })
 					commit('setSearchOrders', response.data.orders)
 				})
 				.catch(error => {
-					// console.log(error)
+					dispatch('request/setIsRequesting', false, { root: true })
+					dispatch('request/setErrMsg', UNKNOWN_ERROR, { root: true })
 				})
 		},
 		async resetSearchOrders({ commit }) {

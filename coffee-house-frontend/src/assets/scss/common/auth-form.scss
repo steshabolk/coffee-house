@@ -1,17 +1,24 @@
 $auth-form-size-max: 40vw;
 $auth-form-size-mid: 45vw;
 $auth-form-size-col: 80vw;
-$auth-field-size-max: calc($auth-form-size-max * 0.7);
-$auth-field-size-mid: calc($auth-form-size-mid * 0.7);
-$auth-field-size-col: calc($auth-form-size-col * 0.7);
+$auth-field-size-max: calc($auth-form-size-max * 0.5);
+$auth-field-size-mid: calc($auth-form-size-mid * 0.6);
+$auth-field-size-col: calc($auth-form-size-col * 0.5);
 
 // RANDOM IMAGES
 .auth-wrapper {
 	.random-img {
-		height: $contentHeight * 0.96;
+		height: $contentHeight * 0.95;
 		overflow: hidden;
 		@include filter-darken();
 		@include main-box-shadow($highlight, 0.7);
+	}
+	.auth-form-margin {
+		margin-top: 2rem;
+	}
+	.inline-btn-wrapper {
+		margin: 0 auto;
+		width: 90%;
 	}
 	.grid {
 		gap: 0;
@@ -32,6 +39,9 @@ $auth-field-size-col: calc($auth-form-size-col * 0.7);
 		.random-img {
 			height: 30vw;
 		}
+		.auth-form-margin {
+			margin-top: 0;
+		}
 		.grid {
 			gap: 5vw;
 			align-items: center;
@@ -39,27 +49,21 @@ $auth-field-size-col: calc($auth-form-size-col * 0.7);
 		.grid-column {
 			width: $auth-form-size-col;
 		}
-		.auth-form-wrapper {
-			margin-bottom: 1.5rem;
-		}
 		.auth-input-wrapper {
 			width: $auth-field-size-col;
 		}
 		.request-fail {
 			max-width: $auth-form-size-col * 0.9;
 		}
+		.inline-btn-wrapper {
+			width: 80%;
+		}
 	}
 }
 
 // FORM
 .auth-form-wrapper {
-	margin-top: 1rem;
-}
-
-.auth-form-desc {
-	margin: 0.2rem 1rem 0.8rem;
-	line-height: 1.1;
-	font-size: 0.9rem;
+	margin-top: 2rem;
 }
 
 // INPUT

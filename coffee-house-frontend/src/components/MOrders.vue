@@ -1,5 +1,5 @@
 <template>
-	<LoaderCard v-if="!isActiveOrdersLoaded" style="min-height: 84vh" />
+	<LoaderCard v-if="!isActiveOrdersLoaded" style="height: 70vh" />
 	<div v-else>
 		<MSearchOrdersBar />
 		<p class="main-title main-title__center" style="margin-top: 2rem">Active Orders</p>

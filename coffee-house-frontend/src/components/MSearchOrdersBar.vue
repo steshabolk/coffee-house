@@ -1,6 +1,6 @@
 <template>
 	<p class="main-title main-title__center">Search Orders</p>
-	<form @submit.prevent="handleForm" class="search-bar-wrapper">
+	<form @submit.prevent="handleForm" autocomplete="off" class="search-bar-wrapper">
 		<div class="grid-tb" :style="gridColumnsNumVar(tableColumns.length)">
 			<div class="grid-tb-cell grid-tb-title" v-for="(header, index) of tableColumns" :key="index">{{ header }}</div>
 			<div class="grid-tb-row">
@@ -69,7 +69,7 @@
 			</button>
 		</div>
 	</form>
-	<transition-group name="fade" mode="out-in">
+	<transition-group name="fade-X" mode="out-in">
 		<custom-scrollbar
 			v-if="isSearchOrdersLoaded && searchOrders.length > 0"
 			:autoHide="false"
@@ -88,7 +88,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import { setup, orderNumValidator, dateTimeValidator, isAnyFormFieldValid } from '@/validators/validators'
 import { orderIdSearchField, createdAtSearchField, pickUpAtSearchField, closedAtSearchField } from '@/services/inputFields.js'
-import { searchIcon, plusIcon, checkIcon } from '@/services/svgIcons.js'
+import { searchIcon, plusIcon } from '@/services/svgIcons.js'
 import { orderStatus } from '@/services/orderStatus.js'
 import { ordersSearchParams } from '@/services/requestBody.js'
 import { deepClone } from '@/services/helper.js'
@@ -98,8 +98,9 @@ import textFormat from '@/mixins/textFormat'
 import SvgIcon from '@/components/UI/SvgIcon.vue'
 import GridTable from '@/components/UI/GridTable.vue'
 import GridTableRow from '@/components/UI/GridTableRow.vue'
-import LoaderLine from '@/components/UI/LoaderLine.vue'
 import MOrdersTable from '@/components/UI/MOrdersTable.vue'
+// import LoaderLine from '@/components/UI/LoaderLine.vue'
+// import ErrorCloseable from '@/components/UI/ErrorCloseable.vue'
 
 export default {
 	setup,
@@ -108,8 +109,9 @@ export default {
 		GridTable,
 		GridTableRow,
 		CustomScrollbar,
-		LoaderLine,
 		MOrdersTable
+		// LoaderLine,
+		// ErrorCloseable
 	},
 	data() {
 		return {
@@ -118,7 +120,6 @@ export default {
 			timeSearch: { createdAt: createdAtSearchField, pickUpAt: pickUpAtSearchField, closedAt: closedAtSearchField },
 			searchIcon,
 			plusIcon,
-			checkIcon,
 			tableColumns: ['№', 'created at', 'pick up at', 'closed at', 'status'],
 			searchParams: null,
 			isActive: null,
@@ -179,7 +180,7 @@ export default {
 			const cond2 = !this.isOrderIdSearch && this.isOrderParamsSearch
 			return (cond1 || cond2) && this.isSearchingParamsChanged && this.isAnyFormFieldValid
 		},
-		...mapGetters('request', { isRequesting: 'isRequesting', errMsg: 'getErrMsg' }),
+		...mapGetters('request', { isRequesting: 'isRequesting' }),
 		...mapGetters('manager', { isSearchOrdersLoaded: 'isSearchOrdersLoaded', searchOrders: 'getSearchOrders' })
 	},
 	watch: {
@@ -194,6 +195,7 @@ export default {
 	},
 	mixins: [gridColumnsNumVar, textFormat],
 	beforeMount() {
+		this.clearErrMsg()
 		this.initSearchParams()
 	},
 	validations() {

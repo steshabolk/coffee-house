@@ -84,7 +84,6 @@ section {
 	@include flex($flex-direction: column);
 	min-height: $contentHeight;
 	margin-top: $headerHeight;
-	padding-bottom: 2rem;
 }
 
 .container {
