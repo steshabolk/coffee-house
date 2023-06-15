@@ -1,6 +1,6 @@
 # :coffee: Coffee House Application
 
-[![Docker](./screenshots/docker.svg)](#small_blue_diamond-docker-compose) [![Railway](./screenshots/railway.svg)](#small_blue_diamond-railway)
+[![Docker](./screenshots/docker.svg)](#small_blue_diamond-docker-compose)
 
 ## **Coffee house app for ordering coffee and food.**
 
@@ -104,15 +104,3 @@ Once the containers are running successfully, you will be able to access :
 - go inside the container : `docker exec -it api sh`
 - navigate to the folder /logs : `cd logs`
 - view the list of files : `ls` and file content : `cat [log-file-name].log`
-
-## :small_blue_diamond: Railway
-
-App on **[Railway](https://railway.app/)** :
-
-- the **app** by the link : **https://coffee-house.up.railway.app/#/**
-
-- the **backend api** using :
-
-  - **[Postman Collection](./coffee-house-api/coffee-house-api.postman_collection.json) :**
-    - `base_url` - change collection variable to **https://coffee-house-api.up.railway.app**
-    - `token` - a necessary collection variable for accessing secured endpoints. It is received after successful authorization of the user
