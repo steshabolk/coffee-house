@@ -1,0 +1,43 @@
+.accordion {
+	&__item:last-child {
+		.horizontal-line {
+			display: none;
+		}
+	}
+}
+
+// ACCORDION ITEM
+.accordion__item {
+	cursor: pointer;
+	margin-top: 0.6rem;
+}
+
+.accordion__trigger {
+	padding: 0.6rem;
+	&_active {
+		// background-color: rgba($brown-45, 0.05);
+		// border: 0.1rem solid rgba($brown-45, 0.4);
+	}
+}
+.accordion__content {
+	margin: 0 2rem;
+	padding: 0 0.8rem;
+	// background-color: rgba($brown-45, 0.05);
+	// border: 0.1rem solid rgba($brown-45, 0.4);
+	border-top: none;
+	border-end-start-radius: 1rem;
+	border-end-end-radius: 1rem;
+}
+
+.accordion-enter-active,
+.accordion-leave-active {
+	will-change: height, opacity;
+	transition: height 0.3s linear, opacity 0.3s linear;
+	overflow: hidden;
+}
+
+.accordion-enter-from,
+.accordion-leave-to {
+	height: 0 !important;
+	opacity: 0;
+}

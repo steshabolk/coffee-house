@@ -1,0 +1,125 @@
+@mixin menu-item-title-active() {
+	@include main-transition($duration: 0.1s);
+	background-color: rgba($highlight, 0.1);
+}
+
+.menu-wrapper {
+	@include flex($flex-direction: column, $justify-content: center, $align-items: center);
+	margin-bottom: 1.5rem;
+}
+
+.menu-products .grid-column {
+	@include max-screen($tabletWidth) {
+		width: 80% !important;
+		justify-content: center;
+		margin: 0 auto;
+	}
+	@include max-screen($phoneWidth) {
+		width: 100% !important;
+	}
+}
+
+// MENU
+.menu-products {
+	&.grid {
+		margin-top: 0.5rem;
+		@include max-screen($tabletWidth) {
+			gap: 1rem !important;
+		}
+	}
+	.grid-cell {
+		width: 92%;
+		margin: 0 auto;
+		&._additives {
+			width: 85%;
+			margin: 0 auto;
+		}
+		@include flex();
+	}
+	@include min-screen($tabletWidth) {
+		&__lg_gap {
+			.grid-cell {
+				margin: 0 auto 1.2rem;
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+		}
+	}
+	.menu-item-active {
+		.menu-item-title {
+			@include menu-item-title-active();
+		}
+	}
+	label {
+		cursor: pointer;
+		input {
+			display: none;
+			&:checked ~ div {
+				.menu-item-title {
+					@include menu-item-title-active();
+				}
+			}
+		}
+	}
+}
+
+// TEXT MENU
+.menu-category-title {
+	text-align: center;
+	font-family: $headerFont;
+	text-transform: uppercase;
+	color: $brown-60;
+}
+
+.menu-item {
+	width: 100%;
+}
+.menu-item-title {
+	@include flex($justify-content: space-between);
+	line-height: 1.1;
+	font-size: 0.8rem;
+	font-weight: bold;
+	&__additives {
+		font-weight: normal;
+	}
+}
+.menu-item-price {
+	margin-left: 0.3rem;
+	font-weight: bold;
+}
+.menu-item-description {
+	width: 90%;
+	margin: 0.2rem 0 0.2rem;
+	font-size: 0.7rem;
+	line-height: 1.2;
+	font-style: italic;
+}
+.menu-item-size {
+	font-size: 0.7rem;
+	line-height: 1.2;
+	color: rgba($brown-60, 0.6);
+}
+
+// MENU MANAGER
+.menu-mng-wrapper {
+	@include flex($flex-direction: column, $justify-content: center, $align-items: center);
+	margin: 0 auto 1rem;
+	width: 60vw;
+	.scrollbar__wrapper {
+		width: 100%;
+	}
+	@include max-screen($tabletWidth) {
+		width: 80vw;
+	}
+}
+.menu-mng-obj {
+	@include flex($flex-direction: row, $flex-wrap: nowrap, $justify-content: space-between, $align-items: center);
+	margin-top: 0.3rem;
+	font-size: 0.8rem;
+	&.unavailable {
+		p {
+			opacity: 0.5;
+		}
+	}
+}

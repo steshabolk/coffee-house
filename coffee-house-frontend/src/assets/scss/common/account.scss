@@ -1,0 +1,118 @@
+$acc-size: 35%;
+$acc-menu-size: 65%;
+$acc-menu-size__lg: 50%;
+$acc-size__col: 90%;
+$acc-menu-size__col: 90%;
+
+.logged-account-wrapper {
+	.grid {
+		gap: 0;
+		justify-content: center;
+	}
+	.grid-column {
+		&__acc {
+			width: $acc-size;
+			.horizontal-line {
+				width: 50%;
+				margin-left: 0;
+			}
+		}
+		&__acc-menu {
+			width: $acc-menu-size;
+		}
+	}
+	.order-scrollbar {
+		height: 80vh;
+	}
+
+	@include min-screen($lgDesktopWidth) {
+		.grid-column__acc-menu {
+			width: $acc-menu-size__lg;
+		}
+	}
+	@include max-screen($tabletWidth) {
+		.grid {
+			gap: 1rem;
+			align-items: center;
+		}
+		.grid-column {
+			&__acc {
+				width: $acc-size__col;
+				.horizontal-line {
+					width: 100%;
+				}
+			}
+			&__acc-menu {
+				width: $acc-menu-size__col;
+			}
+		}
+		.account-menu-list {
+			flex-direction: row;
+			justify-content: space-between;
+			.account-menu-item {
+				margin: 0;
+			}
+		}
+		.order-scrollbar {
+			height: 65vh;
+		}
+		.settings-block {
+			justify-content: center;
+		}
+	}
+}
+
+// ACC COLUMN
+.account-name {
+	font-family: $headerFont;
+	font-size: 1.4rem;
+	margin-bottom: 0.2rem;
+	word-wrap: break-word;
+}
+.account-phone {
+	color: rgba($brown-60, 0.6);
+}
+.account-menu-list {
+	@include flex($flex-direction: column);
+	.account-menu-item {
+		cursor: pointer;
+		margin-bottom: 0.8rem;
+		&:last-child {
+			margin-bottom: 0;
+		}
+		&__active {
+			cursor: default;
+			font-family: $headerFont;
+		}
+	}
+}
+
+// SETTINGS BLOCK
+.settings-block {
+	@include flex($flex-direction: row, $flex-wrap: nowrap, $justify-content: flex-start);
+	.return-btn {
+		margin-right: 1.5rem;
+	}
+}
+.settings-wrapper {
+	margin-top: 2rem;
+	width: 60%;
+}
+.setting-item {
+	.horizontal-line {
+		width: 60%;
+		margin-left: 0;
+	}
+	&:last-child {
+		.horizontal-line {
+			display: none;
+		}
+	}
+}
+.settings-form-wrapper {
+	align-items: flex-start;
+}
+.settings-input-wrapper {
+	width: 17rem;
+	margin: 1rem auto;
+}

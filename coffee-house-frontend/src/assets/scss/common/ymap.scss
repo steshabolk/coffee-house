@@ -1,0 +1,18 @@
+.ymap-wrapper {
+	padding: 0.01rem;
+	@include main-border($gray-80);
+	filter: grayscale(100%);
+	width: 50vw;
+	height: 40vh;
+}
+
+.ymap-balloon-title {
+	font-family: $headerFont;
+}
+
+@include max-screen($tabletWidth) {
+	.ymap-wrapper {
+		width: $home-width__col;
+		margin-top: 1rem;
+	}
+}

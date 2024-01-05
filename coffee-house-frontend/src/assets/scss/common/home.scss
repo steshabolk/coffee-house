@@ -1,0 +1,126 @@
+.home-card-wrapper {
+	&.grid {
+		gap: 0;
+	}
+	.grid-cell {
+		margin: 0 auto;
+	}
+}
+.home-info-wrapper {
+	&.grid {
+		gap: 0;
+		align-items: center;
+	}
+	img {
+		@include filter-darken();
+	}
+	.home-info-gap {
+		margin-left: 1.5rem;
+	}
+}
+.contact-wrapper {
+	&.grid {
+		align-items: center;
+		justify-content: space-between;
+	}
+	li {
+		margin-bottom: 1rem;
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.home-info-block {
+	width: 33vw;
+	height: auto;
+	padding: 0.5rem;
+	p {
+		margin-bottom: 0.5rem;
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+	@include main-border($gray-80);
+	@include shift-background($top: -0.6rem, $right: -0.6rem);
+}
+
+$home-card-shift: 0.8rem;
+.shift-top-right {
+	@include shift-element($left: $home-card-shift, $top: -$home-card-shift);
+}
+
+.shift-top {
+	@include shift-element($top: -$home-card-shift);
+}
+
+.shift-bottom-left {
+	@include shift-element($right: $home-card-shift, $top: $home-card-shift);
+}
+
+$home-width__col: 85vw;
+@include max-screen($tabletWidth) {
+	.home-info-wrapper {
+		.grid-column {
+			gap: 0;
+		}
+		.home-info-gap {
+			gap: 1rem;
+			margin-left: 0;
+			margin-top: 1.2rem;
+		}
+		.home-info-block {
+			width: $home-width__col;
+		}
+	}
+	.contact-wrapper {
+		li {
+			margin-bottom: 0.8rem;
+		}
+	}
+	.shift-top-right,
+	.shift-bottom-left,
+	.shift-top {
+		@include shift-element();
+	}
+}
+
+// SOCIAL MEDIA
+.social-media-wrapper {
+	margin-top: 0.5rem;
+	@include flex($flex-direction: row, $flex-wrap: nowrap, $justify-content: flex-start, $align-items: center);
+}
+
+.social-media-icon {
+	margin: 0;
+	color: $brown-70;
+	background: transparent;
+	@include main-transition($duration: 0.25s);
+	&:focus {
+		outline-color: inherit;
+	}
+	.svg-icon {
+		margin: 0 1rem 0 0;
+		max-width: 1.2rem;
+	}
+}
+
+@mixin socialMedia($color) {
+	&:hover,
+	&:focus {
+		color: $color;
+		filter: drop-shadow(0rem 0rem 0.2rem $color);
+	}
+}
+
+.vk {
+	@include socialMedia($vk-color);
+}
+
+.instagram {
+	@include socialMedia($instagram-color);
+}
+
+.telegram {
+	@include socialMedia($telegram-color);
+}

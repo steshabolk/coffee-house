@@ -1,0 +1,89 @@
+// ORDERS BLOCK
+.order-scrollbar {
+	height: $contentHeight;
+}
+
+.order-status-block {
+	@include flex($flex-wrap: nowrap, $justify-content: space-between, $align-items: center);
+	color: rgba($brown-60, 0.6);
+	margin-bottom: 0.4rem;
+	font-weight: bold;
+	.svg-icon {
+		height: 1rem;
+		width: 1rem;
+		margin: 0 0.2rem 0 auto;
+	}
+	.order-status {
+		text-transform: lowercase;
+	}
+	&.status {
+		&__active {
+			.svg-icon,
+			.order-status {
+				color: $warning-main;
+			}
+		}
+		&__received {
+			.svg-icon,
+			.order-status {
+				color: $success-dark;
+			}
+		}
+		&__cancelled {
+			.svg-icon,
+			.order-status {
+				color: $error-main;
+			}
+		}
+	}
+}
+.order-cost-block {
+	@include flex($flex-wrap: nowrap, $justify-content: space-between, $align-items: center);
+}
+
+.accordion-order-details {
+	padding: 0.5rem 0;
+}
+.order-address {
+	font-size: 0.75rem;
+	text-align: center;
+	color: rgba($gray-80, 0.8);
+}
+
+.order-details-block {
+	@include flex($flex-wrap: nowrap, $justify-content: space-between, $align-items: center, $text-align: left);
+	line-height: 1;
+	margin-top: 0.4rem;
+	font-size: 0.75rem;
+	.order-details-name {
+		@include flex($flex-wrap: nowrap, $justify-content: space-between, $align-items: center);
+		width: 82%;
+	}
+	.order-details-quantity {
+		color: rgba($brown-60, 0.6);
+		min-width: 2.5rem;
+		margin-left: 1rem;
+	}
+	.order-details-cost {
+		text-align: right;
+	}
+}
+.order-details-additives {
+	width: 80%;
+	font-size: 0.5rem;
+	font-style: italic;
+	line-height: 1.1;
+}
+
+// MANAGER
+.active-order {
+	.main-btn {
+		font-size: 0.7rem;
+	}
+	&__received {
+		color: $success-dark;
+	}
+	&__cancelled {
+		color: $error-main;
+	}
+}

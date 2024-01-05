@@ -1,0 +1,78 @@
+$cart-empty-size: 40vh;
+
+.cart-empty {
+	text-align: center;
+	.svg-icon {
+		min-width: $cart-empty-size;
+		min-height: $cart-empty-size;
+		color: rgba($brown-45, 0.2);
+		margin-bottom: 1rem;
+	}
+}
+
+.cart-wrapper {
+	width: 65vw;
+	.close-btn {
+		width: 1.1rem;
+		margin-left: 0.3rem;
+	}
+}
+.cart-list {
+	margin-bottom: 0.3rem;
+	.btn-qty-block {
+		margin-left: 0.5rem;
+	}
+}
+@include max-screen($tabletWidth) {
+	.cart-wrapper {
+		width: 90vw;
+	}
+}
+
+// CART TEXT
+.cart-unavailable {
+	@include flex($justify-content: space-between, $align-items: center);
+	.cart-unavailable-title {
+		width: 95%;
+		font-family: $headerFont;
+		text-transform: uppercase;
+		font-size: 0.9rem;
+		line-height: 1.2;
+		margin-bottom: 0.2rem;
+	}
+}
+.cart-list-item {
+	@include flex($justify-content: space-between, $align-items: center);
+	.close-btn {
+		color: rgba($gray-80, 0.6);
+	}
+}
+.cart-price {
+	font-size: 0.9rem;
+	min-width: 3.5rem;
+	margin-left: 0.2rem;
+	text-align: right;
+}
+.cart-list-additives {
+	width: 75%;
+	font-size: 0.7rem;
+	line-height: 1.1;
+	font-style: italic;
+}
+.cart-total {
+	@include flex($flex-wrap: nowrap, $justify-content: space-between, $align-items: center);
+	margin: 0 0 0 auto;
+	width: 10rem;
+	max-width: 100%;
+	.cart-total-text {
+		@include flex($flex-wrap: nowrap, $justify-content: space-around, $align-items: center);
+		width: 80%;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+	.svg-icon {
+		cursor: pointer;
+		color: rgba($gray-80, 0.6);
+		width: 1.2rem;
+	}
+}

@@ -1,0 +1,47 @@
+$toggle-border: 0.1rem;
+$toggle-circle: 1rem;
+$toggle-width: 2.5rem;
+$toggle-height: calc($toggle-circle + 2 * $toggle-border);
+$toggle-diff: calc($toggle-width - $toggle-circle - 2 * $toggle-border);
+
+.toggle-wrapper {
+	@include flex();
+}
+
+.toggle[type='checkbox'] {
+	// LINE
+	cursor: pointer;
+	appearance: none;
+	position: relative;
+	height: $toggle-height;
+	width: $toggle-width;
+	background: $gray-5;
+	border-radius: 1rem;
+	border: $toggle-border solid rgba($brown-45, 0.3);
+	transition: 0.2s;
+	&:focus {
+		outline: none;
+	}
+	&:after {
+		// CIRCLE
+		content: '';
+		width: $toggle-circle;
+		height: $toggle-circle;
+		background: $gray-2;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		margin: auto;
+		border-radius: 50%;
+		transition: 0.2s;
+		box-shadow: 0.2rem 0 0.4rem -0.2rem rgba($brown-60, 0.2);
+	}
+	&:checked {
+		background: rgba($highlight, 0.2);
+		&:after {
+			left: $toggle-diff;
+			box-shadow: -0.2rem 0 0.4rem -0.2rem rgba($brown-60, 0.2);
+		}
+	}
+}

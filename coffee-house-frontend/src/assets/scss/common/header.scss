@@ -1,0 +1,109 @@
+$line-size: 1.4rem;
+$line-width: 0.15rem;
+$line-padding-lr: 0.4rem;
+$line-padding-tb: $line-padding-lr;
+$line-gap: 0.5rem;
+$navbar-width: calc(20 * $navbarFontSize);
+
+.header-wrapper {
+	background-color: transparent;
+	margin: 0;
+	z-index: 99;
+	position: fixed;
+	width: 100%;
+}
+
+.navbar-wrapper {
+	@include flex($justify-content: flex-end, $align-items: center);
+	font-family: $navbarFont;
+	font-size: $navbarFontSize;
+	// text-transform: uppercase;
+}
+
+.navbar-btn {
+	@include flex($justify-content: flex-end, $align-items: center);
+	position: relative;
+	margin: 0.04rem 0.04rem 0 0;
+	padding: $line-padding-tb $line-padding-lr;
+	border-radius: 0.7rem;
+	background-color: rgba(#000000, 0.4);
+	overflow: hidden;
+	max-height: $headerHeight;
+	max-width: 100%;
+
+	input {
+		width: $line-size;
+		height: $line-size;
+		cursor: pointer;
+		opacity: 0;
+		&:checked ~ .navbar-menu {
+			width: $navbar-width;
+			margin: 0 0.4rem;
+		}
+		&:checked ~ span {
+			background-color: $header-color;
+			&:nth-of-type(1) {
+				transform: translateY(0) rotate(-45deg);
+			}
+			&:nth-of-type(2) {
+				opacity: 0;
+			}
+			&:nth-of-type(3) {
+				transform: translateY(0) rotate(45deg);
+			}
+		}
+	}
+
+	span {
+		position: absolute;
+		left: $line-padding-lr;
+		width: $line-size;
+		height: $line-width;
+		border-radius: 1rem;
+		background-color: $header-color;
+		pointer-events: none;
+		@include main-transition($duration: 0.6s);
+		&:nth-of-type(1) {
+			transform: translateY(-$line-gap);
+		}
+		&:nth-of-type(3) {
+			transform: translateY($line-gap);
+		}
+	}
+}
+
+.navbar-menu {
+	@include flex($justify-content: center, $align-items: center);
+	@include main-transition($duration: 0.6s);
+	line-height: 1;
+	margin: 0;
+	width: 0;
+	overflow: hidden;
+}
+
+.navbar-item {
+	@include flex($flex-wrap: nowrap, $justify-content: center, $align-items: center);
+	margin-right: 0.4rem;
+	&:last-child {
+		margin-right: 0;
+	}
+}
+
+.navbar-link {
+	cursor: pointer;
+	list-style: none;
+	color: $header-color;
+	&:hover {
+		@include main-transition($duration: 0.2s);
+		color: rgba($highlight, 0.9);
+	}
+}
+
+.navbar-num {
+	line-height: 1;
+	color: $header-color;
+	background-color: rgba($gray-65, 0.4);
+	border-radius: 1rem;
+	padding: 0.1rem 0.4rem;
+	margin-left: 0.2rem;
+}

@@ -1,0 +1,42 @@
+version: '3.9'
+
+services:
+  api:
+    container_name: api
+    build: ./coffee-house-api
+    restart: always
+    ports:
+      - '8085:8085'
+    depends_on:
+      - postgres
+    environment:
+      TZ: Europe/Moscow
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/coffee-house-db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      FRONTEND_PORT: 8088
+
+  frontend:
+    container_name: frontend
+    build: ./coffee-house-frontend
+    restart: always
+    ports:
+      - '8088:8088'
+    depends_on:
+      - api
+
+  postgres:
+    container_name: postgres
+    image: postgres:15.2
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: coffee-house-db
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:

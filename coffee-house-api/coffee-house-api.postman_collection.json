@@ -1,0 +1,522 @@
+{
+	"info": {
+		"_postman_id": "a1b2f215-944a-4c5f-9aec-e759c49f3949",
+		"name": "coffee-house-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21742599"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"alex\",\r\n    \"phone\":\"79000000000\",\r\n    \"password\":\"userPassword0\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phone\":\"79000000000\",\r\n    \"password\":\"userPassword0\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "coffee-house",
+			"item": [
+				{
+					"name": "coffee-houses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/{{coffee_house_api}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{coffee_house_api}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "available-menu",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/{{coffee_house_api}}/menu",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{coffee_house_api}}",
+								"menu"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "manager",
+			"item": [
+				{
+					"name": "coffee-house",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/{{manager_api}}/coffeehouse",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{manager_api}}",
+								"coffeehouse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "coffee-house-menu",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/{{manager_api}}/menu",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{manager_api}}",
+								"menu"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "coffee-house-orders-by-search-params",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/{{manager_api}}/orders?show=search&id=num&createdAtFrom=yyyy-MM-dd HH:mm:ss&createdAtTo=yyyy-MM-dd HH:mm:ss&pickUpAtFrom=yyyy-MM-dd HH:mm:ss&pickUpAtTo=yyyy-MM-dd HH:mm:ss&closedAtFrom=yyyy-MM-dd HH:mm:ss&closedAtTo=yyyy-MM-dd HH:mm:ss&status=statuses",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{manager_api}}",
+								"orders"
+							],
+							"query": [
+								{
+									"key": "show",
+									"value": "search",
+									"description": "Required parameter: active - get all active orders; search - get orders filtered by parameters"
+								},
+								{
+									"key": "id",
+									"value": "num",
+									"description": "Order Id"
+								},
+								{
+									"key": "createdAtFrom",
+									"value": "yyyy-MM-dd HH:mm:ss",
+									"description": "Pattern: yyyy-MM-dd HH:mm:ss"
+								},
+								{
+									"key": "createdAtTo",
+									"value": "yyyy-MM-dd HH:mm:ss",
+									"description": "Pattern: yyyy-MM-dd HH:mm:ss"
+								},
+								{
+									"key": "pickUpAtFrom",
+									"value": "yyyy-MM-dd HH:mm:ss",
+									"description": "Pattern: yyyy-MM-dd HH:mm:ss"
+								},
+								{
+									"key": "pickUpAtTo",
+									"value": "yyyy-MM-dd HH:mm:ss",
+									"description": "Pattern: yyyy-MM-dd HH:mm:ss"
+								},
+								{
+									"key": "closedAtFrom",
+									"value": "yyyy-MM-dd HH:mm:ss",
+									"description": "Pattern: yyyy-MM-dd HH:mm:ss"
+								},
+								{
+									"key": "closedAtTo",
+									"value": "yyyy-MM-dd HH:mm:ss",
+									"description": "Pattern: yyyy-MM-dd HH:mm:ss"
+								},
+								{
+									"key": "status",
+									"value": "statuses",
+									"description": "Status values: ACTIVE, RECEIVED, CANCELLED"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "coffee-house-active-orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/{{manager_api}}/orders?show=active",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{manager_api}}",
+								"orders"
+							],
+							"query": [
+								{
+									"key": "show",
+									"value": "active",
+									"description": "Required parameter: active - get all active orders; search - get orders filtered by parameters"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "coffee-house-menu-availability",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"menu\": [\r\n        {\r\n            \"id\": 27,\r\n            \"availability\": false\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/{{manager_api}}/menu",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{manager_api}}",
+								"menu"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "close-active-order",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/{{manager_api}}/orders/47?status=RECEIVED",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{manager_api}}",
+								"orders",
+								"47"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "RECEIVED"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "orders-history",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/{{user_api}}/orders",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{user_api}}",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "place-order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"order\": {\r\n        \"coffeeHouse\": 1,\r\n        \"totalCost\": 335,\r\n        \"createdAt\": \"2024-01-04 15:59:00\",\r\n        \"pickUpAt\": \"2024-01-04 16:26:00\"\r\n    },\r\n    \"orderDetails\": [\r\n        {\r\n            \"product\": {\r\n                \"id\": 1\r\n            },\r\n            \"quantity\": 1,\r\n            \"cost\": 240,\r\n            \"additives\": [\r\n                {\r\n                    \"id\": 23\r\n                },\r\n                {\r\n                    \"id\": 11\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"product\": {\r\n                \"id\": 44\r\n            },\r\n            \"quantity\": 1,\r\n            \"cost\": 95,\r\n            \"additives\": []\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/{{user_api}}/orders",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{user_api}}",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cancel-order",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/{{user_api}}/orders/52",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{user_api}}",
+								"orders",
+								"52"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change-name",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"changed_name\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/{{user_api}}/settings/name",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{user_api}}",
+								"settings",
+								"name"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change-password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"newUserPassword0\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/{{user_api}}/settings/password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"{{user_api}}",
+								"settings",
+								"password"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "Bearer token_value",
+			"type": "string"
+		},
+		{
+			"key": "base_url",
+			"value": "localhost:8085",
+			"type": "string"
+		},
+		{
+			"key": "coffee_house_api",
+			"value": "api/v1/coffeehouse",
+			"type": "string"
+		},
+		{
+			"key": "user_api",
+			"value": "api/v1/users",
+			"type": "string"
+		},
+		{
+			"key": "manager_api",
+			"value": "api/v1/manager",
+			"type": "string"
+		}
+	]
+}

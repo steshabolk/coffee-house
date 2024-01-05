@@ -1,0 +1,21 @@
+.arrow-link-wrapper {
+	@include flex($flex-direction: row, $flex-wrap: nowrap, $justify-content: center, $align-items: center, $text-align: center);
+	cursor: pointer;
+	span {
+		color: $brown-60;
+		font-family: $headerFont;
+		text-transform: uppercase;
+		letter-spacing: 0.2rem;
+	}
+	.svg-icon {
+		color: $brown-60;
+		width: 1rem;
+	}
+	@include main-transition($duration: 0.2s);
+	&:hover {
+		.svg-icon {
+			@include main-transition($duration: 0.2s);
+			transform: translateX(0.15rem);
+		}
+	}
+}

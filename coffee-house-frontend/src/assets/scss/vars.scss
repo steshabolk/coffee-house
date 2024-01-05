@@ -1,0 +1,56 @@
+// Font
+$mainFont: 'TTTravels-Regular', sans-serif;
+$headerFont: 'TTTravels-Bold', sans-serif;
+$navbarFont: 'TTTravels-Bold', sans-serif;
+
+// Main Font
+$mainFontColor: #373737;
+// $mainFontSize: 1.5vw;
+$navbarFontSize: 1.1rem;
+$mainFontWeight: 400;
+$mainLineHeight: 1.5;
+
+// Screen Size
+$maxDesktopWidth: 1900px;
+$lgDesktopWidth: 1400px;
+$desktopWidth: 1280px;
+$smDesktopWidth: 1024px;
+$tabletWidth: 768px;
+$smTabletWidth: 640px;
+$phoneWidth: 480px;
+$smPhoneWidth: 320px;
+
+// Sections Height
+$headerHeight: 8vh;
+$footerHeight: 0vh;
+$contentHeight: calc(100vh - $headerHeight - $footerHeight);
+
+// Gray palette
+$gray-85: #262323;
+$gray-80: #373737;
+$gray-65: #595959;
+$gray-8: #eaeaea;
+$gray-5: #f3f3f3;
+$gray-2: #fafafa;
+$header-color: #eaeaea;
+
+// Brown palette
+$brown-45: #8c7569;
+$brown-60: #625149;
+$brown-70: #483c36;
+
+// Highlight Color
+$highlight: #ffd300;
+$error-dark: #9e423c;
+$error-main: #f6685e;
+$error-light: #fcd9d6;
+$warning-main: #f69b00;
+$warning-light: #fdebcc;
+$success-dark: #3c9e42;
+$success-main: #36f442;
+$success-light: #d6fcd9;
+
+// Social Media Color
+$vk-color: #4c75a3;
+$instagram-color: #e1306c;
+$telegram-color: #229ed9;
